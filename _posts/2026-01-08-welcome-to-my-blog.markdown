@@ -6,7 +6,7 @@ date: 2026-01-08 12:00:00 -0500
 reading_time: 3
 ---
 
-Welcome. This blog is where I work through ideas about building data and AI systems—what works, what doesn't, and why.
+Welcome. This blog is where I work through ideas about building data and AI systems what works, what doesn't, and why.
 
 It's a mix of projects, experiments, and reflections from working with real systems. I'll share code, diagrams, and the trade-offs that come up when theory meets production constraints.
 
@@ -21,14 +21,14 @@ This is a working notebook, not a collection of polished tutorials. I'll documen
 I'm focused on data and AI systems, so expect posts about:
 
 - Architecture patterns and design decisions I'm actively working through
-- Data engineering implementations—pipelines, orchestration, governance
+- Data engineering implementations pipelines, orchestration, governance
 - Practical GenAI applications with real code and deployment patterns
 - Research papers and new techniques I'm testing out
 - Trade-offs, constraints, and what I learned when things didn't go as planned
 
 Most posts will include code samples, architecture diagrams, or configuration examples. I'll link to GitHub repos when the implementation is worth sharing.
 
-If you're building similar systems or dealing with comparable problems—moving data platforms to the cloud, implementing RAG architectures, balancing governance with velocity—you might find some of this useful.
+If you're building similar systems or dealing with comparable problems moving data platforms to the cloud, implementing RAG architectures, balancing governance with velocity you might find some of this useful.
 
 ## How This Works
 
