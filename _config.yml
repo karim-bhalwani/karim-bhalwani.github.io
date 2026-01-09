@@ -1,0 +1,23 @@
+# Site metadata
+title: Karim Bhalwani Blog
+email: ""
+description: "Personal blog and thoughts"
+baseurl: ""
+url: "https://karim-bhalwani.github.io"
+
+# Social accounts (optional)
+github_username: karim-bhalwani
+# twitter_username: yourusername
+# linkedin_username: yourusername
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+syntax_highlighter: rouge
+
+# Exclude files from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
