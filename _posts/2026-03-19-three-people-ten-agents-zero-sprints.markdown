@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Three People. Ten Agents. Zero Sprints."
-date: 2026-03-14 09:00:00 -0500
+date: 2026-03-19 09:00:00 -0500
 reading_time: 10
 categories: AI systems engineering
 tags: [Crews, Spec-Driven Development, Agile, Team Structure, Agentic Workforce, Production Systems]
@@ -25,7 +25,7 @@ In a three-person team, there are 3 pathways. Alignment is the default state.
 
 For two decades, the tradeoff was tolerable. More humans meant more capacity. Communication overhead was the price of admission. That equation broke. When agents handle execution, every human you add past the coordination threshold does not increase output. It increases the overhead required to keep output coherent.
 
-My last two posts built toward this. [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) argued that specification, not execution, is the new scarcity. [The Agents Work. The Organization Does Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/07/the-agents-work-the-organization-does-not/) argued that no amount of AI tooling matters if the organization itself is not rebuilt around how agents actually work.
+My last two posts built toward this. [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) argued that specification, not execution, is the new scarcity. [The Agents Work. The Organization Does Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/) argued that no amount of AI tooling matters if the organization itself is not rebuilt around how agents actually work.
 
 This post closes the arc. If specification is the bottleneck and the organization must change, then the atomic unit of change is the team. This is what the redesigned team actually looks like.
 
@@ -169,7 +169,7 @@ Roles that used to require separate specialists, product marketing, UI/UX, techn
 
 Engineers shift from writing code to reviewing architecture. From syntax to systems thinking. The demand is not for more developers. It is for senior engineers who understand cross-cutting dependencies and can catch the subtle, compounding errors that AI-generated code quietly introduces.
 
-This echoes what I wrote in [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/07/the-agents-work-the-organization-does-not/): "The skills that compound from here are problem framing, task decomposition, and the ability to specify work clearly enough that a system can execute without hand-holding." The crew is composed of people who have those skills. Everyone else is either developing them or being replaced by an agent that does not need them.
+This echoes what I wrote in [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/): "The skills that compound from here are problem framing, task decomposition, and the ability to specify work clearly enough that a system can execute without hand-holding." The crew is composed of people who have those skills. Everyone else is either developing them or being replaced by an agent that does not need them.
 
 There is a talent consequence that follows directly. In a three-person crew, every member's specification quality gets multiplied by agents. A weak specifier does not merely underperform. They introduce noise into the shared context. Their imprecise definitions propagate through agent-generated output, creating verification burdens on every other member. The strong performers spend their time diagnosing drift instead of building. The crew gets slower, not because it lacks capacity, but because the specification surface is contaminated.
 
@@ -183,7 +183,7 @@ The hiring filter for a crew centers on specification ability. Can this person d
 
 The executive conversation about AI and teams almost always reduces to cost. Same mission. Fewer bodies. Lower burn. This is the wrong frame, and it may be the most consequential strategic error an organization can make right now.
 
-In [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/07/the-agents-work-the-organization-does-not/), I argued that the winning organizations are the ones rebuilding their structure around agentic execution. The corollary nobody draws: if you rebuild the structure, you should also rebuild the mission. Otherwise you are redesigning the engine and driving the same route.
+In [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/), I argued that the winning organizations are the ones rebuilding their structure around agentic execution. The corollary nobody draws: if you rebuild the structure, you should also rebuild the mission. Otherwise you are redesigning the engine and driving the same route.
 
 ![10x the Mission](/assets/zero-sprints/10x-mission.png)
 
@@ -203,7 +203,7 @@ Every post in this series has circled the same insight from a different angle.
 
 [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) argued that specification is the new scarcity. That capability doubles every four months and the ability to define what capability should do is what separates teams that ship from teams that churn.
 
-[The Agents Work. The Organization Does Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/07/the-agents-work-the-organization-does-not/) argued that none of it matters if the organization itself is not rebuilt. You cannot bolt AI onto a broken org chart and expect the AI to fix the org chart.
+[The Agents Work. The Organization Does Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/) argued that none of it matters if the organization itself is not rebuilt. You cannot bolt AI onto a broken org chart and expect the AI to fix the org chart.
 
 This post is the structural answer. The specification problem and the organization problem both resolve at the same unit: the team. A team small enough to hold shared context. Senior enough to specify with precision. Autonomous enough to ship without waiting for the ceremony.
 
@@ -226,8 +226,8 @@ They are not failing. They are succeeding at a game that already ended.
 - **Scrum.org Three-Speed Solution**: [How AI-Native Operating Models Close the Authority Gap](https://www.scrum.org/resources/blog/three-speed-solution-how-ai-native-operating-models-close-product-ownerships-authority-gap)
 - **Martin Fowler on SDD**: [Understanding Spec-Driven Development: Kiro, spec-kit, and Tessl](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
 - **Intellias AI Engineering**: [Achieving a 100% Boost with AI-Enabled Engineering](https://intellias.com/ai-enabled-engineering/)
-- **DORA 2025 Report**: [State of AI-Assisted Software Development](https://dora.dev/research/ai/)
-- **Deloitte 2026 Report**: [State of AI in the Enterprise](https://www.deloitte.com/us/en/insights/focus/cognitive-technologies/state-of-ai-and-intelligent-automation-in-business-survey.html)
-- **Related posts**: [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/) · [Beyond the Million-Token Window](https://karim-bhalwani.github.io/ai/rag/document-intelligence/2026/02/07/beyond-million-token-window/) · [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) · [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/07/the-agents-work-the-organization-does-not/)
+- **DORA 2025 Report**: [State of AI-Assisted Software Development](https://dora.dev/research/2025/dora-report/)
+- **Deloitte 2026 Report**: [State of AI in the Enterprise](https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html)
+- **Related posts**: [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/) · [Beyond the Million-Token Window](https://karim-bhalwani.github.io/ai/rag/document-intelligence/2026/02/07/beyond-million-token-window/) · [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) · [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/)
 
 ---
