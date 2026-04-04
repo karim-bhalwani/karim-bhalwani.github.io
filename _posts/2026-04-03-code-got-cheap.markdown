@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Code Got Cheap. Judgment Did Not."
-date: 2026-04-04 09:00:00 -0500
+date: 2026-04-03 09:00:00 -0500
 reading_time: 10
 categories: AI systems engineering
 tags: [Code Economy, Specification, Career, Technical Debt, Radical Prototyping, Production Systems]
