@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Hard Part Isn't the AI."
-date: 2026-04-19 09:00:00 -0500
+date: 2026-04-12 09:00:00 -0500
 reading_time: 14
 categories: AI systems engineering
 tags: [RAG, Redaction, Hierarchical Navigation, RLM, Production Systems, Document Analysis]
@@ -239,5 +239,6 @@ The models will keep improving. Context windows will keep growing. None of that 
 - **Context-Aware Redactor**: [GitHub](https://github.com/karim-bhalwani/context-aware-redactor) | [Blog Post](https://karim-bhalwani.github.io/healthcare/privacy/nlp/2026/01/17/context-matters-redacting-health-records/)
 - **Hierarchical Navigation**: [GitHub](https://github.com/karim-bhalwani/hierarchical-navigation) | [Blog Post](https://karim-bhalwani.github.io/ai/rag/document-intelligence/2026/02/07/beyond-million-token-window/)
 - **MIT RLM Paper**: [arxiv.org/abs/2512.24601v1](https://arxiv.org/abs/2512.24601v1) | [Blog Post](https://karim-bhalwani.github.io/ai/rag/document-intelligence/2026/02/22/mit-gave-the-model-a-python-interpreter/)
+- **GitHub Repository**: [MedIQ](https://github.com/karim-bhalwani/document-insight-query)
 
 ---
