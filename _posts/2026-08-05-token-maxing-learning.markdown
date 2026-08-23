@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "You Don't Maximize Tokens. You Maximize Learning."
-date: 2026-08-04 09:00:00 -0500
+date: 2026-08-05 09:00:00 -0500
 reading_time: 9
 categories: AI systems engineering
 tags:
