@@ -1,0 +1,369 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts");
+const allTopics = await getCollection("topics");
+const allProjects = await getCollection("projects");
+
+const graphNodes = [
+  ...allTopics.map((t) => ({
+    id: t.id,
+    label: t.data.title,
+    type: "topic",
+    summary: t.data.summary,
+    url: `/topics/${t.id}`,
+    radius: 18,
+  })),
+  ...allPosts.map((p) => ({
+    id: p.id,
+    label: p.data.title,
+    type: "essay",
+    summary: p.data.excerpt || "",
+    url: `/writing/${p.id}`,
+    radius: 9,
+    topics: p.data.topics || [],
+    tags: p.data.tags || [],
+  })),
+  ...allProjects.map((proj) => ({
+    id: proj.id,
+    label: proj.data.title,
+    type: "project",
+    summary: proj.data.summary,
+    url: proj.data.repo || "/about",
+    radius: 12,
+    topics: proj.data.topics || [],
+  })),
+];
+---
+
+<BaseLayout
+  title="Knowledge Graph Explorer | Karim Bhalwani"
+  description="Interactive network map exploring interconnected systems, AI verification principles, and architectural essays."
+>
+  <div class="container container-wide stack stack-m" style="margin-top: var(--space-xl)">
+    <header class="stack stack-xs">
+      <p class="kicker">Interactive Visualization</p>
+      <h1>Knowledge Graph Explorer</h1>
+      <p class="lead measure">
+        Explore relationships between architectural principles, systems engineering essays, and live projects. Drag nodes to inspect links, or click to open.
+      </p>
+    </header>
+
+    <!-- Interactive Canvas & Sidebar -->
+    <div class="explorer-layout">
+      <div class="explorer-canvas-container">
+        <canvas id="explorerCanvas" class="explorer-canvas"></canvas>
+        <div class="canvas-legend cluster" style="--cluster-gap: var(--space-s)">
+          <span class="legend-item"><span class="legend-dot legend-dot--topic"></span> Topic Hub</span>
+          <span class="legend-item"><span class="legend-dot legend-dot--essay"></span> Technical Essay</span>
+          <span class="legend-item"><span class="legend-dot legend-dot--project"></span> Architecture System</span>
+        </div>
+      </div>
+
+      <div class="explorer-inspector" id="explorerInspector">
+        <p class="kicker">Selected Node</p>
+        <h3 id="inspectorTitle">Select a node</h3>
+        <p id="inspectorType" class="muted">Click any node in the map to view connections.</p>
+        <p id="inspectorSummary" style="margin-block: var(--space-s)"></p>
+        <a id="inspectorLink" href="#" class="btn btn--ghost" style="display: none">View Page →</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .explorer-layout {
+    display: grid;
+    grid-template-columns: 1fr 20rem;
+    gap: var(--space-m);
+    align-items: start;
+  }
+
+  .explorer-canvas-container {
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    overflow: hidden;
+  }
+
+  .explorer-canvas {
+    width: 100%;
+    height: 580px;
+    display: block;
+    cursor: grab;
+  }
+
+  .explorer-canvas:active {
+    cursor: grabbing;
+  }
+
+  .canvas-legend {
+    position: absolute;
+    bottom: var(--space-s);
+    left: var(--space-s);
+    padding: var(--space-3xs) var(--space-xs);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .legend-dot--topic {
+    background-color: #e09f67;
+  }
+  .legend-dot--essay {
+    background-color: #6fa882;
+  }
+  .legend-dot--project {
+    background-color: #5c9df5;
+  }
+
+  .explorer-inspector {
+    padding: var(--space-m);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+  }
+
+  @media (max-width: 850px) {
+    .explorer-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ graphNodes }}>
+  function initExplorer() {
+    const canvas = document.getElementById("explorerCanvas");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    }
+    resize();
+
+    const rect = canvas.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    const nodes = graphNodes.map((n, i) => {
+      const angle = (i / graphNodes.length) * Math.PI * 2;
+      const radius = n.type === "topic" ? 120 : 200;
+      return {
+        ...n,
+        x: width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 40,
+        y: height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 40,
+        vx: 0,
+        vy: 0,
+      };
+    });
+
+    // Generate links based on topics
+    const links = [];
+    const topics = nodes.filter((n) => n.type === "topic");
+
+    nodes.forEach((n) => {
+      if (n.type === "essay" || n.type === "project") {
+        topics.forEach((t) => {
+          const match =
+            (n.topics && n.topics.includes(t.id)) ||
+            (n.tags && n.tags.some((tag) => t.id.includes(tag.toLowerCase()) || tag.toLowerCase().includes(t.id)));
+          if (match) {
+            links.push({ source: n, target: t });
+          }
+        });
+      }
+    });
+
+    // Connect topics together
+    for (let i = 0; i < topics.length - 1; i++) {
+      links.push({ source: topics[i], target: topics[i + 1] });
+    }
+
+    let hoveredNode = null;
+    let selectedNode = null;
+    let draggedNode = null;
+
+    function stepPhysics() {
+      // Repulsion
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (dist < 280) {
+            const force = (900 / (dist * dist));
+            const fx = (dx / dist) * force;
+            const fy = (dy / dist) * force;
+            a.vx -= fx;
+            a.vy -= fy;
+            b.vx += fx;
+            b.vy += fy;
+          }
+        }
+      }
+
+      // Spring links
+      links.forEach((l) => {
+        const dx = l.target.x - l.source.x;
+        const dy = l.target.y - l.source.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const targetDist = 90;
+        const force = (dist - targetDist) * 0.02;
+        const fx = (dx / dist) * force;
+        const fy = (dy / dist) * force;
+        l.source.vx += fx;
+        l.source.vy += fy;
+        l.target.vx -= fx;
+        l.target.vy -= fy;
+      });
+
+      // Damping & Center Gravity
+      const cx = width / 2;
+      const cy = height / 2;
+      nodes.forEach((n) => {
+        if (n === draggedNode) return;
+        n.vx += (cx - n.x) * 0.003;
+        n.vy += (cy - n.y) * 0.003;
+        n.vx *= 0.88;
+        n.vy *= 0.88;
+        n.x += n.vx;
+        n.y += n.vy;
+
+        const pad = n.radius + 15;
+        n.x = Math.max(pad, Math.min(width - pad, n.x));
+        n.y = Math.max(pad, Math.min(height - pad, n.y));
+      });
+    }
+
+    function render() {
+      stepPhysics();
+      ctx.clearRect(0, 0, width, height);
+
+      const isDark = document.documentElement.dataset.theme === "dark";
+      const linkColor = isDark ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.07)";
+
+      // Draw links
+      ctx.beginPath();
+      ctx.strokeStyle = linkColor;
+      ctx.lineWidth = 1.2;
+      links.forEach((l) => {
+        ctx.moveTo(l.source.x, l.source.y);
+        ctx.lineTo(l.target.x, l.target.y);
+      });
+      ctx.stroke();
+
+      // Draw nodes
+      nodes.forEach((n) => {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+
+        if (n.type === "topic") ctx.fillStyle = isDark ? "#e09f67" : "#b85d19";
+        else if (n.type === "project") ctx.fillStyle = isDark ? "#5c9df5" : "#2b6cb0";
+        else ctx.fillStyle = isDark ? "#6fa882" : "#3b7a54";
+
+        ctx.fill();
+
+        if (n === hoveredNode || n === selectedNode) {
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = isDark ? "#ffffff" : "#000000";
+          ctx.stroke();
+        }
+
+        if (n.type === "topic" || n === hoveredNode || n === selectedNode) {
+          ctx.font = "600 11px system-ui, sans-serif";
+          ctx.fillStyle = isDark ? "#f0ebe1" : "#1f1d1a";
+          ctx.textAlign = "center";
+          ctx.fillText(n.label.length > 25 ? n.label.slice(0, 24) + "…" : n.label, n.x, n.y + n.radius + 13);
+        }
+      });
+
+      requestAnimationFrame(render);
+    }
+
+    render();
+
+    function getMousePos(e) {
+      const r = canvas.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    function updateInspector(node) {
+      const title = document.getElementById("inspectorTitle");
+      const type = document.getElementById("inspectorType");
+      const summary = document.getElementById("inspectorSummary");
+      const link = document.getElementById("inspectorLink");
+      if (!title || !node) return;
+
+      title.textContent = node.label;
+      type.textContent = `${node.type.toUpperCase()} NODE`;
+      summary.textContent = node.summary || "No summary provided.";
+      if (node.url) {
+        link.href = node.url;
+        link.style.display = "inline-flex";
+      }
+    }
+
+    canvas.addEventListener("mousemove", (e) => {
+      const pos = getMousePos(e);
+      let found = null;
+      for (const n of nodes) {
+        const dx = n.x - pos.x;
+        const dy = n.y - pos.y;
+        if (Math.sqrt(dx * dx + dy * dy) < n.radius + 4) {
+          found = n;
+          break;
+        }
+      }
+      hoveredNode = found;
+      if (draggedNode) {
+        draggedNode.x = pos.x;
+        draggedNode.y = pos.y;
+      }
+    });
+
+    canvas.addEventListener("mousedown", (e) => {
+      const pos = getMousePos(e);
+      for (const n of nodes) {
+        const dx = n.x - pos.x;
+        const dy = n.y - pos.y;
+        if (Math.sqrt(dx * dx + dy * dy) < n.radius + 4) {
+          draggedNode = n;
+          selectedNode = n;
+          updateInspector(n);
+          break;
+        }
+      }
+    });
+
+    window.addEventListener("mouseup", () => {
+      draggedNode = null;
+    });
+  }
+
+  initExplorer();
+  document.addEventListener("astro:after-swap", initExplorer);
+</script>

@@ -1,0 +1,32 @@
+---
+import BaseHead from "../components/head/BaseHead.astro";
+import ThemeScript from "../components/nav/ThemeScript.astro";
+import Header from "../components/nav/Header.astro";
+import Footer from "../components/nav/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+}
+
+const { title, description, image, type } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <ThemeScript />
+    <BaseHead title={title} description={description} image={image} type={type} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

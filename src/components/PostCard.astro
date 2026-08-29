@@ -1,0 +1,109 @@
+---
+import Tag from "./Tag.astro";
+
+interface Props {
+  title: string;
+  slug: string;
+  date: Date;
+  reading_time?: number;
+  excerpt?: string;
+  tags?: string[];
+  categories?: string | string[];
+}
+
+const { title, slug, date, reading_time, excerpt, tags = [], categories } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+}).format(new Date(date));
+
+const categoryText = Array.isArray(categories) ? categories[0] : categories || "AI Systems";
+---
+
+<article class="post-card">
+  <div class="post-card__header">
+    <span class="kicker">{categoryText}</span>
+    <time datetime={new Date(date).toISOString()} class="post-card__date muted">
+      {formattedDate} {reading_time ? `· ${reading_time} min read` : ""}
+    </time>
+  </div>
+
+  <h3 class="post-card__title">
+    <a href={`/writing/${slug}`} class="post-card__link">
+      {title}
+    </a>
+  </h3>
+
+  {excerpt && <p class="post-card__excerpt">{excerpt}</p>}
+
+  {
+    tags.length > 0 && (
+      <div class="post-card__tags cluster" style="--cluster-gap: var(--space-3xs)">
+        {tags.slice(0, 4).map((tag) => (
+          <Tag text={tag} />
+        ))}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-m);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .post-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .post-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2xs);
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+  }
+
+  .post-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-xs);
+  }
+
+  .post-card__link {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .post-card__link:hover {
+    color: var(--color-accent);
+  }
+
+  .post-card__excerpt {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-m);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-card__tags {
+    margin-top: auto;
+  }
+</style>

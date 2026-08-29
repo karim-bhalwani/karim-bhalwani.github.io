@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+
+export async function getStaticPaths() {
+  const topics = await getCollection("topics");
+  return topics.map((topic) => ({
+    params: { slug: topic.id },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props;
+const { data } = topic;
+const { Content } = await render(topic);
+
+const allPosts = await getCollection("posts");
+// Match posts that mention this topic in tags or topics array
+const relatedPosts = allPosts.filter((post) => {
+  const tags = post.data.tags.map((t) => t.toLowerCase());
+  const topicId = topic.id.toLowerCase();
+  return (
+    post.data.topics.includes(topic.id) ||
+    tags.some((t) => topicId.includes(t) || t.includes(topicId.replace("-", " ")))
+  );
+});
+---
+
+<BaseLayout title={`${data.title} | Topics | Karim Bhalwani`} description={data.summary}>
+  <div class="container container-narrow stack stack-l" style="margin-top: var(--space-xl)">
+    <header class="stack stack-xs">
+      <p class="kicker">{data.category || "Topic Hub"}</p>
+      <h1>{data.title}</h1>
+      <p class="lead">{data.summary}</p>
+      <hr style="border: 0; border-top: 1px solid var(--color-border); margin-block: var(--space-s)" />
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <section class="stack stack-m" style="margin-top: var(--space-xl)">
+      <h2>Related Essays & Analysis</h2>
+      {
+        relatedPosts.length > 0 ? (
+          <div class="stack stack-m">
+            {relatedPosts.map((post) => (
+              <PostCard
+                title={post.data.title}
+                slug={post.id}
+                date={post.data.date}
+                reading_time={post.data.reading_time}
+                excerpt={post.data.excerpt}
+                tags={post.data.tags}
+                categories={post.data.categories}
+              />
+            ))}
+          </div>
+        ) : (
+          <p class="muted">
+            Check the <a href="/writing">complete writing archive</a> for all articles related to this topic.
+          </p>
+        )
+      }
+    </section>
+
+    <div style="margin-top: var(--space-xl)">
+      <a href="/topics" class="btn btn--ghost">← Back to All Topics</a>
+    </div>
+  </div>
+</BaseLayout>

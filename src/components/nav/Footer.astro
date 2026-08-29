@@ -1,0 +1,62 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__meta">
+      <p class="footer-copy">© {year} Karim Bhalwani. All rights reserved.</p>
+      <p class="muted">Personal writing on AI systems & agentic architecture · Independent · Trust, then verify.</p>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Social and Feeds">
+      <ul role="list" class="cluster" style="--cluster-gap: var(--space-m)">
+        <li>
+          <a href="https://github.com/karim-bhalwani" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </li>
+        <li>
+          <a href="https://linkedin.com/in/karim-bhalwani" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </li>
+        <li>
+          <a href="/rss.xml">RSS Feed</a>
+        </li>
+        <li>
+          <a href="/about">About</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-2xl);
+    padding-block: var(--space-xl);
+    background-color: var(--color-bg);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+  }
+
+  .footer-copy {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    color: var(--color-text-secondary);
+  }
+
+  .site-footer__links a {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+  }
+
+  .site-footer__links a:hover {
+    color: var(--color-accent);
+  }
+</style>

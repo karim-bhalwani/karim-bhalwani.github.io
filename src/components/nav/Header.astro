@@ -1,0 +1,129 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+
+const navItems = [
+  { label: "Writing", href: "/writing" },
+  { label: "Topics", href: "/topics" },
+  { label: "Explorer", href: "/explorer" },
+  { label: "About", href: "/about" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="site-header__brand">
+      <span class="brand-name">Karim Bhalwani</span>
+      <span class="brand-tagline">AI Systems & Agentic Architecture</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Main Navigation">
+      <ul role="list" class="site-nav__list">
+        {
+          navItems.map((item) => {
+            const isActive = currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href));
+            return (
+              <li>
+                <a href={item.href} class={`site-nav__link ${isActive ? "site-nav__link--active" : ""}`}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    transition: background-color var(--transition-fast);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-s);
+    gap: var(--space-m);
+  }
+
+  .site-header__brand {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .brand-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .site-nav__link {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .site-nav__link:hover {
+    color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+
+  .site-nav__link--active {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  @media (max-width: 600px) {
+    .site-header__inner {
+      flex-wrap: wrap;
+    }
+    .brand-tagline {
+      display: none;
+    }
+    .site-nav__list {
+      gap: var(--space-xs);
+    }
+  }
+</style>

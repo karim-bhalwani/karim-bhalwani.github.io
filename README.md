@@ -1,101 +1,96 @@
-# Karim Bhalwani Blog
+# karim-bhalwani.github.io
 
-My personal blog built with Jekyll and hosted on GitHub Pages.
+Personal blog and writing space. Essays on AI systems reliability, agent control layers, context engineering, and multi-agent coordination.
 
 **Live site:** <https://karim-bhalwani.github.io>
 
+> Personal blog. Views and opinions are entirely my own and do not represent my employer or any affiliated organization.
+
+---
+
+## Stack
+
+- **Framework:** [Astro 5](https://astro.build) (static site generation)
+- **Hosting:** GitHub Pages, deployed via GitHub Actions
+- **Content:** Markdown files in `src/content/posts/`
+- **Styling:** Vanilla CSS with OKLCH design tokens, dark/light mode
+
+---
+
 ## Local Development
 
-### Prerequisites (Windows)
-
-1. **Install Ruby 3.x** from [RubyInstaller](https://rubyinstaller.org/)
-   - Download Ruby+Devkit version
-   - During install, select option `[1,3]` for MSYS2 base + dev toolchain
-
-2. **Install Bundler:**
-
-   ```bash
-   gem install bundler
-   ```
-
-### Run Locally
+**Prerequisites:** Node.js 20+
 
 ```bash
-# Navigate to project
-cd C:\GitHub\karim-bhalwani.github.io
-
-# First time only: configure bundle path
-bundle config set --local path 'vendor/bundle'
-
 # Install dependencies
-bundle install
+npm install
 
-# Start local server (auto-reloads on file changes)
-bundle exec jekyll serve
+# Start dev server
+npm run dev
+# Open: http://localhost:4321
 
-# Open: http://localhost:4000
-```
-
-### Stop Server
-
-Press `Ctrl+C` in the terminal.
-
----
-
-## Adding New Blog Posts
-
-1. Create a new file in `_posts/` with format: `YYYY-MM-DD-title.markdown`
-
-2. Add frontmatter and content:
-
-   ```markdown
-   ---
-   layout: post
-   title: "Your Post Title"
-   excerpt: "Brief summary shown on homepage"
-   date: 2026-01-15 10:00:00 -0500
-   ---
-
-   Your content here in Markdown...
-   ```
-
-3. Test locally with `bundle exec jekyll serve`
-
-4. Deploy when ready (see below)
-
----
-
-## Deploy to GitHub Pages
-
-```bash
-git add .
-git commit -m "Add new blog post"
-git push origin main
-```
-
-GitHub Pages automatically builds and deploys within ~1 minute.
-
----
-
-## Project Structure
-
-```
-karim-bhalwani.github.io/
-├── _config.yml       # Site configuration
-├── Gemfile           # Ruby dependencies
-├── index.html        # Homepage (lists posts)
-├── about.md          # About page
-├── _includes/        # Reusable HTML components
-├── _layouts/         # Page templates
-├── _posts/           # Blog posts (Markdown)
-├── css/              # Stylesheets
-└── assets/           # Images and media
+# Build for production
+npm run build
 ```
 
 ---
 
-## Troubleshooting
+## Adding Content
 
-**Ruby 3.4+ compatibility:** The Gemfile includes `base64`, `logger`, `csv`, and `bigdecimal` gems which are no longer bundled by default in Ruby 3.4.
+### New post
 
-**Windows file watching:** Add `gem 'wdm'` to Gemfile if you want faster auto-reload.
+Create a file in `src/content/posts/` with the naming format `YYYY-MM-DD-post-slug.md`:
+
+```yaml
+---
+title: "Your Post Title"
+date: 2026-09-01
+reading_time: 8
+tags: [Agent Harness, Production Systems]
+topics: [agent-harness]
+excerpt: "One sentence summary shown in post cards and SEO."
+---
+
+Post content here in Markdown.
+```
+
+**Topics** (use one or more to connect the post to the knowledge graph):
+- `agent-harness`
+- `ai-verification`
+- `token-economics`
+- `multi-agent-orchestration`
+- `data-systems`
+
+### New topic
+
+Create a file in `src/content/topics/topic-slug.md`. Topic pages are generated automatically and appear in the knowledge graph.
+
+---
+
+## Deployment
+
+Pushes to `main` automatically build and deploy via GitHub Actions.
+
+To deploy manually: **Actions tab** → **Deploy to GitHub Pages** → **Run workflow**.
+
+---
+
+## Structure
+
+```
+src/
+  content/
+    posts/       ← Blog essays (.md)
+    topics/      ← Knowledge graph topic hubs (.md)
+    projects/    ← Featured projects (.md)
+  pages/         ← Astro page routes
+  components/    ← UI components (Header, Footer, Graph, etc.)
+  styles/        ← Design tokens, typography, utilities
+  layouts/       ← BaseLayout wrapper
+
+public/          ← Static assets (images, .nojekyll)
+_legacy_jekyll/  ← Archived original Jekyll site
+.github/
+  workflows/
+    deploy.yml   ← GitHub Actions build + deploy
+```

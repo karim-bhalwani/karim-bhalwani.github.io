@@ -1,0 +1,149 @@
+/*
+  Design tokens — "Warm Archival Studio / AI Systems Lab"
+  Primitive OKLCH ramps -> Semantic tokens remapped per theme.
+  Light is the default ("Paper"); [data-theme="dark"] is the "Viewing Room".
+*/
+
+:root {
+  /* ---- Primitive ramps (OKLCH: L C H) ---- */
+
+  /* Warm paper neutrals (amber-leaning hue ~80-85) */
+  --paper-50: oklch(98.5% 0.008 85);
+  --paper-100: oklch(96.5% 0.012 83); /* page bg (light) */
+  --paper-200: oklch(93.5% 0.014 82); /* raised surface */
+  --paper-300: oklch(88% 0.016 80);   /* hairlines, borders */
+  --paper-400: oklch(80% 0.018 78);
+
+  /* Deep warm ink (low L, warm hue, never neutral grey) */
+  --ink-900: oklch(23% 0.02 60);  /* primary text (light) */
+  --ink-700: oklch(38% 0.018 62); /* secondary text */
+  --ink-500: oklch(52% 0.015 64); /* muted / captions */
+
+  /* Ember / Amber accent */
+  --ember-300: oklch(82% 0.1 60);   /* tint / selection */
+  --ember-500: oklch(60% 0.16 52);  /* accent (links, active) */
+  --ember-600: oklch(53% 0.165 48); /* accent hover */
+
+  /* Sage (topic tags, verification badges) */
+  --sage-300: oklch(85% 0.04 150);
+  --sage-500: oklch(62% 0.05 150);
+  --sage-700: oklch(40% 0.05 150);
+
+  /* Dark "Viewing Room" neutrals (warm charcoal, never #000) */
+  --night-950: oklch(16% 0.01 70);
+  --night-900: oklch(20% 0.012 70); /* page bg (dark) */
+  --night-800: oklch(24% 0.013 72); /* raised surface */
+  --night-700: oklch(31% 0.014 72); /* border */
+  --night-text: oklch(88% 0.01 80); /* text */
+  --night-muted: oklch(65% 0.012 75);
+
+  /* ---- Semantic assignments (default: Light / Paper) ---- */
+  --color-bg: var(--paper-100);
+  --color-surface: var(--paper-50);
+  --color-surface-raised: var(--paper-200);
+  --color-border: var(--paper-300);
+  --color-border-subtle: var(--paper-200);
+  --color-text: var(--ink-900);
+  --color-text-secondary: var(--ink-700);
+  --color-text-muted: var(--ink-500);
+  --color-accent: var(--ember-500);
+  --color-accent-hover: var(--ember-600);
+  --color-selection: var(--ember-300);
+
+  /* Tag colors */
+  --color-tag-bg: var(--paper-200);
+  --color-tag-text: var(--ink-700);
+  --color-tag-border: var(--paper-300);
+
+  /* Code block */
+  --color-code-bg: var(--paper-200);
+  --color-code-border: var(--paper-300);
+
+  /* Typography Font Families */
+  --font-display: "Literata", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-body: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  /* Font weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-widest: 0.08em;
+
+  /* Fluid typography scale (min 320px -> max 1280px) */
+  --step--1: clamp(0.8125rem, 0.77rem + 0.2vw, 0.875rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.12rem + 0.4vw, 1.35rem);
+  --step-2: clamp(1.44rem, 1.32rem + 0.6vw, 1.65rem);
+  --step-3: clamp(1.728rem, 1.55rem + 0.89vw, 2.05rem);
+  --step-4: clamp(2.074rem, 1.81rem + 1.32vw, 2.6rem);
+  --step-5: clamp(2.488rem, 2.11rem + 1.89vw, 3.35rem);
+
+  /* Fluid spacing system */
+  --space-3xs: clamp(0.25rem, 0.23vw + 0.2rem, 0.38rem);
+  --space-2xs: clamp(0.5rem, 0.45vw + 0.4rem, 0.75rem);
+  --space-xs: clamp(0.75rem, 0.68vw + 0.6rem, 1.13rem);
+  --space-s: clamp(1rem, 0.91vw + 0.8rem, 1.5rem);
+  --space-m: clamp(1.5rem, 1.36vw + 1.2rem, 2.25rem);
+  --space-l: clamp(2rem, 1.82vw + 1.6rem, 3rem);
+  --space-xl: clamp(3rem, 2.73vw + 2.4rem, 4.5rem);
+  --space-2xl: clamp(4rem, 3.64vw + 3.2rem, 6rem);
+
+  /* Layout widths */
+  --width-prose: 44rem;
+  --width-container: 68rem;
+  --width-wide: 82rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
+  --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.06);
+  --shadow-lg: 0 12px 28px oklch(0% 0 0 / 0.09);
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode theme overrides ("Viewing Room") */
+[data-theme="dark"] {
+  --color-bg: var(--night-900);
+  --color-surface: var(--night-800);
+  --color-surface-raised: var(--night-700);
+  --color-border: var(--night-700);
+  --color-border-subtle: oklch(27% 0.013 72);
+  --color-text: var(--night-text);
+  --color-text-secondary: oklch(76% 0.01 78);
+  --color-text-muted: var(--night-muted);
+  --color-accent: var(--ember-300);
+  --color-accent-hover: oklch(88% 0.12 65);
+  --color-selection: oklch(35% 0.08 52);
+
+  --color-tag-bg: var(--night-800);
+  --color-tag-text: var(--night-text);
+  --color-tag-border: var(--night-700);
+
+  --color-code-bg: var(--night-950);
+  --color-code-border: var(--night-700);
+
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.3);
+  --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.4);
+  --shadow-lg: 0 12px 28px oklch(0% 0 0 / 0.5);
+}

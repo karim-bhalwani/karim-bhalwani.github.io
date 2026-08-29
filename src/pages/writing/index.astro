@@ -1,0 +1,239 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+// Collect unique tags, sorted
+const allTags = Array.from(new Set(allPosts.flatMap((p) => p.data.tags || []))).sort();
+
+// Serialize posts for client-side filtering
+const postData = sortedPosts.map((p) => ({
+  id: p.id,
+  title: p.data.title,
+  date: p.data.date.toISOString(),
+  reading_time: p.data.reading_time,
+  excerpt: p.data.excerpt,
+  tags: p.data.tags || [],
+  categories: typeof p.data.categories === "string" ? [p.data.categories] : (p.data.categories || []),
+}));
+---
+
+<BaseLayout
+  title="Writing & Essays - Karim Bhalwani"
+  description="All essays on AI systems engineering, agent execution loops, verification, context engineering, and multi-agent coordination."
+>
+  <div class="container stack stack-l" style="margin-top: var(--space-xl)">
+    <header class="stack stack-xs">
+      <p class="kicker">Archive</p>
+      <h1>Writing & Essays</h1>
+      <p class="lead measure">
+        Deep dives into AI systems engineering, agent execution loops, verification oracles, and the economics of intelligence.
+      </p>
+    </header>
+
+    <!-- Tag Filter Bar -->
+    <div class="tags-filter stack stack-2xs">
+      <div class="tags-filter__header">
+        <span class="filter-label">Filter by Tag</span>
+        <button id="clearFilter" class="clear-btn" style="display:none">Clear filter</button>
+      </div>
+      <div class="cluster" style="--cluster-gap: var(--space-3xs)" id="tagList">
+        {allTags.map((tag) => (
+          <button
+            class="tag-btn"
+            data-tag={tag}
+            type="button"
+          >{tag}</button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Active filter indicator -->
+    <p class="filter-status" id="filterStatus" style="display:none">
+      Showing posts tagged: <strong id="activeTagLabel"></strong> &middot; <span id="filterCount"></span>
+    </p>
+
+    <!-- Posts Listing -->
+    <div class="stack stack-m" id="postList">
+      {
+        sortedPosts.map((post) => {
+          const cats = typeof post.data.categories === "string"
+            ? [post.data.categories]
+            : (post.data.categories || []);
+          return (
+            <article
+              class="post-item"
+              data-tags={JSON.stringify(post.data.tags || [])}
+            >
+              <PostCard
+                title={post.data.title}
+                slug={post.id}
+                date={post.data.date}
+                reading_time={post.data.reading_time}
+                excerpt={post.data.excerpt}
+                tags={post.data.tags}
+                categories={cats}
+              />
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <p class="no-results" id="noResults" style="display:none">
+      No posts found for this tag.
+    </p>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .tags-filter {
+    padding: var(--space-s);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .tags-filter__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2xs);
+  }
+
+  .filter-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-muted);
+  }
+
+  .tag-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2em 0.65em;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    line-height: 1.6;
+  }
+
+  .tag-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: color-mix(in oklch, var(--color-accent) 8%, transparent);
+  }
+
+  .tag-btn.active {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: var(--weight-semibold);
+  }
+
+  .clear-btn {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.15em 0.5em;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .clear-btn:hover {
+    border-color: var(--color-text-secondary);
+    color: var(--color-text);
+  }
+
+  .filter-status {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    padding: var(--space-2xs) var(--space-xs);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-sm);
+  }
+
+  .no-results {
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+    text-align: center;
+    padding: var(--space-xl);
+  }
+
+  .post-item[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  function initTagFilter() {
+    const tagBtns = document.querySelectorAll<HTMLButtonElement>(".tag-btn");
+    const postItems = document.querySelectorAll<HTMLElement>(".post-item");
+    const clearBtn = document.getElementById("clearFilter") as HTMLButtonElement;
+    const filterStatus = document.getElementById("filterStatus") as HTMLElement;
+    const activeTagLabel = document.getElementById("activeTagLabel") as HTMLElement;
+    const filterCount = document.getElementById("filterCount") as HTMLElement;
+    const noResults = document.getElementById("noResults") as HTMLElement;
+
+    let activeTag: string | null = null;
+
+    function applyFilter(tag: string | null) {
+      activeTag = tag;
+      let visibleCount = 0;
+
+      postItems.forEach((item) => {
+        const tags: string[] = JSON.parse(item.dataset.tags || "[]");
+        const visible = !tag || tags.includes(tag);
+        item.hidden = !visible;
+        if (visible) visibleCount++;
+      });
+
+      // Update UI
+      tagBtns.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.tag === tag);
+      });
+
+      if (tag) {
+        clearBtn.style.display = "inline-flex";
+        filterStatus.style.display = "block";
+        activeTagLabel.textContent = tag;
+        filterCount.textContent = `${visibleCount} post${visibleCount !== 1 ? "s" : ""}`;
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
+      } else {
+        clearBtn.style.display = "none";
+        filterStatus.style.display = "none";
+        noResults.style.display = "none";
+      }
+    }
+
+    tagBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tag = btn.dataset.tag || null;
+        // Toggle off if already active
+        applyFilter(activeTag === tag ? null : tag);
+      });
+    });
+
+    clearBtn.addEventListener("click", () => applyFilter(null));
+  }
+
+  initTagFilter();
+  document.addEventListener("astro:after-swap", initTagFilter);
+</script>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const topics = await getCollection("topics");
+const allPosts = await getCollection("posts");
+---
+
+<BaseLayout
+  title="Topics | Karim Bhalwani"
+  description="Core themes and research areas in AI systems engineering, agent harnesses, and distributed intelligence."
+>
+  <div class="container stack stack-l" style="margin-top: var(--space-xl)">
+    <header class="stack stack-xs">
+      <p class="kicker">Index</p>
+      <h1>Topics & Knowledge Hubs</h1>
+      <p class="lead measure">
+        Navigating system design patterns, execution models, and verification paradigms.
+      </p>
+    </header>
+
+    <div class="auto-grid" style="--grid-min: 20rem">
+      {
+        topics.map((topic) => {
+          return (
+            <div class="topic-hub-card stack stack-xs">
+              <span class="kicker">{topic.data.category || "Topic Hub"}</span>
+              <h2>
+                <a href={`/topics/${topic.id}`} class="topic-title-link">
+                  {topic.data.title}
+                </a>
+              </h2>
+              <p class="muted">{topic.data.summary}</p>
+              <div style="margin-top: auto">
+                <a href={`/topics/${topic.id}`} class="btn btn--ghost" style="font-size: 0.8rem">
+                  Explore Topic →
+                </a>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .topic-hub-card {
+    padding: var(--space-l);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    transition: all var(--transition-fast);
+  }
+
+  .topic-hub-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .topic-title-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--step-2);
+  }
+
+  .topic-title-link:hover {
+    color: var(--color-accent);
+  }
+</style>

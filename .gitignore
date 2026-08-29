@@ -9,3 +9,8 @@ Gemfile.lock
 .gemini
 .venv
 next_post
+
+# Astro
+node_modules/
+dist/
+.astro/

@@ -1,0 +1,305 @@
+---
+// MiniGraph.astro - Interactive network graph connecting topics and essays
+---
+
+<div class="mini-graph" data-mini-graph>
+  <div class="mini-graph__header">
+    <span class="kicker">Live Knowledge Graph</span>
+    <a href="/explorer" class="mini-graph__link">Open Full Explorer →</a>
+  </div>
+  <canvas class="mini-graph__canvas" id="miniGraphCanvas" aria-label="Interactive map of AI systems engineering topics and essays"></canvas>
+  <div class="mini-graph__tooltip" id="graphTooltip" hidden></div>
+</div>
+
+<style>
+  .mini-graph {
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    overflow: hidden;
+    margin-block: var(--space-l);
+  }
+
+  .mini-graph__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-xs) var(--space-s);
+    border-bottom: 1px solid var(--color-border-subtle);
+    background-color: var(--color-bg);
+  }
+
+  .mini-graph__link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .mini-graph__link:hover {
+    text-decoration: underline;
+  }
+
+  .mini-graph__canvas {
+    width: 100%;
+    height: 320px;
+    display: block;
+    cursor: grab;
+  }
+
+  .mini-graph__canvas:active {
+    cursor: grabbing;
+  }
+
+  .mini-graph__tooltip {
+    position: absolute;
+    pointer-events: none;
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--color-text);
+    box-shadow: var(--shadow-md);
+    transform: translate(-50%, -120%);
+    white-space: nowrap;
+    z-index: 10;
+    transition: opacity var(--transition-fast);
+  }
+</style>
+
+<script is:inline>
+  function initMiniGraph() {
+    const canvas = document.getElementById("miniGraphCanvas");
+    const tooltip = document.getElementById("graphTooltip");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    const nodes = [
+      // The 5 real blog topic hubs
+      { id: "agent-harness", label: "Agent Harness", type: "topic", r: 17, url: "/topics/agent-harness" },
+      { id: "ai-verification", label: "AI Verification", type: "topic", r: 15, url: "/topics/ai-verification" },
+      { id: "token-economics", label: "Token Economics", type: "topic", r: 15, url: "/topics/token-economics" },
+      { id: "multi-agent-orchestration", label: "Multi-Agent", type: "topic", r: 14, url: "/topics/multi-agent-orchestration" },
+      { id: "data-systems", label: "Data Systems", type: "topic", r: 12, url: "/topics/data-systems" },
+      // Featured posts
+      { id: "passed-test", label: "Your Agent Passed the Test", type: "post", r: 8, url: "/writing/2026-08-22-your-agent-passed-the-test" },
+      { id: "control-layer", label: "Building the Control Layer", type: "post", r: 8, url: "/writing/2026-04-26-building-the-control-layer" },
+      { id: "loop-eng", label: "Loop Engineering", type: "post", r: 7, url: "/writing/2026-06-26-loop-engineering" },
+      { id: "bottleneck", label: "The Bottleneck Moved", type: "post", r: 7, url: "/writing/2026-03-01-the-bottleneck-moved" },
+      { id: "token-max", label: "Token Maxing", type: "post", r: 7, url: "/writing/2026-08-05-token-maxing-learning" },
+      { id: "route", label: "Route the Intelligence", type: "post", r: 7, url: "/writing/2026-05-10-route-the-intelligence" },
+      { id: "context", label: "Context Matters", type: "post", r: 7, url: "/writing/2026-01-17-context-matters-redacting-health-records" }
+    ];
+
+    const links = [
+      // Topic interconnections
+      { source: "agent-harness", target: "ai-verification" },
+      { source: "agent-harness", target: "multi-agent-orchestration" },
+      { source: "token-economics", target: "agent-harness" },
+      { source: "data-systems", target: "token-economics" },
+      // Posts to topics
+      { source: "passed-test", target: "ai-verification" },
+      { source: "passed-test", target: "agent-harness" },
+      { source: "control-layer", target: "agent-harness" },
+      { source: "control-layer", target: "multi-agent-orchestration" },
+      { source: "loop-eng", target: "agent-harness" },
+      { source: "bottleneck", target: "multi-agent-orchestration" },
+      { source: "token-max", target: "token-economics" },
+      { source: "route", target: "token-economics" },
+      { source: "context", target: "data-systems" }
+    ];
+
+    const rect = canvas.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    // Initialize random positions near center
+    nodes.forEach((n, i) => {
+      const angle = (i / nodes.length) * Math.PI * 2;
+      const radius = n.type === "topic" ? 70 : 120;
+      n.x = width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 20;
+      n.y = height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 20;
+      n.vx = 0;
+      n.vy = 0;
+    });
+
+    let hoveredNode = null;
+    let draggedNode = null;
+
+    function stepPhysics() {
+      // Repulsion between nodes
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const force = (1200 / (dist * dist));
+          const fx = (dx / dist) * force;
+          const fy = (dy / dist) * force;
+          a.vx -= fx;
+          a.vy -= fy;
+          b.vx += fx;
+          b.vy += fy;
+        }
+      }
+
+      // Spring links
+      links.forEach((l) => {
+        const a = typeof l.source === "string" ? nodes.find((n) => n.id === l.source) : l.source;
+        const b = typeof l.target === "string" ? nodes.find((n) => n.id === l.target) : l.target;
+        if (!a || !b) return;
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const targetDist = 75;
+        const force = (dist - targetDist) * 0.03;
+        const fx = (dx / dist) * force;
+        const fy = (dy / dist) * force;
+        a.vx += fx;
+        a.vy += fy;
+        b.vx -= fx;
+        b.vy -= fy;
+      });
+
+      // Center gravity & damping
+      const cx = width / 2;
+      const cy = height / 2;
+      nodes.forEach((n) => {
+        if (n === draggedNode) return;
+        n.vx += (cx - n.x) * 0.005;
+        n.vy += (cy - n.y) * 0.005;
+        n.vx *= 0.85;
+        n.vy *= 0.85;
+        n.x += n.vx;
+        n.y += n.vy;
+
+        // Boundaries
+        const pad = n.r + 10;
+        n.x = Math.max(pad, Math.min(width - pad, n.x));
+        n.y = Math.max(pad, Math.min(height - pad, n.y));
+      });
+    }
+
+    function render() {
+      stepPhysics();
+      ctx.clearRect(0, 0, width, height);
+
+      const isDark = document.documentElement.dataset.theme === "dark";
+      const linkColor = isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.08)";
+      const topicColor = isDark ? "#e09f67" : "#b85d19";
+      const postColor = isDark ? "#6fa882" : "#3b7a54";
+
+      // Draw links
+      ctx.beginPath();
+      ctx.strokeStyle = linkColor;
+      ctx.lineWidth = 1.5;
+      links.forEach((l) => {
+        const a = typeof l.source === "string" ? nodes.find((n) => n.id === l.source) : l.source;
+        const b = typeof l.target === "string" ? nodes.find((n) => n.id === l.target) : l.target;
+        if (!a || !b) return;
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+      });
+      ctx.stroke();
+
+      // Draw nodes
+      nodes.forEach((n) => {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = n.type === "topic" ? topicColor : postColor;
+        ctx.fill();
+
+        if (n === hoveredNode) {
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = isDark ? "#ffffff" : "#000000";
+          ctx.stroke();
+        }
+
+        // Label for topic nodes
+        if (n.type === "topic") {
+          ctx.font = "600 11px system-ui, sans-serif";
+          ctx.fillStyle = isDark ? "#f0ebe1" : "#1f1d1a";
+          ctx.textAlign = "center";
+          ctx.fillText(n.label, n.x, n.y + n.r + 14);
+        }
+      });
+
+      requestAnimationFrame(render);
+    }
+
+    render();
+
+    function getMousePos(e) {
+      const r = canvas.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    canvas.addEventListener("mousemove", (e) => {
+      const pos = getMousePos(e);
+      let found = null;
+      for (const n of nodes) {
+        const dx = n.x - pos.x;
+        const dy = n.y - pos.y;
+        if (Math.sqrt(dx * dx + dy * dy) < n.r + 4) {
+          found = n;
+          break;
+        }
+      }
+      hoveredNode = found;
+      if (found && tooltip) {
+        tooltip.textContent = `${found.label} (${found.type.toUpperCase()})`;
+        tooltip.style.left = `${found.x}px`;
+        tooltip.style.top = `${found.y - found.r - 8}px`;
+        tooltip.hidden = false;
+      } else if (tooltip) {
+        tooltip.hidden = true;
+      }
+
+      if (draggedNode) {
+        draggedNode.x = pos.x;
+        draggedNode.y = pos.y;
+      }
+    });
+
+    canvas.addEventListener("mousedown", (e) => {
+      const pos = getMousePos(e);
+      for (const n of nodes) {
+        const dx = n.x - pos.x;
+        const dy = n.y - pos.y;
+        if (Math.sqrt(dx * dx + dy * dy) < n.r + 4) {
+          draggedNode = n;
+          break;
+        }
+      }
+    });
+
+    window.addEventListener("mouseup", () => {
+      draggedNode = null;
+    });
+
+    canvas.addEventListener("click", () => {
+      if (hoveredNode && hoveredNode.url) {
+        window.location.href = hoveredNode.url;
+      }
+    });
+  }
+
+  initMiniGraph();
+  document.addEventListener("astro:after-swap", initMiniGraph);
+</script>
