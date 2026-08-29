@@ -201,43 +201,107 @@
       ctx.clearRect(0, 0, width, height);
 
       const isDark = document.documentElement.dataset.theme === "dark";
-      const linkColor = isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.08)";
       const topicColor = isDark ? "#e09f67" : "#b85d19";
       const postColor = isDark ? "#6fa882" : "#3b7a54";
 
+      // Compute neighborhood for hovered node
+      const connectedNodeIds = new Set();
+      const connectedLinkSet = new Set();
+
+      if (hoveredNode) {
+        connectedNodeIds.add(hoveredNode.id);
+        links.forEach((l) => {
+          const aId = typeof l.source === "string" ? l.source : l.source.id;
+          const bId = typeof l.target === "string" ? l.target : l.target.id;
+          if (aId === hoveredNode.id || bId === hoveredNode.id) {
+            connectedNodeIds.add(aId);
+            connectedNodeIds.add(bId);
+            connectedLinkSet.add(l);
+          }
+        });
+      }
+
       // Draw links
-      ctx.beginPath();
-      ctx.strokeStyle = linkColor;
-      ctx.lineWidth = 1.5;
-      links.forEach((l) => {
-        const a = typeof l.source === "string" ? nodes.find((n) => n.id === l.source) : l.source;
-        const b = typeof l.target === "string" ? nodes.find((n) => n.id === l.target) : l.target;
-        if (!a || !b) return;
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-      });
-      ctx.stroke();
+      if (!hoveredNode) {
+        ctx.beginPath();
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.08)";
+        ctx.lineWidth = 1.5;
+        links.forEach((l) => {
+          const a = typeof l.source === "string" ? nodes.find((n) => n.id === l.source) : l.source;
+          const b = typeof l.target === "string" ? nodes.find((n) => n.id === l.target) : l.target;
+          if (!a || !b) return;
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+        });
+        ctx.stroke();
+      } else {
+        // Dimmed background links
+        ctx.beginPath();
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.02)" : "rgba(0, 0, 0, 0.02)";
+        ctx.lineWidth = 0.8;
+        links.forEach((l) => {
+          if (!connectedLinkSet.has(l)) {
+            const a = typeof l.source === "string" ? nodes.find((n) => n.id === l.source) : l.source;
+            const b = typeof l.target === "string" ? nodes.find((n) => n.id === l.target) : l.target;
+            if (!a || !b) return;
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+          }
+        });
+        ctx.stroke();
+
+        // Highlighted links
+        ctx.beginPath();
+        ctx.strokeStyle = isDark ? "rgba(224, 159, 103, 0.9)" : "rgba(184, 93, 25, 0.85)";
+        ctx.lineWidth = 2.4;
+        connectedLinkSet.forEach((l) => {
+          const a = typeof l.source === "string" ? nodes.find((n) => n.id === l.source) : l.source;
+          const b = typeof l.target === "string" ? nodes.find((n) => n.id === l.target) : l.target;
+          if (!a || !b) return;
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+        });
+        ctx.stroke();
+      }
 
       // Draw nodes
       nodes.forEach((n) => {
+        const isHovered = hoveredNode && n.id === hoveredNode.id;
+        const isConnected = hoveredNode ? connectedNodeIds.has(n.id) : true;
+
+        if (hoveredNode) {
+          if (isHovered) ctx.globalAlpha = 1.0;
+          else if (isConnected) ctx.globalAlpha = 0.95;
+          else ctx.globalAlpha = 0.15; // Dimmed
+        } else {
+          ctx.globalAlpha = 1.0;
+        }
+
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fillStyle = n.type === "topic" ? topicColor : postColor;
         ctx.fill();
 
-        if (n === hoveredNode) {
+        if (isHovered) {
           ctx.lineWidth = 3;
           ctx.strokeStyle = isDark ? "#ffffff" : "#000000";
           ctx.stroke();
+        } else if (hoveredNode && isConnected) {
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.75)" : "rgba(0, 0, 0, 0.65)";
+          ctx.stroke();
         }
 
-        // Label for topic nodes
-        if (n.type === "topic") {
-          ctx.font = "600 11px system-ui, sans-serif";
+        // Label for topic nodes or connected nodes when hovered
+        const shouldShowLabel = hoveredNode ? isConnected : (n.type === "topic");
+        if (shouldShowLabel) {
+          ctx.font = isHovered ? "700 11px system-ui, sans-serif" : "600 11px system-ui, sans-serif";
           ctx.fillStyle = isDark ? "#f0ebe1" : "#1f1d1a";
           ctx.textAlign = "center";
           ctx.fillText(n.label, n.x, n.y + n.r + 14);
         }
+
+        ctx.globalAlpha = 1.0;
       });
 
       requestAnimationFrame(render);

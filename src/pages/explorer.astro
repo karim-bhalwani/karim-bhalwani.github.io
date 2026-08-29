@@ -62,7 +62,10 @@ const graphNodes = [
       </div>
 
       <div class="explorer-inspector" id="explorerInspector">
-        <p class="kicker">Selected Node</p>
+        <div class="inspector-header">
+          <p class="kicker" style="margin-bottom: 0">Selected Node</p>
+          <button type="button" id="inspectorDeselectBtn" class="btn-clear-selection" style="display: none" title="Clear selection">✕ Deselect</button>
+        </div>
         <h3 id="inspectorTitle">Select a node</h3>
         <p id="inspectorType" class="muted">Click any node in the map to view connections.</p>
         <p id="inspectorSummary" style="margin-block: var(--space-s)"></p>
@@ -138,6 +141,31 @@ const graphNodes = [
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     background-color: var(--color-surface);
+  }
+
+  .inspector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2xs);
+  }
+
+  .btn-clear-selection {
+    background: none;
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-clear-selection:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-hover);
+    background-color: var(--color-bg);
   }
 
   @media (max-width: 850px) {
@@ -264,20 +292,72 @@ const graphNodes = [
       ctx.clearRect(0, 0, width, height);
 
       const isDark = document.documentElement.dataset.theme === "dark";
-      const linkColor = isDark ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.07)";
+      const activeNode = selectedNode || hoveredNode;
 
-      // Draw links
-      ctx.beginPath();
-      ctx.strokeStyle = linkColor;
-      ctx.lineWidth = 1.2;
-      links.forEach((l) => {
-        ctx.moveTo(l.source.x, l.source.y);
-        ctx.lineTo(l.target.x, l.target.y);
-      });
-      ctx.stroke();
+      // Build active neighborhood set
+      const connectedNodeIds = new Set();
+      const connectedLinkSet = new Set();
 
-      // Draw nodes
+      if (activeNode) {
+        connectedNodeIds.add(activeNode.id);
+        links.forEach((l) => {
+          if (l.source.id === activeNode.id || l.target.id === activeNode.id) {
+            connectedNodeIds.add(l.source.id);
+            connectedNodeIds.add(l.target.id);
+            connectedLinkSet.add(l);
+          }
+        });
+      }
+
+      // 1. Draw Links
+      if (!activeNode) {
+        // Default: all links drawn with neutral subtle stroke
+        ctx.beginPath();
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.07)";
+        ctx.lineWidth = 1.2;
+        links.forEach((l) => {
+          ctx.moveTo(l.source.x, l.source.y);
+          ctx.lineTo(l.target.x, l.target.y);
+        });
+        ctx.stroke();
+      } else {
+        // Dimmed background links
+        ctx.beginPath();
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.02)" : "rgba(0, 0, 0, 0.02)";
+        ctx.lineWidth = 0.8;
+        links.forEach((l) => {
+          if (!connectedLinkSet.has(l)) {
+            ctx.moveTo(l.source.x, l.source.y);
+            ctx.lineTo(l.target.x, l.target.y);
+          }
+        });
+        ctx.stroke();
+
+        // Highlighted connected links
+        ctx.beginPath();
+        ctx.strokeStyle = isDark ? "rgba(224, 159, 103, 0.9)" : "rgba(184, 93, 25, 0.85)";
+        ctx.lineWidth = 2.4;
+        connectedLinkSet.forEach((l) => {
+          ctx.moveTo(l.source.x, l.source.y);
+          ctx.lineTo(l.target.x, l.target.y);
+        });
+        ctx.stroke();
+      }
+
+      // 2. Draw Nodes
       nodes.forEach((n) => {
+        const isActive = activeNode ? n.id === activeNode.id : false;
+        const isConnected = activeNode ? connectedNodeIds.has(n.id) : true;
+
+        // Dim unconnected nodes to make connections stand out
+        if (activeNode) {
+          if (isActive) ctx.globalAlpha = 1.0;
+          else if (isConnected) ctx.globalAlpha = 0.95;
+          else ctx.globalAlpha = 0.15; // Dull/dimmed non-connected node
+        } else {
+          ctx.globalAlpha = 1.0;
+        }
+
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
 
@@ -287,18 +367,36 @@ const graphNodes = [
 
         ctx.fill();
 
-        if (n === hoveredNode || n === selectedNode) {
-          ctx.lineWidth = 3;
-          ctx.strokeStyle = isDark ? "#ffffff" : "#000000";
+        // Node border / ring
+        if (isActive) {
+          ctx.lineWidth = 3.5;
+          ctx.strokeStyle = isDark ? "#ffffff" : "#111111";
+          ctx.stroke();
+        } else if (activeNode && isConnected) {
+          ctx.lineWidth = 1.8;
+          ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.65)";
           ctx.stroke();
         }
 
-        if (n.type === "topic" || n === hoveredNode || n === selectedNode) {
-          ctx.font = "600 11px system-ui, sans-serif";
+        // Labels
+        const shouldShowLabel = activeNode
+          ? isConnected
+          : (n.type === "topic" || n === hoveredNode);
+
+        if (shouldShowLabel) {
+          ctx.font = isActive
+            ? "700 12px system-ui, sans-serif"
+            : (isConnected && activeNode)
+            ? "600 11px system-ui, sans-serif"
+            : "600 11px system-ui, sans-serif";
           ctx.fillStyle = isDark ? "#f0ebe1" : "#1f1d1a";
           ctx.textAlign = "center";
-          ctx.fillText(n.label.length > 25 ? n.label.slice(0, 24) + "…" : n.label, n.x, n.y + n.radius + 13);
+          const labelText = n.label.length > 26 ? n.label.slice(0, 25) + "…" : n.label;
+          ctx.fillText(labelText, n.x, n.y + n.radius + 13);
         }
+
+        // Restore default alpha
+        ctx.globalAlpha = 1.0;
       });
 
       requestAnimationFrame(render);
@@ -316,15 +414,35 @@ const graphNodes = [
       const type = document.getElementById("inspectorType");
       const summary = document.getElementById("inspectorSummary");
       const link = document.getElementById("inspectorLink");
-      if (!title || !node) return;
+      const deselectBtn = document.getElementById("inspectorDeselectBtn");
+      if (!title) return;
 
-      title.textContent = node.label;
-      type.textContent = `${node.type.toUpperCase()} NODE`;
-      summary.textContent = node.summary || "No summary provided.";
-      if (node.url) {
-        link.href = node.url;
-        link.style.display = "inline-flex";
+      if (node) {
+        title.textContent = node.label;
+        type.textContent = `${node.type.toUpperCase()} NODE`;
+        summary.textContent = node.summary || "No summary provided.";
+        if (node.url) {
+          link.href = node.url;
+          link.style.display = "inline-flex";
+        } else {
+          link.style.display = "none";
+        }
+        if (deselectBtn) deselectBtn.style.display = "inline-block";
+      } else {
+        title.textContent = "Select a node";
+        type.textContent = "Click any node in the map to view connections.";
+        summary.textContent = "";
+        link.style.display = "none";
+        if (deselectBtn) deselectBtn.style.display = "none";
       }
+    }
+
+    const deselectBtn = document.getElementById("inspectorDeselectBtn");
+    if (deselectBtn) {
+      deselectBtn.addEventListener("click", () => {
+        selectedNode = null;
+        updateInspector(null);
+      });
     }
 
     canvas.addEventListener("mousemove", (e) => {
@@ -333,30 +451,87 @@ const graphNodes = [
       for (const n of nodes) {
         const dx = n.x - pos.x;
         const dy = n.y - pos.y;
-        if (Math.sqrt(dx * dx + dy * dy) < n.radius + 4) {
+        if (Math.sqrt(dx * dx + dy * dy) < n.radius + 8) {
           found = n;
           break;
         }
       }
       hoveredNode = found;
+      canvas.style.cursor = found ? "pointer" : (draggedNode ? "grabbing" : "grab");
+
       if (draggedNode) {
         draggedNode.x = pos.x;
         draggedNode.y = pos.y;
       }
     });
 
+    canvas.addEventListener("mouseleave", () => {
+      hoveredNode = null;
+      if (!selectedNode) {
+        canvas.style.cursor = "grab";
+      }
+    });
+
     canvas.addEventListener("mousedown", (e) => {
       const pos = getMousePos(e);
+      let clickedNode = null;
       for (const n of nodes) {
         const dx = n.x - pos.x;
         const dy = n.y - pos.y;
-        if (Math.sqrt(dx * dx + dy * dy) < n.radius + 4) {
-          draggedNode = n;
-          selectedNode = n;
-          updateInspector(n);
+        if (Math.sqrt(dx * dx + dy * dy) < n.radius + 8) {
+          clickedNode = n;
           break;
         }
       }
+      if (clickedNode) {
+        draggedNode = clickedNode;
+        selectedNode = clickedNode;
+        updateInspector(clickedNode);
+      } else {
+        // Clicking empty space deselects
+        selectedNode = null;
+        updateInspector(null);
+      }
+    });
+
+    // Touch support for mobile devices
+    canvas.addEventListener("touchstart", (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      const touch = e.touches[0];
+      const r = canvas.getBoundingClientRect();
+      const pos = { x: touch.clientX - r.left, y: touch.clientY - r.top };
+      let clickedNode = null;
+      for (const n of nodes) {
+        const dx = n.x - pos.x;
+        const dy = n.y - pos.y;
+        if (Math.sqrt(dx * dx + dy * dy) < n.radius + 12) {
+          clickedNode = n;
+          break;
+        }
+      }
+      if (clickedNode) {
+        draggedNode = clickedNode;
+        selectedNode = clickedNode;
+        updateInspector(clickedNode);
+        e.preventDefault();
+      } else {
+        selectedNode = null;
+        updateInspector(null);
+      }
+    }, { passive: false });
+
+    canvas.addEventListener("touchmove", (e) => {
+      if (draggedNode && e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        const r = canvas.getBoundingClientRect();
+        draggedNode.x = touch.clientX - r.left;
+        draggedNode.y = touch.clientY - r.top;
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    canvas.addEventListener("touchend", () => {
+      draggedNode = null;
     });
 
     window.addEventListener("mouseup", () => {
