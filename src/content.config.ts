@@ -1,4 +1,5 @@
-import { defineCollection, reference, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 const base = (dir: string) =>
@@ -42,8 +43,8 @@ const projects = defineCollection({
     title: z.string(),
     summary: z.string(),
     status: z.enum(["active", "maintained", "archived", "concept"]).default("active"),
-    repo: z.string().url().optional(),
-    url: z.string().url().optional(),
+    repo: z.string().optional(),
+    url: z.string().optional(),
     tech: z.array(z.string()).default([]),
     topics: z.array(z.string()).default([]),
     featured: z.boolean().default(false),

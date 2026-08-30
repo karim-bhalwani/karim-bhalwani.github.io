@@ -2,12 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostCard from "../components/PostCard.astro";
 import MiniGraph from "../components/graph/MiniGraph.astro";
+import { getPublishedPosts } from "../utils/posts";
 import { getCollection } from "astro:content";
 
-const allPosts = await getCollection("posts", ({ data }) => !data.draft);
-const sortedPosts = allPosts.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+const sortedPosts = await getPublishedPosts();
+const allPosts = sortedPosts;
 const recentPosts = sortedPosts.slice(0, 5);
 const topics = await getCollection("topics");
 ---

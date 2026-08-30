@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedPosts } from "../../utils/posts";
 import { getCollection } from "astro:content";
 
 const topics = await getCollection("topics");
-const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const allPosts = await getPublishedPosts();
 
 const topicCards = topics.map((topic) => {
   const topicPosts = allPosts

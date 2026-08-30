@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import { getPublishedPosts } from "../../utils/posts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostCard from "../../components/PostCard.astro";
 
@@ -16,7 +17,7 @@ const { data } = topic;
 const { Content } = await render(topic);
 
 const allTopics = await getCollection("topics");
-const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const allPosts = await getPublishedPosts();
 
 // Match posts that connect to this topic
 const relatedPosts = allPosts
@@ -29,7 +30,7 @@ const relatedPosts = allPosts
 // Related topic hubs
 const relatedHubs = (data.related || [])
   .map((relId) => allTopics.find((t) => t.id === relId))
-  .filter(Boolean);
+  .filter((t): t is NonNullable<typeof t> => Boolean(t));
 ---
 
 <BaseLayout title={`${data.title} | Topics | Karim Bhalwani`} description={data.summary}>

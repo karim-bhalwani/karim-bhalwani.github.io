@@ -1,12 +1,9 @@
 import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
+import { getPublishedPosts } from "../utils/posts";
 import type { APIContext } from "astro";
 
 export async function GET(context: APIContext) {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
-  const sorted = posts.sort(
-    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-  );
+  const sorted = await getPublishedPosts();
 
   return rss({
     title: "Karim Bhalwani — Writing",
