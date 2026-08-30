@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI Agents Get the Hype. Hooks Get the Job Done."
-date: 2026-09-08 09:00:00 -0500
+date: 2026-09-05 09:00:00 -0500
 reading_time: 8
 categories: AI systems engineering
 tags:
