@@ -154,7 +154,7 @@ The other pattern that prevents runaway execution: if the same operation fails t
 
 When you scale from one agent to twelve, the instinct is to let them communicate freely. A mesh. Sounds collaborative. In practice it is a coordination catastrophe.
 
-DeepMind's research on multi-agent systems (December 2025), which I unpacked in [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/), showed that peer-to-peer meshes degrade performance by 39-70% on sequential tasks and amplify errors up to 17x compared to centralized coordination. With twelve agents, a free mesh creates 66 possible communication pathways. Every pathway is a potential error propagation channel.
+DeepMind's research on multi-agent systems (December 2025), which I unpacked in [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved), showed that peer-to-peer meshes degrade performance by 39-70% on sequential tasks and amplify errors up to 17x compared to centralized coordination. With twelve agents, a free mesh creates 66 possible communication pathways. Every pathway is a potential error propagation channel.
 
 A linear pipeline constrains coordination to a bounded surface.
 
@@ -188,7 +188,7 @@ A linear pipeline with clear artifact ownership makes this structurally impossib
 
 This is the ingredient most harnesses skip, and it is the one that determines whether your system is reliable or just fast.
 
-In [Code Got Cheap](https://karim-bhalwani.github.io/ai/systems/engineering/2026/04/03/code-got-cheap/), I argued that verification ability, not generation velocity, is the new scarcity. That claim applies to agents as much as it does to engineers.
+In [Code Got Cheap](/writing/2026-04-03-code-got-cheap), I argued that verification ability, not generation velocity, is the new scarcity. That claim applies to agents as much as it does to engineers.
 
 The insight borrows from machine learning. You never evaluate a model on its own training data. The same principle applies to agent systems: the entity writing acceptance criteria should be structurally different from the entity implementing the feature.
 
@@ -261,7 +261,7 @@ None of this is free. Tiered context files need authoring. Skills need scoping. 
 
 These are the right costs. You are trading early velocity for compounding reliability.
 
-This connects to what I wrote in [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/): Agent Skills encode *how* work gets done. The harness is the system that loads those skills, manages the memory they operate within, and enforces the boundaries they define. Skills are the contracts. The harness is the runtime.
+This connects to what I wrote in [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems): Agent Skills encode *how* work gets done. The harness is the system that loads those skills, manages the memory they operate within, and enforces the boundaries they define. Skills are the contracts. The harness is the runtime.
 
 The model will keep improving. That is a given. The question that determines whether your agents actually work in production is not "which model are you using?" It is "what did you build around it?"
 
@@ -278,7 +278,7 @@ The model will keep improving. That is a given. The question that determines whe
 * **Harness Engineering. Leveraging Codex in an Agent-First World**: [OpenAI](https://openai.com/index/harness-engineering/). Repository as system of record, progressive disclosure, and mechanical enforcement of architecture
 * **Building Effective Agents**: [Anthropic Engineering](https://www.anthropic.com/engineering/building-effective-agents). Foundational patterns for agentic system design
 * **Cognitive Architectures for Language Agents (CoALA)**: [arXiv:2309.02427](https://arxiv.org/abs/2309.02427). Foundational framework for agent memory, action spaces, and decision procedures
-* **Related posts**: [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/). [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/). [Code Got Cheap](https://karim-bhalwani.github.io/ai/systems/engineering/2026/04/03/code-got-cheap/)
+* **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems). [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved). [Code Got Cheap](/writing/2026-04-03-code-got-cheap)
 
 ---
 

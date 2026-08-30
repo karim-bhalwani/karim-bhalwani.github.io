@@ -10,7 +10,7 @@ excerpt: "Standard PII redaction tools destroy clinical utility. Learn how conte
 topics: [data-systems]
 ---
 
-![Context-Aware Redaction Hero](/assets/context-aware-redactor/main.png){: .img-hero }
+![Context-Aware Redaction Hero](/assets/context-aware-redactor/main.png)
 
 When it comes to performing clinical research, evaluating insurance claims, or analyzing hundreds of pages of medical records, the biggest hurdle isn't the data volume, it's the **privacy**.
 

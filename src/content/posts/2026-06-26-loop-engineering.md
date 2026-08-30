@@ -22,7 +22,7 @@ That is loop engineering, and it moves the human further out than I thought.
 
 ## The Framing That Is Already Incomplete
 
-In [The Human Was Always the Next Ceiling](https://karim-bhalwani.github.io/ai/systems/engineering/2026/06/14/human-ceiling/), I argued for human-above-the-loop. Define the goal, set the boundaries, let the agent run, check the log after. Get the human out of the middle and onto the edges.
+In [The Human Was Always the Next Ceiling](/writing/2026-06-14-human-ceiling), I argued for human-above-the-loop. Define the goal, set the boundaries, let the agent run, check the log after. Get the human out of the middle and onto the edges.
 
 It already looks incomplete.
 
@@ -58,9 +58,9 @@ A trigger. A goal. And something watching the loop while it runs.
 
 The trigger decides what is worth waking the agent for. Get this wrong and the loop fires on noise, all day, for nothing.
 
-The goal is the hard one. "Build the feature" is not a goal, it is a wish. "The spec is implemented, new code is tested, the existing suite still passes, no new type errors" is a goal, because a model can check every clause of it. Vague goals do not fail loudly. They just run forever, quietly, on your token budget. This is the same discipline I wrote about in [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/): encoded constraints, not real-time supervision, are how reliable agents get built. Loop engineering extends that insight from a single agent run to a system that runs itself.
+The goal is the hard one. "Build the feature" is not a goal, it is a wish. "The spec is implemented, new code is tested, the existing suite still passes, no new type errors" is a goal, because a model can check every clause of it. Vague goals do not fail loudly. They just run forever, quietly, on your token budget. This is the same discipline I wrote about in [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems): encoded constraints, not real-time supervision, are how reliable agents get built. Loop engineering extends that insight from a single agent run to a system that runs itself.
 
-The third part is the one nobody enjoys building: iteration caps, token budgets, no-progress detection, a hard stop before anything irreversible. I wrote about this layer in [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/). Skip it and one bad tool call turns into a five-thousand-dollar afternoon. This has actually happened. More than once.
+The third part is the one nobody enjoys building: iteration caps, token budgets, no-progress detection, a hard stop before anything irreversible. I wrote about this layer in [Building the Control Layer](/writing/2026-04-26-building-the-control-layer). Skip it and one bad tool call turns into a five-thousand-dollar afternoon. This has actually happened. More than once.
 
 **The loop is not the hard part. Specifying it so it stops is.**
 
@@ -86,13 +86,13 @@ It is not cheap yet. A single agent burns roughly four times the tokens of a nor
 
 ## The Job, Restated
 
-In [Three People. Ten Agents. Zero Sprints.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/19/three-people-ten-agents-zero-sprints/), three people with ten agents shipped what a twelve-person team shipped in two weeks. That was about fleet management.
+In [Three People. Ten Agents. Zero Sprints.](/writing/2026-03-19-three-people-ten-agents-zero-sprints), three people with ten agents shipped what a twelve-person team shipped in two weeks. That was about fleet management.
 
 This is what running that fleet actually means day to day. Not directing each agent through its task. Designing the loop it runs in, writing a goal precise enough for a model to grade, and building the memory that keeps the same mistake from happening twice.
 
 It is still engineering. Maybe more of it than before. You used to need good judgment to write good code. Now you need it to define what "correct" even means, before anything runs.
 
-The factory floor analogy from [The Session Was Always the Ceiling](https://karim-bhalwani.github.io/ai/systems/engineering/2026/05/29/session-ceiling/) still holds. But the human's role has clarified. You are not the floor supervisor signing off on each part coming off the line. You are the one who built the line, set the tolerances, and decided what a defect looks like. Then you stepped back.
+The factory floor analogy from [The Session Was Always the Ceiling](/writing/2026-05-29-session-ceiling) still holds. But the human's role has clarified. You are not the floor supervisor signing off on each part coming off the line. You are the one who built the line, set the tolerances, and decided what a defect looks like. Then you stepped back.
 
 **Nobody prompts anymore. They build what does the prompting.**
 
@@ -102,10 +102,10 @@ The factory floor analogy from [The Session Was Always the Ceiling](https://kari
 
 - [Agentic Loops: From ReAct to Loop Engineering (Data Science Dojo)](https://datasciencedojo.com/blog/agentic-loops-explained-from-react-to-loop-engineering-2026-guide/). The clearest current breakdown of how the term came together.
 - [Loop Engineering thread by Peter Steinberger (@steipete)](https://x.com/steipete/status/2063697162748260627). The post that started this.
-- Related post: [The Human Was Always the Next Ceiling.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/06/14/human-ceiling/)
-- Related post: [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/)
-- Related post: [Procedure Over Intelligence: Building Reliable AI Systems](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/)
-- Related post: [The Session Was Always the Ceiling.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/05/29/session-ceiling/)
-- Related post: [Three People. Ten Agents. Zero Sprints.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/19/three-people-ten-agents-zero-sprints/)
+- Related post: [The Human Was Always the Next Ceiling.](/writing/2026-06-14-human-ceiling)
+- Related post: [Building the Control Layer](/writing/2026-04-26-building-the-control-layer)
+- Related post: [Procedure Over Intelligence: Building Reliable AI Systems](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems)
+- Related post: [The Session Was Always the Ceiling.](/writing/2026-05-29-session-ceiling)
+- Related post: [Three People. Ten Agents. Zero Sprints.](/writing/2026-03-19-three-people-ten-agents-zero-sprints)
 
 ---

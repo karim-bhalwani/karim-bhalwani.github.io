@@ -32,7 +32,7 @@ The model was not the problem. The default was.
 
 ## The Harness Has a Blind Spot
 
-In [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/), I wrote about the infrastructure around the model. The harness manages context, routes tools, enforces boundaries, and persists state between sessions. The model just generates tokens. The harness is the system.
+In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer), I wrote about the infrastructure around the model. The harness manages context, routes tools, enforces boundaries, and persists state between sessions. The model just generates tokens. The harness is the system.
 
 That is still true. But there is a quiet assumption buried in most harness implementations: all token generation goes to the same place. One frontier API call per task, regardless of what the task actually is.
 
@@ -158,7 +158,7 @@ The hospital analogy holds all the way down. You staff for the work you actually
 * [llama.cpp: CPU and GPU Inference for Open Models](https://github.com/ggerganov/llama.cpp)
 * [Google Gemma: Edge and Mobile Models](https://ai.google.dev/gemma)
 * [Microsoft Phi: Small Language Model Research](https://azure.microsoft.com/en-us/products/phi)
-* Related post: [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/)
-* Related post: [Code Got Cheap. Judgment Did Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/04/03/code-got-cheap/)
+* Related post: [Building the Control Layer](/writing/2026-04-26-building-the-control-layer)
+* Related post: [Code Got Cheap. Judgment Did Not.](/writing/2026-04-03-code-got-cheap)
 
 ---

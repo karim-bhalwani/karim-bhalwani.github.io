@@ -10,7 +10,7 @@ excerpt: "Intelligence without systematic workflows is just noise. Learn how Age
 topics: [agent-harness, ai-verification]
 ---
 
-![Procedure Over Intelligence Hero](/assets/procedure-over-intelligence/hero-main-1.png){: .img-hero }
+![Procedure Over Intelligence Hero](/assets/procedure-over-intelligence/hero-main-1.png)
 
 You've probably seen this: an AI agent scaffolds an entire data pipeline in twenty minutes. Impressive. Then the same agent, with the same context, generates a pipeline that violates data retention policy. It aggregates transaction data before month-end close. It skips the security review gate. It produces exactly the kind of code that costs someone hours to fix later.
 

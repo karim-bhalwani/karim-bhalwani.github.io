@@ -10,10 +10,10 @@ excerpt: "MIT's Recursive Language Models reframe long-context reasoning. Instea
 topics: [ai-verification, token-economics]
 ---
 
-![MIT Recursive Language Models Hero](/assets/mit-gave-the-model/hero-main.png){: .img-hero }
+![MIT Recursive Language Models Hero](/assets/mit-gave-the-model/hero-main.png)
 
 
-In my [last post](https://karim-bhalwani.github.io/ai/rag/document-intelligence/2026/02/07/beyond-million-token-window/), I argued that context capacity and context intelligence are not the same thing. A million-token window doesn't solve multi-hop reasoning. It just makes the failure modes more expensive. The fix was architectural: hierarchical navigation, scratchpad routing, cache-augmented generation. Build a system that reads documents the way a human expert does.
+In my [last post](/writing/2026-02-07-beyond-million-token-window), I argued that context capacity and context intelligence are not the same thing. A million-token window doesn't solve multi-hop reasoning. It just makes the failure modes more expensive. The fix was architectural: hierarchical navigation, scratchpad routing, cache-augmented generation. Build a system that reads documents the way a human expert does.
 
 That framework works. But it assumes the decomposition strategy is designed in advance. You define the tree structure. You write the routing logic. You decide how chunks relate to each other.
 

@@ -22,7 +22,7 @@ The agent was not slow. The approval loop was.
 
 ---
 
-In [The Session Was Always the Ceiling](https://karim-bhalwani.github.io/ai/systems/engineering/2026/05/29/session-ceiling/), I wrote about the boundary nobody saw. Local agents stop when the lid closes. The fix was to move execution off the session and into the cloud.
+In [The Session Was Always the Ceiling](/writing/2026-05-29-session-ceiling), I wrote about the boundary nobody saw. Local agents stop when the lid closes. The fix was to move execution off the session and into the cloud.
 
 That removed one ceiling. There is another one directly above it.
 
@@ -112,7 +112,7 @@ Removing humans from the middle of the loop is not the same as removing them fro
 
 There are three places a human still belongs.
 
-**Upstream, in specification.** Before any agent runs, someone defines the goal, the constraints, the success criteria, and the boundaries. This is irreducibly human work. The agent cannot decide what the business actually wants. It can only decide how to get there once told. The quality of the run is bounded by the quality of the spec, the same way it is bounded by the quality of the prompt. I wrote about this in [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/). Encoded constraints, not real-time supervision, are how reliable agents get built.
+**Upstream, in specification.** Before any agent runs, someone defines the goal, the constraints, the success criteria, and the boundaries. This is irreducibly human work. The agent cannot decide what the business actually wants. It can only decide how to get there once told. The quality of the run is bounded by the quality of the spec, the same way it is bounded by the quality of the prompt. I wrote about this in [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems). Encoded constraints, not real-time supervision, are how reliable agents get built.
 
 **At the edges, on escalation.** Some decisions genuinely require human judgment. Novel situations the agent has not seen. Reputational risk. Legal exposure. Cases where the system explicitly cannot decide and should not pretend to. The system should be designed to recognize these cases and surface them with full context. Not every event. Not every approval. The handful that actually warrant a human.
 
@@ -136,7 +136,7 @@ What is the cost of being wrong, and is it recoverable? Reversible decisions can
 
 Where does the agent know it does not know? A well-built agent has explicit uncertainty. It can flag when the request falls outside its training, when tool calls return ambiguous data, when the confidence is low. Those are the escalation points. Everything else runs through.
 
-The pattern is the same one [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/) pointed at. The harness decides what the agent can do, what it must escalate, what it logs, and what it owns. The human appears in the harness's design, not in every one of its runs.
+The pattern is the same one [Building the Control Layer](/writing/2026-04-26-building-the-control-layer) pointed at. The harness decides what the agent can do, what it must escalate, what it logs, and what it owns. The human appears in the harness's design, not in every one of its runs.
 
 **The default should be autonomous. The exception should be human.**
 
@@ -164,9 +164,9 @@ Stop asking how to make humans faster. They will not get faster. Start asking wh
 
 * [Task-Completion Time Horizons of Frontier AI Models (METR)](https://metr.org/time-horizons/)
 * [The Future of AI Agents Is Event-Driven (Confluent)](https://www.confluent.io/blog/the-future-of-ai-agents-is-event-driven/)
-* Related post: [The Session Was Always the Ceiling.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/05/29/session-ceiling/)
-* Related post: [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/)
-* Related post: [Procedure Over Intelligence: Building Reliable AI Systems](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/)
-* Related post: [The Bottleneck Moved. Most Teams Have Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/)
+* Related post: [The Session Was Always the Ceiling.](/writing/2026-05-29-session-ceiling)
+* Related post: [Building the Control Layer](/writing/2026-04-26-building-the-control-layer)
+* Related post: [Procedure Over Intelligence: Building Reliable AI Systems](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems)
+* Related post: [The Bottleneck Moved. Most Teams Have Not.](/writing/2026-03-01-the-bottleneck-moved)
 
 ---

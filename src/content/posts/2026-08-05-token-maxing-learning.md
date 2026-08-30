@@ -124,7 +124,7 @@ The first pattern builds scaffolding. It is fast and it looks impressive from th
 
 ## The Knowledge That Survives
 
-In [Stop Renting the Intelligence](https://karim-bhalwani.github.io/ai/systems/engineering/2026/07/19/stop-renting-the-intelligence/), I wrote that a fine-tuned model pushes organizational knowledge one layer deeper. The expertise is not in the prompt. It is in the weights.
+In [Stop Renting the Intelligence](/writing/2026-07-19-stop-renting-the-intelligence), I wrote that a fine-tuned model pushes organizational knowledge one layer deeper. The expertise is not in the prompt. It is in the weights.
 
 The same idea holds even if you are still on frontier APIs.
 
@@ -132,7 +132,7 @@ A developer who maxed tokens on one model learned prompt patterns that work with
 
 A team that learned which problems actually need frontier intelligence, and built that decision into a router, put the knowledge in the architecture. The next engineer inherits it by default. The routing logic explains itself. Nobody has to remember.
 
-This is the same thread running through the whole series. In [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/), encoded constraints beat real-time supervision. In [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/), the harness around the model is the system. In [Loop Engineering](https://karim-bhalwani.github.io/ai/systems/engineering/2026/06/26/loop-engineering/), nobody prompts anymore, they build the thing that prompts.
+This is the same thread running through the whole series. In [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems), encoded constraints beat real-time supervision. In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer), the harness around the model is the system. In [Loop Engineering](/writing/2026-06-26-loop-engineering), nobody prompts anymore, they build the thing that prompts.
 
 Same instruction every time. Stop holding the knowledge in your hands. Put it in the building.
 
@@ -188,8 +188,8 @@ Not much, though.
 - [AI Model Token Pricing Breakdown: 2026 Guide](https://blog.exceeds.ai/ai-model-token-pricing-breakdown/). Why agentic sessions inflate bills quadratically, and what to do about it.
 - [AI Cost Optimization: Cut LLM and Infrastructure Costs (Alice Labs)](https://alicelabs.ai/en/insights/ai-cost-optimization). An enterprise framework for model tiering and AI FinOps governance.
 - [Gartner: AI Coding Costs Will Surpass Average Developer Salary by 2028](https://www.gartner.com/en/newsroom/press-releases/2026-06-24-gartner-predicts-ai-coding-costs-will-surpass-average-developer-salary-by-2028-as-token-consumption-surges). The forecast behind the urgency.
-- Related post: [Stop Renting the Intelligence.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/07/19/stop-renting-the-intelligence/)
-- Related post: [You're Not Above the Loop. You're Building It.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/06/26/loop-engineering/)
-- Related post: [The Human Was Always the Next Ceiling.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/06/14/human-ceiling/)
+- Related post: [Stop Renting the Intelligence.](/writing/2026-07-19-stop-renting-the-intelligence)
+- Related post: [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering)
+- Related post: [The Human Was Always the Next Ceiling.](/writing/2026-06-14-human-ceiling)
 
 ---

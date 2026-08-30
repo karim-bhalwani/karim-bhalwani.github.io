@@ -30,7 +30,7 @@ Most teams hit the same wall. They just hit it at different speeds.
 
 The agent works. The pull request lands. You feel the leverage and want more of it. So you run another agent. Then two more. The machine stays on all day, the session stays open, and at some point you realize the constraint did not move. It just became invisible.
 
-In [The Bottleneck Moved. Most Teams Have Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/), I wrote about where the constraint shifted: from writing code to knowing what to build and reviewing what agents wrote. That still holds. There is a layer underneath it that deserves its own examination.
+In [The Bottleneck Moved. Most Teams Have Not.](/writing/2026-03-01-the-bottleneck-moved), I wrote about where the constraint shifted: from writing code to knowing what to build and reviewing what agents wrote. That still holds. There is a layer underneath it that deserves its own examination.
 
 Agents running on laptops are a false summit.
 
@@ -108,7 +108,7 @@ These are not nice-to-haves. They are the difference between agents that help on
 
 ## The Harness Is Still the System
 
-In [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/), I wrote that the model is not the system. The harness around it, managing context, routing tools, enforcing boundaries, persisting state, is the system.
+In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer), I wrote that the model is not the system. The harness around it, managing context, routing tools, enforcing boundaries, persisting state, is the system.
 
 Background agents do not change that. They extend it.
 
@@ -191,8 +191,8 @@ Now you know the answer. The harder question is whether you build around it.
 * [Ramp: Why We Built Our Background Agent](https://builders.ramp.com/post/why-we-built-our-background-agent)
 * [Harvey: Building Spectre](https://www.harvey.ai/blog/building-spectre-internal-collaborative-cloud-agent-platform)
 * [Ona: Engineering Leader's Guide to Background Agents](https://ona.com/guides/background-agents)
-* Related post: [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/)
-* Related post: [The Bottleneck Moved. Most Teams Have Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/)
-* Related post: [Route the Intelligence, Not Just the Context.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/05/10/route-the-intelligence/)
+* Related post: [Building the Control Layer](/writing/2026-04-26-building-the-control-layer)
+* Related post: [The Bottleneck Moved. Most Teams Have Not.](/writing/2026-03-01-the-bottleneck-moved)
+* Related post: [Route the Intelligence, Not Just the Context.](/writing/2026-05-10-route-the-intelligence)
 
 ---

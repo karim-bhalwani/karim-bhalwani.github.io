@@ -26,7 +26,7 @@ In a three-person team, there are 3 pathways. Alignment is the default state.
 
 For two decades, the tradeoff was tolerable. More humans meant more capacity. Communication overhead was the price of admission. That equation broke. When agents handle execution, every human you add past the coordination threshold does not increase output. It increases the overhead required to keep output coherent.
 
-My last two posts built toward this. [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) argued that specification, not execution, is the new scarcity. [The Agents Work. The Organization Does Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/) argued that no amount of AI tooling matters if the organization itself is not rebuilt around how agents actually work.
+My last two posts built toward this. [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved) argued that specification, not execution, is the new scarcity. [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not) argued that no amount of AI tooling matters if the organization itself is not rebuilt around how agents actually work.
 
 This post closes the arc. If specification is the bottleneck and the organization must change, then the atomic unit of change is the team. This is what the redesigned team actually looks like.
 
@@ -62,7 +62,7 @@ AI makes generating code, content, and designs nearly free. A model produces ten
 
 This fixation leads to structural mistakes that compound.
 
-The bottleneck was never volume. I argued in [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) that "organizations that cannot specify with precision will build the wrong things at unprecedented speed." The same principle applies to team design. Optimizing your team for maximum output is optimizing for the wrong variable.
+The bottleneck was never volume. I argued in [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved) that "organizations that cannot specify with precision will build the wrong things at unprecedented speed." The same principle applies to team design. Optimizing your team for maximum output is optimizing for the wrong variable.
 
 The research supports this consistently. When AI extends each person's competence into adjacent domains, functional silos collapse. An engineer reasons about product strategy. A product manager prototypes data models. The boundaries that justified ten specialists in ten narrow lanes dissolve, because AI fills the gap between what someone knows deeply and what they need to understand well enough to specify.
 
@@ -72,7 +72,7 @@ This is the mechanism that makes small crews viable. Three senior people using A
 
 Verification is the catch. Every piece of AI-generated output requires human judgment to validate. In a three-person team, the verification load distributes across a coherent shared context. Everyone knows what right looks like because everyone holds the same mental model. In a twelve-person team, AI output multiplies by another factor of four, but the shared context degrades. So the team schedules meetings to synchronize. Those meetings generate more decisions, more AI tasks, more output to verify, more meetings. Machine-speed output meets human-speed review. Contradictory plans proliferate. Confident-looking code accumulates.
 
-A team of three can maintain a coherent specification: a shared definition of what they are building, why, and what "right" looks like. A team of twelve cannot. The specification fractures into sub-interpretations that drift apart, resynchronized only through meetings. When agents execute against fractured specifications, the output looks productive but does not cohere. This is the failure mode I described in [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/): building the wrong things at unprecedented speed.
+A team of three can maintain a coherent specification: a shared definition of what they are building, why, and what "right" looks like. A team of twelve cannot. The specification fractures into sub-interpretations that drift apart, resynchronized only through meetings. When agents execute against fractured specifications, the output looks productive but does not cohere. This is the failure mode I described in [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved): building the wrong things at unprecedented speed.
 
 **Specification coherence is the scarce resource. Small teams maintain it. Large teams lose it.**
 
@@ -128,7 +128,7 @@ A spec has four layers.
 
 **Steering.** Persistent rules and conventions, security standards, naming patterns, test coverage thresholds, that every agent inherits automatically.
 
-This is what I built toward in [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/). Agent Skills encode the how. Specs encode the what. Together, they replace the conversation that Agile ceremonies used to provide. Except the conversation happens once, in writing, and every agent executes from the same source of truth.
+This is what I built toward in [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems). Agent Skills encode the how. Specs encode the what. Together, they replace the conversation that Agile ceremonies used to provide. Except the conversation happens once, in writing, and every agent executes from the same source of truth.
 
 By the time instructions reach the agent, they are precise enough to produce production-ready code with 90% first-run success. If the output is wrong, you refine the spec and regenerate. You do not debug the code. You debug the intent.
 
@@ -170,11 +170,11 @@ Roles that used to require separate specialists, product marketing, UI/UX, techn
 
 Engineers shift from writing code to reviewing architecture. From syntax to systems thinking. The demand is not for more developers. It is for senior engineers who understand cross-cutting dependencies and can catch the subtle, compounding errors that AI-generated code quietly introduces.
 
-This echoes what I wrote in [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/): "The skills that compound from here are problem framing, task decomposition, and the ability to specify work clearly enough that a system can execute without hand-holding." The crew is composed of people who have those skills. Everyone else is either developing them or being replaced by an agent that does not need them.
+This echoes what I wrote in [The Agents Work](/writing/2026-03-13-the-agents-work-the-organization-does-not): "The skills that compound from here are problem framing, task decomposition, and the ability to specify work clearly enough that a system can execute without hand-holding." The crew is composed of people who have those skills. Everyone else is either developing them or being replaced by an agent that does not need them.
 
 There is a talent consequence that follows directly. In a three-person crew, every member's specification quality gets multiplied by agents. A weak specifier does not merely underperform. They introduce noise into the shared context. Their imprecise definitions propagate through agent-generated output, creating verification burdens on every other member. The strong performers spend their time diagnosing drift instead of building. The crew gets slower, not because it lacks capacity, but because the specification surface is contaminated.
 
-The hiring filter for a crew centers on specification ability. Can this person decompose a vague business problem into testable constraints without being handed a template? Do they reason about systems or about syntax? Do they know what "done" looks like well enough to write a holdout scenario that would catch an agent gaming its own tests? The skills that matter in a three-person crew are the same systems skills I described in [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/): problem framing, task decomposition, and the clarity to specify intent precisely enough that a system can execute reliably.
+The hiring filter for a crew centers on specification ability. Can this person decompose a vague business problem into testable constraints without being handed a template? Do they reason about systems or about syntax? Do they know what "done" looks like well enough to write a holdout scenario that would catch an agent gaming its own tests? The skills that matter in a three-person crew are the same systems skills I described in [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved): problem framing, task decomposition, and the clarity to specify intent precisely enough that a system can execute reliably.
 
 **The career that compounds from here is not "developer." It is "specifier who understands systems."**
 
@@ -184,7 +184,7 @@ The hiring filter for a crew centers on specification ability. Can this person d
 
 The executive conversation about AI and teams almost always reduces to cost. Same mission. Fewer bodies. Lower burn. This is the wrong frame, and it may be the most consequential strategic error an organization can make right now.
 
-In [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/), I argued that the winning organizations are the ones rebuilding their structure around agentic execution. The corollary nobody draws: if you rebuild the structure, you should also rebuild the mission. Otherwise you are redesigning the engine and driving the same route.
+In [The Agents Work](/writing/2026-03-13-the-agents-work-the-organization-does-not), I argued that the winning organizations are the ones rebuilding their structure around agentic execution. The corollary nobody draws: if you rebuild the structure, you should also rebuild the mission. Otherwise you are redesigning the engine and driving the same route.
 
 ![10x the Mission](/assets/zero-sprints/10x-mission.png)
 
@@ -202,9 +202,9 @@ Most leadership teams have not internalized this because their planning cycles, 
 
 Every post in this series has circled the same insight from a different angle.
 
-[The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) argued that specification is the new scarcity. That capability doubles every four months and the ability to define what capability should do is what separates teams that ship from teams that churn.
+[The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved) argued that specification is the new scarcity. That capability doubles every four months and the ability to define what capability should do is what separates teams that ship from teams that churn.
 
-[The Agents Work. The Organization Does Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/) argued that none of it matters if the organization itself is not rebuilt. You cannot bolt AI onto a broken org chart and expect the AI to fix the org chart.
+[The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not) argued that none of it matters if the organization itself is not rebuilt. You cannot bolt AI onto a broken org chart and expect the AI to fix the org chart.
 
 This post is the structural answer. The specification problem and the organization problem both resolve at the same unit: the team. A team small enough to hold shared context. Senior enough to specify with precision. Autonomous enough to ship without waiting for the ceremony.
 
@@ -229,6 +229,6 @@ They are not failing. They are succeeding at a game that already ended.
 - **Intellias AI Engineering**: [Achieving a 100% Boost with AI-Enabled Engineering](https://intellias.com/ai-enabled-engineering/)
 - **DORA 2025 Report**: [State of AI-Assisted Software Development](https://dora.dev/research/2025/dora-report/)
 - **Deloitte 2026 Report**: [State of AI in the Enterprise](https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html)
-- **Related posts**: [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/) · [Beyond the Million-Token Window](https://karim-bhalwani.github.io/ai/rag/document-intelligence/2026/02/07/beyond-million-token-window/) · [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) · [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/)
+- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [Beyond the Million-Token Window](/writing/2026-02-07-beyond-million-token-window) · [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved) · [The Agents Work](/writing/2026-03-13-the-agents-work-the-organization-does-not)
 
 ---

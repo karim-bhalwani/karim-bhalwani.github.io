@@ -112,7 +112,7 @@ Now imagine the model was fine-tuned on your actual codebase. On your documentat
 
 Every developer who uses that model inherits the organizational knowledge automatically. The naming convention is already there. The security pattern gets flagged before the PR opens. Nobody had to document it in a wiki that nobody reads.
 
-In [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/), I wrote about encoding expertise into systematic workflows. A fine-tuned model extends that one layer deeper. The expertise is not in the workflow around the model. It is in the model itself.
+In [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems), I wrote about encoding expertise into systematic workflows. A fine-tuned model extends that one layer deeper. The expertise is not in the workflow around the model. It is in the model itself.
 
 **The model becomes the mechanism for distributing standards, not a tool that ignores them.**
 
@@ -126,7 +126,7 @@ When you build applications on top of a rented frontier model, a question sits u
 
 The application code is yours. The data is yours. The business logic is yours. But the judgment that stitches it together at runtime belongs to a model you did not build and cannot version-control. The vendor can update that model without notice. The behavior your application depends on can shift between Monday and Tuesday. The alignment you validated in QA can disappear in a deployment you never triggered.
 
-In [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/), I argued that the harness around the model is the system. But when the model itself belongs to someone else, the harness controls what the model sees and does. It cannot control what the model _is_. The vendor can change the weights. The behavior drifts. The harness is governing a tenant it does not own.
+In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer), I argued that the harness around the model is the system. But when the model itself belongs to someone else, the harness controls what the model sees and does. It cannot control what the model _is_. The vendor can change the weights. The behavior drifts. The harness is governing a tenant it does not own.
 
 A fine-tuned open-weight model removes that dependency. The weights are frozen. They are version-controlled in your repository. Every adapter is tested, validated, and registered before it goes anywhere near production. The behavior is deterministic because you own the parameters.
 
@@ -166,7 +166,7 @@ Under PIPEDA, the organization is accountable for ensuring transferred data rece
 
 The deeper issue is consent. The patient consented to their physician reviewing their file. They did not consent to their medical history transiting a foreign data center, processed by a model they cannot inspect, under terms they were never shown. That gap, between what the individual agreed to and what the architecture actually does, is where the liability lives.
 
-In [Route the Intelligence, Not Just the Context](https://karim-bhalwani.github.io/ai/systems/engineering/2026/05/10/route-the-intelligence/), I wrote that the only data that cannot be breached is the data that never left. A privately hosted model closes the gap at the source. The data never crosses the border. No foreign jurisdiction. No consent gap.
+In [Route the Intelligence, Not Just the Context](/writing/2026-05-10-route-the-intelligence), I wrote that the only data that cannot be breached is the data that never left. A privately hosted model closes the gap at the source. The data never crosses the border. No foreign jurisdiction. No consent gap.
 
 This is not a compliance checkbox you add in v2. It is the architecture you choose before you build.
 
@@ -199,8 +199,8 @@ The lease was always temporary. The question was never whether you would move ou
 - [Google Gemma 4: Open-Weight Models](https://ai.google.dev/gemma)
 - [NVIDIA Nemotron: Enterprise AI Models](https://www.nvidia.com/en-us/ai-data-science/foundation-models/nemotron/)
 - [Thinking Machines Lab: Inkling](https://thinkingmachines.ai/inkling)
-- Related post: [Route the Intelligence, Not Just the Context.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/05/10/route-the-intelligence/)
-- Related post: [Building the Control Layer.](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/)
-- Related post: [Procedure Over Intelligence: Building Reliable AI Systems.](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/)
+- Related post: [Route the Intelligence, Not Just the Context.](/writing/2026-05-10-route-the-intelligence)
+- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
+- Related post: [Procedure Over Intelligence: Building Reliable AI Systems.](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems)
 
 ---

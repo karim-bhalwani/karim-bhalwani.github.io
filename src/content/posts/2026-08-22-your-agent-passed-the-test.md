@@ -106,7 +106,7 @@ An agent says, "I ran the full suite." That might be true. It's also just a sent
 
 A recorded exit code, a test count, a commit hash: those are different. The harness captured them. Someone else can check them. So don't ask the agent whether it ran the tests. Record the run. Don't accept "done" as the finished product. Require evidence that something outside the agent can reproduce.
 
-In [Building the Control Layer](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/), I argued the harness around the model is the real system. This is where that claim gets concrete. The harness doesn't just hand the agent tools. It writes down what actually happened.
+In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer), I argued the harness around the model is the real system. This is where that claim gets concrete. The harness doesn't just hand the agent tools. It writes down what actually happened.
 
 **Trust the recorded action, not the generated assurance.**
 
@@ -151,8 +151,8 @@ Now that an optimizer is the one answering, the questions matter more than they 
 - [Why SWE-bench Verified No Longer Measures Frontier Coding Capabilities](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/). OpenAI's own audit of a broken benchmark.
 - [On the Use of Agentic Coding: An Empirical Study of Pull Requests on GitHub](https://arxiv.org/abs/2509.14745). How much human revision agent-generated pull requests still need.
 - [Spring 2026 GenAI Code Security Update](https://www.veracode.com/blog/spring-2026-genai-code-security/). The gap between syntactically correct code and secure code.
-- Related post: [Code Got Cheap. Judgment Did Not.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/04/03/code-got-cheap/)
-- Related post: [Building the Control Layer.](https://karim-bhalwani.github.io/ai/systems/software-engineering/architecture/2026/04/26/building-the-control-layer/)
-- Related post: [You're Not Above the Loop. You're Building It.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/06/26/loop-engineering/)
+- Related post: [Code Got Cheap. Judgment Did Not.](/writing/2026-04-03-code-got-cheap)
+- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
+- Related post: [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering)
 
 ---

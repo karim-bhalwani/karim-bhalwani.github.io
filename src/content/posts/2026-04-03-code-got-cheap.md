@@ -152,6 +152,6 @@ The engineers who are most at risk are not the ones who write bad code. They are
 - **Vinext Case Study**: [How a Single Engineer Reimplemented Next.js in a Week](https://blog.cloudflare.com/vinext/)
 - **Spec-Driven Development**: [Understanding Spec-Driven Development — Martin Fowler](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
 - **Survival Analysis of Agent Code**: [Predictably Irrational Software Engineering, Medium](https://medium.com/jonathans-musings/predictably-irrational-software-engineering-613d7d3dfcf8)
-- **Related posts**: [Procedure Over Intelligence](https://karim-bhalwani.github.io/ai/systems/software-engineering/open-standards/2026/01/26/procedure-over-intelligence-building-reliable-ai-systems/) · [The Bottleneck Moved](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/01/the-bottleneck-moved/) · [The Agents Work](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/13/the-agents-work-the-organization-does-not/) · [Three People. Ten Agents. Zero Sprints.](https://karim-bhalwani.github.io/ai/systems/engineering/2026/03/19/three-people-ten-agents-zero-sprints/)
+- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved) · [The Agents Work](/writing/2026-03-13-the-agents-work-the-organization-does-not) · [Three People. Ten Agents. Zero Sprints.](/writing/2026-03-19-three-people-ten-agents-zero-sprints)
 
 ---

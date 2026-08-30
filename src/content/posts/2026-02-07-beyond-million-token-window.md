@@ -10,7 +10,7 @@ excerpt: "RAG defined system design in 2025. In 2026, million-token context wind
 topics: [token-economics, data-systems]
 ---
 
-![Beyond the Million-Token Window Hero](/assets/hierarchical-doc-intelligence/hero-main.png){: .img-hero }
+![Beyond the Million-Token Window Hero](/assets/hierarchical-doc-intelligence/hero-main.png)
 
 You've probably seen this pitch: "Model has a 1M token context window. Just dump your entire document in and ask questions."
 
