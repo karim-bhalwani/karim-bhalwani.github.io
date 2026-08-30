@@ -42,7 +42,7 @@ const categoryText = Array.isArray(categories) ? categories[0] : categories || "
     tags.length > 0 && (
       <div class="post-card__tags cluster" style="--cluster-gap: var(--space-3xs)">
         {tags.slice(0, 4).map((tag) => (
-          <Tag text={tag} />
+          <Tag text={tag} href={`/writing?tag=${encodeURIComponent(tag)}`} />
         ))}
       </div>
     )

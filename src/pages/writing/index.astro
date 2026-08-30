@@ -4,59 +4,123 @@ import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
 
 const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const topics = await getCollection("topics");
+
 const sortedPosts = allPosts.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
-// Collect unique tags, sorted
-const allTags = Array.from(new Set(allPosts.flatMap((p) => p.data.tags || []))).sort();
+// Collect unique tags with counts, sorted by frequency
+const tagCountMap: Record<string, number> = {};
+allPosts.forEach((p) => {
+  (p.data.tags || []).forEach((t: string) => {
+    tagCountMap[t] = (tagCountMap[t] || 0) + 1;
+  });
+});
 
-// Serialize posts for client-side filtering
-const postData = sortedPosts.map((p) => ({
-  id: p.id,
-  title: p.data.title,
-  date: p.data.date.toISOString(),
-  reading_time: p.data.reading_time,
-  excerpt: p.data.excerpt,
-  tags: p.data.tags || [],
-  categories: typeof p.data.categories === "string" ? [p.data.categories] : (p.data.categories || []),
-}));
+const sortedTags = Object.entries(tagCountMap)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  .map(([tag, count]) => ({ tag, count }));
 ---
 
 <BaseLayout
-  title="Writing & Essays - Karim Bhalwani"
-  description="All essays on AI systems engineering, agent execution loops, verification, context engineering, and multi-agent coordination."
+  title="Writing & Blog Posts - Karim Bhalwani"
+  description="All blog posts on AI systems engineering, agent execution loops, verification, context engineering, and multi-agent coordination."
 >
   <div class="container stack stack-l" style="margin-top: var(--space-xl)">
     <header class="stack stack-xs">
       <p class="kicker">Archive</p>
-      <h1>Writing & Essays</h1>
+      <h1>Writing & Blog Posts</h1>
       <p class="lead measure">
         Deep dives into AI systems engineering, agent execution loops, verification oracles, and the economics of intelligence.
       </p>
     </header>
 
-    <!-- Tag Filter Bar -->
-    <div class="tags-filter stack stack-2xs">
-      <div class="tags-filter__header">
-        <span class="filter-label">Filter by Tag</span>
-        <button id="clearFilter" class="clear-btn" style="display:none">Clear filter</button>
+    <!-- Interactive Filter Panel -->
+    <section class="filter-panel stack stack-s" aria-label="Filter blog posts">
+      <!-- Search Input -->
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Search posts by title, excerpt, or keyword..."
+          aria-label="Search posts"
+          autocomplete="off"
+        />
+        <button type="button" id="clearSearchBtn" class="search-clear-btn" style="display:none" title="Clear search">✕</button>
+        <kbd class="search-kbd" title="Press / to focus search">/</kbd>
       </div>
-      <div class="cluster" style="--cluster-gap: var(--space-3xs)" id="tagList">
-        {allTags.map((tag) => (
-          <button
-            class="tag-btn"
-            data-tag={tag}
-            type="button"
-          >{tag}</button>
-        ))}
-      </div>
-    </div>
 
-    <!-- Active filter indicator -->
-    <p class="filter-status" id="filterStatus" style="display:none">
-      Showing posts tagged: <strong id="activeTagLabel"></strong> &middot; <span id="filterCount"></span>
-    </p>
+      <div class="filter-divider"></div>
+
+      <!-- Topic Filter Tabs -->
+      <div class="filter-group stack stack-3xs">
+        <div class="filter-group__header">
+          <span class="filter-label">Filter by Topic Hub</span>
+        </div>
+        <div class="topic-tabs cluster" style="--cluster-gap: var(--space-3xs)">
+          <button
+            class="topic-tab active"
+            data-topic="all"
+            type="button"
+          >
+            All Posts <span class="tab-count">{sortedPosts.length}</span>
+          </button>
+          {
+            topics.map((t) => {
+              const topicPostCount = allPosts.filter((p) => (p.data.topics || []).includes(t.id)).length;
+              return (
+                <button
+                  class="topic-tab"
+                  data-topic={t.id}
+                  type="button"
+                >
+                  {t.data.title}
+                  <span class="tab-count">{topicPostCount}</span>
+                </button>
+              );
+            })
+          }
+        </div>
+      </div>
+
+      <div class="filter-divider"></div>
+
+      <!-- Tag Filter Pills -->
+      <div class="filter-group stack stack-3xs">
+        <div class="filter-group__header">
+          <span class="filter-label">Filter by Tag</span>
+          <button id="clearFilterBtn" class="clear-btn" style="display:none" type="button">
+            Clear Active Filter
+          </button>
+        </div>
+        <div class="cluster" style="--cluster-gap: var(--space-3xs)" id="tagList">
+          {
+            sortedTags.map(({ tag, count }) => (
+              <button
+                class="tag-btn"
+                data-tag={tag}
+                type="button"
+              >
+                <span class="tag-btn__label">{tag}</span>
+                <span class="tag-btn__count">{count}</span>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Active Filter Status Bar -->
+    <div class="filter-status-bar" id="filterStatusBar" style="display:none">
+      <span class="filter-status-text" id="filterStatusText"></span>
+      <button class="reset-link" id="statusResetBtn" type="button">Reset All Filters</button>
+    </div>
 
     <!-- Posts Listing -->
     <div class="stack stack-m" id="postList">
@@ -68,7 +132,10 @@ const postData = sortedPosts.map((p) => ({
           return (
             <article
               class="post-item"
+              data-title={post.data.title.toLowerCase()}
+              data-excerpt={(post.data.excerpt || "").toLowerCase()}
               data-tags={JSON.stringify(post.data.tags || [])}
+              data-topics={JSON.stringify(post.data.topics || [])}
             >
               <PostCard
                 title={post.data.title}
@@ -85,50 +152,158 @@ const postData = sortedPosts.map((p) => ({
       }
     </div>
 
-    <p class="no-results" id="noResults" style="display:none">
-      No posts found for this tag.
-    </p>
+    <!-- Empty State -->
+    <div class="no-results" id="noResults" style="display:none">
+      <p class="no-results__title">No matching posts found.</p>
+      <p class="muted">Try adjusting your search terms or resetting the active filters.</p>
+      <button class="btn btn--ghost" id="emptyResetBtn" type="button" style="margin-top: var(--space-s)">
+        Show All Posts
+      </button>
+    </div>
 
   </div>
 </BaseLayout>
 
 <style>
-  .tags-filter {
-    padding: var(--space-s);
+  .filter-panel {
+    padding: var(--space-s) var(--space-m);
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
   }
 
-  .tags-filter__header {
+  /* Search Box */
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: var(--space-xs);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.55rem 3.5rem 0.55rem 2.2rem;
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: all var(--transition-fast);
+  }
+
+  .search-input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--color-accent) 25%, transparent);
+  }
+
+  .search-kbd {
+    position: absolute;
+    right: var(--space-xs);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.1rem 0.35rem;
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  .search-clear-btn {
+    position: absolute;
+    right: 2.2rem;
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.2rem;
+  }
+
+  .search-clear-btn:hover {
+    color: var(--color-text);
+  }
+
+  .filter-group__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--space-2xs);
+    margin-bottom: var(--space-3xs);
   }
 
   .filter-label {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: var(--weight-semibold);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
     color: var(--color-text-muted);
   }
 
+  .filter-divider {
+    height: 1px;
+    background-color: var(--color-border-subtle);
+    margin-block: var(--space-2xs);
+  }
+
+  /* Topic Tabs */
+  .topic-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.28rem 0.65rem;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .topic-tab:hover {
+    border-color: var(--color-accent);
+    color: var(--color-text);
+  }
+
+  .topic-tab.active {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: var(--weight-semibold);
+  }
+
+  .tab-count {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    opacity: 0.75;
+  }
+
+  /* Tag Buttons */
   .tag-btn {
     display: inline-flex;
     align-items: center;
-    padding: 0.2em 0.65em;
+    gap: 0.35rem;
+    padding: 0.2rem 0.55rem;
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.73rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
     transition: all var(--transition-fast);
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
   .tag-btn:hover {
@@ -144,37 +319,76 @@ const postData = sortedPosts.map((p) => ({
     font-weight: var(--weight-semibold);
   }
 
+  .tag-btn__count {
+    font-size: 0.68rem;
+    opacity: 0.7;
+  }
+
+  .tag-btn.active .tag-btn__count {
+    opacity: 0.9;
+  }
+
   .clear-btn {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    padding: 0.15em 0.5em;
+    font-size: 0.72rem;
+    padding: 0.15rem 0.5rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     background: transparent;
-    color: var(--color-text-muted);
+    color: var(--color-accent);
     cursor: pointer;
     transition: all var(--transition-fast);
   }
 
   .clear-btn:hover {
-    border-color: var(--color-text-secondary);
+    border-color: var(--color-accent);
+    background-color: color-mix(in oklch, var(--color-accent) 12%, transparent);
+  }
+
+  /* Status Bar */
+  .filter-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    padding: var(--space-2xs) var(--space-s);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .reset-link {
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+  }
+
+  .reset-link:hover {
     color: var(--color-text);
   }
 
-  .filter-status {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    padding: var(--space-2xs) var(--space-xs);
+  .no-results {
+    text-align: center;
+    padding: var(--space-xl) var(--space-m);
     background-color: var(--color-surface);
-    border-radius: var(--radius-sm);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
   }
 
-  .no-results {
-    font-family: var(--font-mono);
-    color: var(--color-text-muted);
-    text-align: center;
-    padding: var(--space-xl);
+  .no-results__title {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--color-text);
+    margin-bottom: var(--space-3xs);
   }
 
   .post-item[hidden] {
@@ -183,57 +397,167 @@ const postData = sortedPosts.map((p) => ({
 </style>
 
 <script>
-  function initTagFilter() {
+  function initWritingFilters() {
+    const searchInput = document.getElementById("searchInput") as HTMLInputElement;
+    const clearSearchBtn = document.getElementById("clearSearchBtn") as HTMLButtonElement;
+    const topicTabs = document.querySelectorAll<HTMLButtonElement>(".topic-tab");
     const tagBtns = document.querySelectorAll<HTMLButtonElement>(".tag-btn");
     const postItems = document.querySelectorAll<HTMLElement>(".post-item");
-    const clearBtn = document.getElementById("clearFilter") as HTMLButtonElement;
-    const filterStatus = document.getElementById("filterStatus") as HTMLElement;
-    const activeTagLabel = document.getElementById("activeTagLabel") as HTMLElement;
-    const filterCount = document.getElementById("filterCount") as HTMLElement;
+    const clearBtn = document.getElementById("clearFilterBtn") as HTMLButtonElement;
+    const filterStatusBar = document.getElementById("filterStatusBar") as HTMLElement;
+    const filterStatusText = document.getElementById("filterStatusText") as HTMLElement;
+    const statusResetBtn = document.getElementById("statusResetBtn") as HTMLButtonElement;
+    const emptyResetBtn = document.getElementById("emptyResetBtn") as HTMLButtonElement;
     const noResults = document.getElementById("noResults") as HTMLElement;
 
+    let activeTopic = "all";
     let activeTag: string | null = null;
+    let searchTerm = "";
 
-    function applyFilter(tag: string | null) {
-      activeTag = tag;
+    function applyFilter() {
       let visibleCount = 0;
+      const term = searchTerm.trim().toLowerCase();
+
+      if (clearSearchBtn) {
+        clearSearchBtn.style.display = term.length > 0 ? "inline-block" : "none";
+      }
 
       postItems.forEach((item) => {
-        const tags: string[] = JSON.parse(item.dataset.tags || "[]");
-        const visible = !tag || tags.includes(tag);
+        const itemTitle = item.dataset.title || "";
+        const itemExcerpt = item.dataset.excerpt || "";
+        const itemTags: string[] = JSON.parse(item.dataset.tags || "[]");
+        const itemTopics: string[] = JSON.parse(item.dataset.topics || "[]");
+
+        const matchesTopic = activeTopic === "all" || itemTopics.includes(activeTopic);
+        const matchesTag = !activeTag || itemTags.includes(activeTag);
+        const matchesSearch =
+          !term ||
+          itemTitle.includes(term) ||
+          itemExcerpt.includes(term) ||
+          itemTags.some((t) => t.toLowerCase().includes(term));
+
+        const visible = matchesTopic && matchesTag && matchesSearch;
         item.hidden = !visible;
         if (visible) visibleCount++;
       });
 
-      // Update UI
-      tagBtns.forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.tag === tag);
+      // Update Topic Tab styling
+      topicTabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.topic === activeTopic);
       });
 
-      if (tag) {
-        clearBtn.style.display = "inline-flex";
-        filterStatus.style.display = "block";
-        activeTagLabel.textContent = tag;
-        filterCount.textContent = `${visibleCount} post${visibleCount !== 1 ? "s" : ""}`;
-        noResults.style.display = visibleCount === 0 ? "block" : "none";
+      // Update Tag Button styling
+      tagBtns.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.tag === activeTag);
+      });
+
+      // Update Status UI
+      const hasFilter = activeTopic !== "all" || activeTag !== null || term.length > 0;
+      if (hasFilter) {
+        if (clearBtn) clearBtn.style.display = "inline-flex";
+        if (filterStatusBar) filterStatusBar.style.display = "flex";
+
+        let statusParts: string[] = [];
+        if (term) {
+          statusParts.push(`Search: "<strong>${term}</strong>"`);
+        }
+        if (activeTopic !== "all") {
+          const matchingTab = Array.from(topicTabs).find((t) => t.dataset.topic === activeTopic);
+          const topicLabel = matchingTab ? matchingTab.childNodes[0].textContent?.trim() : activeTopic;
+          statusParts.push(`Topic: <strong>${topicLabel}</strong>`);
+        }
+        if (activeTag) {
+          statusParts.push(`Tag: <strong>${activeTag}</strong>`);
+        }
+
+        if (filterStatusText) {
+          filterStatusText.innerHTML = `Showing ${visibleCount} post${visibleCount !== 1 ? "s" : ""} · ${statusParts.join(" &middot; ")}`;
+        }
       } else {
-        clearBtn.style.display = "none";
-        filterStatus.style.display = "none";
-        noResults.style.display = "none";
+        if (clearBtn) clearBtn.style.display = "none";
+        if (filterStatusBar) filterStatusBar.style.display = "none";
+      }
+
+      if (noResults) {
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
       }
     }
 
-    tagBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const tag = btn.dataset.tag || null;
-        // Toggle off if already active
-        applyFilter(activeTag === tag ? null : tag);
+    // Search input listener
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        searchTerm = (e.target as HTMLInputElement).value;
+        applyFilter();
+      });
+    }
+
+    if (clearSearchBtn && searchInput) {
+      clearSearchBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        searchTerm = "";
+        searchInput.focus();
+        applyFilter();
+      });
+    }
+
+    // Keyboard shortcut: '/' focuses search
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput?.focus();
+      } else if (e.key === "Escape" && document.activeElement === searchInput) {
+        searchInput.blur();
+      }
+    });
+
+    // Topic tab clicks
+    topicTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const topic = tab.dataset.topic || "all";
+        activeTopic = topic;
+        applyFilter();
       });
     });
 
-    clearBtn.addEventListener("click", () => applyFilter(null));
+    // Tag button clicks
+    tagBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tag = btn.dataset.tag || null;
+        // Toggle tag off if clicked again
+        activeTag = activeTag === tag ? null : tag;
+        applyFilter();
+      });
+    });
+
+    function resetFilters() {
+      activeTopic = "all";
+      activeTag = null;
+      searchTerm = "";
+      if (searchInput) searchInput.value = "";
+      applyFilter();
+    }
+
+    if (clearBtn) clearBtn.addEventListener("click", resetFilters);
+    if (statusResetBtn) statusResetBtn.addEventListener("click", resetFilters);
+    if (emptyResetBtn) emptyResetBtn.addEventListener("click", resetFilters);
+
+    // Support URL Search Params (e.g., ?tag=Agent+Harness or ?topic=agent-harness)
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlTag = params.get("tag");
+      const urlTopic = params.get("topic");
+
+      if (urlTag) {
+        activeTag = urlTag;
+      }
+      if (urlTopic) {
+        activeTopic = urlTopic;
+      }
+    } catch (e) {}
+
+    applyFilter();
   }
 
-  initTagFilter();
-  document.addEventListener("astro:after-swap", initTagFilter);
+  initWritingFilters();
+  document.addEventListener("astro:after-swap", initWritingFilters);
 </script>

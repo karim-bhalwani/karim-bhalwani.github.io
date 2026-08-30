@@ -4,7 +4,7 @@ title: "The Session Was Always the Ceiling."
 date: 2026-05-29 09:00:00 -0500
 reading_time: 11
 categories: AI systems engineering
-tags: [Background Agents, Agent Architecture, Developer Productivity, Cloud Agents, Engineering Velocity]
+tags: [Multi-Agent Fleets, Agent Harness, Production Systems]
 author: Karim Bhalwani
 excerpt: "Your laptop was never the bottleneck. Your session was. The next wave of agents does not run on your machine. It runs in the cloud, fires on events, and finishes the work while you sleep. Here is what the teams who built it first learned."
 topics: [multi-agent-orchestration, token-economics]

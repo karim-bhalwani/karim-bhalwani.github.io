@@ -4,7 +4,7 @@ title: "Beyond the Million-Token Window: Why Context Capacity Isn't Context Inte
 date: 2026-02-07 09:00:00 -0500
 reading_time: 12
 categories: AI RAG document-intelligence
-tags: [RAG, Long Context, Hierarchical Navigation, Cost Optimization, Production Systems]
+tags: [Context Engineering, Token Economics, Production Systems]
 author: Karim Bhalwani
 excerpt: "RAG defined system design in 2025. In 2026, million-token context windows are shifting the paradigm but scale doesn’t equal reasoning. It amplifies failure modes. Here’s a framework for using large contexts effectively"
 topics: [token-economics, data-systems]

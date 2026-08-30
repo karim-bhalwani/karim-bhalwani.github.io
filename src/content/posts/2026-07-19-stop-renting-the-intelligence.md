@@ -4,18 +4,10 @@ title: "Stop Renting the Intelligence."
 date: 2026-07-19 09:00:00 -0500
 reading_time: 12
 categories: AI systems engineering
-tags:
-  [
-    Open-Weight Models,
-    Fine-Tuning,
-    AI Sovereignty,
-    Enterprise AI,
-    Data Privacy,
-    Model Ownership,
-  ]
+tags: [Open-Weight & Ownership, Token Economics, Privacy & Security, Production Systems]
 author: Karim Bhalwani
 excerpt: "Every API call to a frontier model is a lease payment on intelligence you do not own. The enterprise that fine-tunes its own open-weight model, trains it on internal standards, and hosts it on private infrastructure does not just cut costs. It owns the intelligence, owns the IP, and bakes its standards into every developer who touches the system."
-topics: [token-economics]
+topics: [token-economics, data-systems]
 ---
 
 ![Stop Renting the Intelligence.](/assets/stop-renting-the-intelligence/hero-main.png)

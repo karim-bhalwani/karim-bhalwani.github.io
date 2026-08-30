@@ -4,7 +4,7 @@ title: "Three People. Ten Agents. Zero Sprints."
 date: 2026-03-19 09:00:00 -0500
 reading_time: 10
 categories: AI systems engineering
-tags: [Crews, Spec-Driven Development, Agile, Team Structure, Agentic Workforce, Production Systems]
+tags: [Multi-Agent Fleets, Spec-Driven Dev, Org Adaptation, Production Systems]
 author: Karim Bhalwani
 excerpt: "A twelve-person sprint team shipped one feature in two weeks. Three people with ten agents shipped the same feature by Wednesday. The difference is not productivity. It is physics."
 topics: [multi-agent-orchestration, agent-harness]

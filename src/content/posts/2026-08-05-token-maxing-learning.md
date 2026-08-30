@@ -4,15 +4,7 @@ title: "You Don't Maximize Tokens. You Maximize Learning."
 date: 2026-08-05 09:00:00 -0500
 reading_time: 9
 categories: AI systems engineering
-tags:
-  [
-    Token Maxing,
-    Architectural Ownership,
-    Model Routing,
-    Fine-Tuning,
-    AI Cost Governance,
-    Learning Velocity,
-  ]
+tags: [Token Economics, Open-Weight & Ownership, Model Routing, Production Systems]
 author: Karim Bhalwani
 excerpt: "Spending hard on tokens teaches you what the models can do. That learning is real. But there is a difference between learning the tool and learning your domain. One is scaffolding. The other is foundation. Scaffolding comes down. Foundation stays."
 topics: [token-economics, agent-harness]

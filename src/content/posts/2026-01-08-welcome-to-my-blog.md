@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Welcome"
+tags: [Agent Harness, Production Systems]
 excerpt: "A place to build, experiment, and think through problems with data and AI systems."
 topics: [agent-harness]
 date: 2026-01-08 12:00:00 -0500

@@ -1,6 +1,6 @@
 # karim-bhalwani.github.io
 
-Personal blog and writing space. Essays on AI systems reliability, agent control layers, context engineering, and multi-agent coordination.
+Personal blog and writing space. Articles and notes on AI systems reliability, agent control layers, context engineering, and multi-agent coordination.
 
 **Live site:** <https://karim-bhalwani.github.io>
 
@@ -80,7 +80,7 @@ To deploy manually: **Actions tab** → **Deploy to GitHub Pages** → **Run wor
 ```
 src/
   content/
-    posts/       ← Blog essays (.md)
+    posts/       ← Blog posts (.md)
     topics/      ← Knowledge graph topic hubs (.md)
     projects/    ← Featured projects (.md)
   pages/         ← Astro page routes
@@ -89,7 +89,6 @@ src/
   layouts/       ← BaseLayout wrapper
 
 public/          ← Static assets (images, .nojekyll)
-_legacy_jekyll/  ← Archived original Jekyll site
 .github/
   workflows/
     deploy.yml   ← GitHub Actions build + deploy

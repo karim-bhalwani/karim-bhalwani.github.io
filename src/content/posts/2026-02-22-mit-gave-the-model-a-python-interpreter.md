@@ -4,7 +4,7 @@ title: "MIT Gave the Model a Python Interpreter. The Results Are Hard to Ignore.
 date: 2026-02-22 09:00:00 -0500
 reading_time: 8
 categories: AI RAG document-intelligence
-tags: [RLM, Long Context, Recursive Language Models, Production Systems, Security, Code Execution]
+tags: [Context Engineering, AI Verification, Production Systems, Privacy & Security]
 author: Karim Bhalwani
 excerpt: "MIT's Recursive Language Models reframe long-context reasoning. Instead of forcing a model to read everything, the model writes code to interrogate the corpus. The benchmark results are strong, the architecture is sound, and deploying this safely requires controls the paper does not specify."
 topics: [ai-verification, token-economics]

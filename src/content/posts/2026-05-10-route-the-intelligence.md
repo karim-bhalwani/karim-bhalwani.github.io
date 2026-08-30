@@ -4,10 +4,10 @@ title: "Route the Intelligence, Not Just the Context."
 date: 2026-05-10 09:00:00 -0500
 reading_time: 10
 categories: AI systems engineering
-tags: [Edge Inference, On-Device AI, Model Routing, Hybrid Inference, Privacy]
+tags: [Model Routing, Token Economics, Privacy & Security, Production Systems]
 author: Karim Bhalwani
 excerpt: "You built the harness. Now you're calling a frontier model for everything. The same model that writes a novel handles a spell check. The problem isn't the model. It's that you never asked whether the task needed it."
-topics: [token-economics, agent-harness]
+topics: [token-economics, agent-harness, data-systems]
 ---
 
 ![Not Every Task Needs a Surgeon Hero](/assets/right-sized-model/hero-main.png)

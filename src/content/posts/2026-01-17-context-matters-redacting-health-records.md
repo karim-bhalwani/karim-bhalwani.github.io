@@ -4,7 +4,7 @@ title:  "Context Matters When Redacting Health Records for AI Analysis"
 date:   2026-01-17 09:00:00 -0500
 reading_time: 8
 categories: healthcare privacy NLP
-tags: [PII, PHI, Redaction, NLP, spaCy, Microsoft Presidio, context-aware]
+tags: [Privacy & Security, Context Engineering, Production Systems]
 author: Karim Bhalwani
 excerpt: "Standard PII redaction tools destroy clinical utility. Learn how context-aware recognition preserves healthcare provider names while protecting patient privacy."
 topics: [data-systems]

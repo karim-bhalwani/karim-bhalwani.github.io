@@ -4,7 +4,7 @@ title: "Building the Control Layer: How Agent Harnesses Make AI Reliable"
 date: 2026-04-26 09:00:00 -0500
 reading_time: 12
 categories: AI systems software-engineering architecture
-tags: [AI Agents, Agentic Harness, Agent Architecture, Memory Management, Execution Safety, Context Optimization, Production Systems]
+tags: [Agent Harness, Agent Loops & Control, AI Verification, Production Systems]
 author: Karim Bhalwani
 excerpt: "The model is not the system. The harness that wraps it, manages its memory, and enforces its boundaries is the system. Here is what that looks like when you actually build it."
 topics: [agent-harness, ai-verification, multi-agent-orchestration]

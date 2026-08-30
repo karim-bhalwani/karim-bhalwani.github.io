@@ -4,7 +4,7 @@ title: "The Bottleneck Moved. Most Teams Have Not."
 date: 2026-03-01 09:00:00 -0500
 reading_time: 12
 categories: AI systems engineering
-tags: [Multi-Agent Systems, Specification, Intent Engineering, Agent Architecture, Production Systems]
+tags: [Multi-Agent Fleets, Spec-Driven Dev, Agent Harness, Production Systems]
 author: Karim Bhalwani
 excerpt: "Adding more agents makes systems worse. Flat teams fail. The bottleneck has shifted from writing code to knowing what to build. Here is what the research actually shows, and what it means for how you build."
 topics: [multi-agent-orchestration, agent-harness]

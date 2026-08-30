@@ -1,5 +1,66 @@
 ---
-// MiniGraph.astro - Interactive network graph connecting topics and essays
+// MiniGraph.astro - Dynamic interactive network graph connecting topics and 6 most recent blog posts
+import { getCollection } from "astro:content";
+
+const topics = await getCollection("topics");
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+const recentPosts = sortedPosts.slice(0, 6);
+
+const initialNodes = [
+  ...topics.map((t) => ({
+    id: t.id,
+    label: t.data.title,
+    type: "topic",
+    r: 16,
+    url: `/topics/${t.id}`,
+  })),
+  ...recentPosts.map((p) => ({
+    id: p.id,
+    label: p.data.title,
+    type: "post",
+    r: 8,
+    url: `/writing/${p.id}`,
+  })),
+];
+
+// Generate links
+const initialLinks: { source: string; target: string }[] = [];
+
+// 1. Topic-to-topic mesh
+for (let i = 0; i < topics.length; i++) {
+  const current = topics[i];
+  const next = topics[(i + 1) % topics.length];
+  if (current && next && current.id !== next.id) {
+    initialLinks.push({ source: current.id, target: next.id });
+  }
+}
+
+// 2. Post-to-topic links
+recentPosts.forEach((post) => {
+  let linked = false;
+  const postTopics = post.data.topics || [];
+  const postTags = (post.data.tags || []).map((t: string) => t.toLowerCase());
+
+  topics.forEach((topic) => {
+    const isTopicMatch = postTopics.includes(topic.id);
+    const isTagMatch = postTags.some((tag: string) =>
+      topic.id.includes(tag) || tag.includes(topic.id) || topic.data.title.toLowerCase().includes(tag)
+    );
+
+    if (isTopicMatch || isTagMatch) {
+      initialLinks.push({ source: post.id, target: topic.id });
+      linked = true;
+    }
+  });
+
+  // Fallback: If no topic matched directly, link to the first topic
+  if (!linked && topics.length > 0) {
+    initialLinks.push({ source: post.id, target: topics[0].id });
+  }
+});
 ---
 
 <div class="mini-graph" data-mini-graph>
@@ -7,7 +68,7 @@
     <span class="kicker">Live Knowledge Graph</span>
     <a href="/explorer" class="mini-graph__link">Open Full Explorer →</a>
   </div>
-  <canvas class="mini-graph__canvas" id="miniGraphCanvas" aria-label="Interactive map of AI systems engineering topics and essays"></canvas>
+  <canvas class="mini-graph__canvas" id="miniGraphCanvas" aria-label="Interactive map of AI systems engineering topics and blog posts"></canvas>
   <div class="mini-graph__tooltip" id="graphTooltip" hidden></div>
 </div>
 
@@ -70,11 +131,11 @@
   }
 </style>
 
-<script is:inline>
+<script is:inline define:vars={{ initialNodes, initialLinks }}>
   function initMiniGraph() {
     const canvas = document.getElementById("miniGraphCanvas");
     const tooltip = document.getElementById("graphTooltip");
-    if (!canvas) return;
+    if (!canvas || !initialNodes || !initialLinks) return;
 
     const ctx = canvas.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
@@ -88,47 +149,24 @@
     resize();
     window.addEventListener("resize", resize);
 
-    const nodes = [
-      // The 5 real blog topic hubs
-      { id: "agent-harness", label: "Agent Harness", type: "topic", r: 17, url: "/topics/agent-harness" },
-      { id: "ai-verification", label: "AI Verification", type: "topic", r: 15, url: "/topics/ai-verification" },
-      { id: "token-economics", label: "Token Economics", type: "topic", r: 15, url: "/topics/token-economics" },
-      { id: "multi-agent-orchestration", label: "Multi-Agent", type: "topic", r: 14, url: "/topics/multi-agent-orchestration" },
-      { id: "data-systems", label: "Data Systems", type: "topic", r: 12, url: "/topics/data-systems" },
-      // Featured posts
-      { id: "hooks", label: "Hooks Get the Job Done", type: "post", r: 8, url: "/writing/2026-09-05-agents-get-the-hype-hooks-get-the-job-done" },
-      { id: "passed-test", label: "Your Agent Passed the Test", type: "post", r: 8, url: "/writing/2026-08-22-your-agent-passed-the-test" },
-      { id: "control-layer", label: "Building the Control Layer", type: "post", r: 8, url: "/writing/2026-04-26-building-the-control-layer" },
-      { id: "loop-eng", label: "Loop Engineering", type: "post", r: 7, url: "/writing/2026-06-26-loop-engineering" },
-      { id: "bottleneck", label: "The Bottleneck Moved", type: "post", r: 7, url: "/writing/2026-03-01-the-bottleneck-moved" },
-      { id: "token-max", label: "Token Maxing", type: "post", r: 7, url: "/writing/2026-08-05-token-maxing-learning" },
-      { id: "route", label: "Route the Intelligence", type: "post", r: 7, url: "/writing/2026-05-10-route-the-intelligence" },
-      { id: "context", label: "Context Matters", type: "post", r: 7, url: "/writing/2026-01-17-context-matters-redacting-health-records" }
-    ];
-
-    const links = [
-      // Topic interconnections
-      { source: "agent-harness", target: "ai-verification" },
-      { source: "agent-harness", target: "multi-agent-orchestration" },
-      { source: "token-economics", target: "agent-harness" },
-      { source: "data-systems", target: "token-economics" },
-      // Posts to topics
-      { source: "hooks", target: "agent-harness" },
-      { source: "hooks", target: "ai-verification" },
-      { source: "passed-test", target: "ai-verification" },
-      { source: "passed-test", target: "agent-harness" },
-      { source: "control-layer", target: "agent-harness" },
-      { source: "control-layer", target: "multi-agent-orchestration" },
-      { source: "loop-eng", target: "agent-harness" },
-      { source: "bottleneck", target: "multi-agent-orchestration" },
-      { source: "token-max", target: "token-economics" },
-      { source: "route", target: "token-economics" },
-      { source: "context", target: "data-systems" }
-    ];
-
     const rect = canvas.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
+
+    // Deep copy nodes for interactive state
+    const nodes = initialNodes.map((n, i) => {
+      const angle = (i / initialNodes.length) * Math.PI * 2;
+      const radius = n.type === "topic" ? 75 : 120;
+      return {
+        ...n,
+        x: width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 20,
+        y: height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 20,
+        vx: 0,
+        vy: 0,
+      };
+    });
+
+    const links = initialLinks.map((l) => ({ ...l }));
 
     // Initialize random positions near center
     nodes.forEach((n, i) => {
@@ -301,7 +339,8 @@
           ctx.font = isHovered ? "700 11px system-ui, sans-serif" : "600 11px system-ui, sans-serif";
           ctx.fillStyle = isDark ? "#f0ebe1" : "#1f1d1a";
           ctx.textAlign = "center";
-          ctx.fillText(n.label, n.x, n.y + n.r + 14);
+          const labelText = n.type === "topic" ? n.label : (n.label.length > 25 ? n.label.slice(0, 24) + "…" : n.label);
+          ctx.fillText(labelText, n.x, n.y + n.r + 14);
         }
 
         ctx.globalAlpha = 1.0;
@@ -323,12 +362,14 @@
       for (const n of nodes) {
         const dx = n.x - pos.x;
         const dy = n.y - pos.y;
-        if (Math.sqrt(dx * dx + dy * dy) < n.r + 4) {
+        if (Math.sqrt(dx * dx + dy * dy) < n.r + 6) {
           found = n;
           break;
         }
       }
       hoveredNode = found;
+      canvas.style.cursor = found ? "pointer" : (draggedNode ? "grabbing" : "grab");
+
       if (found && tooltip) {
         tooltip.textContent = `${found.label} (${found.type.toUpperCase()})`;
         tooltip.style.left = `${found.x}px`;
@@ -344,16 +385,67 @@
       }
     });
 
+    canvas.addEventListener("mouseleave", () => {
+      hoveredNode = null;
+      if (tooltip) tooltip.hidden = true;
+    });
+
     canvas.addEventListener("mousedown", (e) => {
       const pos = getMousePos(e);
       for (const n of nodes) {
         const dx = n.x - pos.x;
         const dy = n.y - pos.y;
-        if (Math.sqrt(dx * dx + dy * dy) < n.r + 4) {
+        if (Math.sqrt(dx * dx + dy * dy) < n.r + 6) {
           draggedNode = n;
           break;
         }
       }
+    });
+
+    // Touch support for mobile devices
+    canvas.addEventListener("touchstart", (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      const touch = e.touches[0];
+      const r = canvas.getBoundingClientRect();
+      const pos = { x: touch.clientX - r.left, y: touch.clientY - r.top };
+      let found = null;
+      for (const n of nodes) {
+        const dx = n.x - pos.x;
+        const dy = n.y - pos.y;
+        if (Math.sqrt(dx * dx + dy * dy) < n.r + 10) {
+          found = n;
+          break;
+        }
+      }
+      if (found) {
+        draggedNode = found;
+        hoveredNode = found;
+        if (tooltip) {
+          tooltip.textContent = `${found.label} (${found.type.toUpperCase()})`;
+          tooltip.style.left = `${found.x}px`;
+          tooltip.style.top = `${found.y - found.r - 8}px`;
+          tooltip.hidden = false;
+        }
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    canvas.addEventListener("touchmove", (e) => {
+      if (draggedNode && e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        const r = canvas.getBoundingClientRect();
+        draggedNode.x = touch.clientX - r.left;
+        draggedNode.y = touch.clientY - r.top;
+        if (tooltip) {
+          tooltip.style.left = `${draggedNode.x}px`;
+          tooltip.style.top = `${draggedNode.y - draggedNode.r - 8}px`;
+        }
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    canvas.addEventListener("touchend", () => {
+      draggedNode = null;
     });
 
     window.addEventListener("mouseup", () => {

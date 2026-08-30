@@ -4,7 +4,7 @@ title: "The Hard Part Isn't the AI."
 date: 2026-04-12 09:00:00 -0500
 reading_time: 14
 categories: AI systems engineering
-tags: [RAG, Redaction, Hierarchical Navigation, RLM, Production Systems, Document Analysis]
+tags: [Context Engineering, Privacy & Security, Production Systems]
 author: Karim Bhalwani
 excerpt: "Three posts explored the pieces. Context-aware redaction. Hierarchical navigation. Recursive language models. This post shows what happens when you assemble them into a production pipeline that processes documents end to end."
 topics: [data-systems, token-economics]

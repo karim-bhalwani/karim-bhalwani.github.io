@@ -1,16 +1,15 @@
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-.DS_Store
-vendor/
-.bundle/
-Gemfile.lock
-.gemini
-.venv
-next_post
-
-# Astro
+# Build & Dependencies
 node_modules/
 dist/
 .astro/
+
+# Environment & Tooling
+.env
+.env.*
+!.env.example
+.gemini
+.venv
+
+# System & OS
+.DS_Store
+Thumbs.db

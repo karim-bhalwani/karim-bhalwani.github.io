@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: "Karim Bhalwani — Writing",
-    description: "Personal essays on AI systems engineering, agent harness architecture, and systems design.",
+    description: "Personal blog posts on AI systems engineering, agent harness architecture, and systems design.",
     site: context.site || "https://karim-bhalwani.github.io",
     items: sorted.map((post) => ({
       title: post.data.title,

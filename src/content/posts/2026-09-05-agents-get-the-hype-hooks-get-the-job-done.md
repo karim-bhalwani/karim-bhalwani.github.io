@@ -4,14 +4,7 @@ title: "AI Agents Get the Hype. Hooks Get the Job Done."
 date: 2026-09-05 09:00:00 -0500
 reading_time: 8
 categories: AI systems engineering
-tags:
-  [
-    Agent Hooks,
-    Harness Engineering,
-    Deterministic Control,
-    AI Agents,
-    Developer Tools,
-  ]
+tags: [Agent Harness, Agent Loops & Control, AI Verification, Production Systems]
 author: Karim Bhalwani
 excerpt: "Everyone's excited about what AI agents can do on their own. Almost nobody's talking about the boring layer deciding whether they're allowed to, and that boring layer is the only reason any of it can be trusted."
 topics: [agent-harness, ai-verification]

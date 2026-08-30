@@ -4,7 +4,7 @@ title: "The Human Was Always the Next Ceiling."
 date: 2026-06-14 09:00:00 -0500
 reading_time: 11
 categories: AI systems engineering
-tags: [Asynchronous Agents, Human-in-the-Loop, Event-Driven Architecture, Autonomous Systems, AI Governance]
+tags: [Agent Loops & Control, Multi-Agent Fleets, AI Governance, Production Systems]
 author: Karim Bhalwani
 excerpt: "Background agents removed the laptop ceiling. The human approval gate is the next one. Machines move at machine speed. Humans sleep. You cannot govern asynchronous systems with biological rhythms. Here is what to do about it."
 topics: [multi-agent-orchestration, agent-harness]

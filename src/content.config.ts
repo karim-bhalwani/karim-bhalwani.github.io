@@ -2,9 +2,9 @@ import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 const base = (dir: string) =>
-  glob({ pattern: "**/*.{md,mdx,markdown}", base: `./src/content/${dir}` });
+  glob({ pattern: "*.md", base: `./src/content/${dir}` });
 
-// 1. Posts (Essays & Technical Notes)
+// 1. Posts (Blog Posts & Technical Notes)
 const posts = defineCollection({
   loader: base("posts"),
   schema: z.object({

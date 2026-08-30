@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const allPosts = await getCollection("posts");
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
 const allTopics = await getCollection("topics");
 const allProjects = await getCollection("projects");
 
@@ -18,7 +18,7 @@ const graphNodes = [
   ...allPosts.map((p) => ({
     id: p.id,
     label: p.data.title,
-    type: "essay",
+    type: "post",
     summary: p.data.excerpt || "",
     url: `/writing/${p.id}`,
     radius: 9,
@@ -39,24 +39,46 @@ const graphNodes = [
 
 <BaseLayout
   title="Knowledge Graph Explorer | Karim Bhalwani"
-  description="Interactive network map exploring interconnected systems, AI verification principles, and architectural essays."
+  description="Interactive network map exploring interconnected systems, AI verification principles, and technical blog posts."
 >
   <div class="container container-wide stack stack-m" style="margin-top: var(--space-xl)">
     <header class="stack stack-xs">
       <p class="kicker">Interactive Visualization</p>
       <h1>Knowledge Graph Explorer</h1>
       <p class="lead measure">
-        Explore relationships between architectural principles, systems engineering essays, and live projects. Drag nodes to inspect links, or click to open.
+        Explore relationships between architectural principles, systems engineering blog posts, and live projects. Drag nodes to inspect links, search nodes, or click to open.
       </p>
     </header>
+
+    <!-- Explorer Toolbar -->
+    <div class="explorer-toolbar cluster" style="justify-content: space-between; align-items: center">
+      <div class="graph-search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="text"
+          id="graphSearchInput"
+          class="graph-search-input"
+          placeholder="Filter graph nodes..."
+          aria-label="Filter graph nodes"
+        />
+        <button type="button" id="clearGraphSearchBtn" class="graph-clear-btn" style="display:none">✕</button>
+      </div>
+
+      <div class="graph-controls cluster" style="--cluster-gap: var(--space-3xs)">
+        <button type="button" id="resetLayoutBtn" class="graph-btn" title="Reset node positions">⟲ Reset View</button>
+      </div>
+    </div>
 
     <!-- Interactive Canvas & Sidebar -->
     <div class="explorer-layout">
       <div class="explorer-canvas-container">
-        <canvas id="explorerCanvas" class="explorer-canvas"></canvas>
+        <canvas id="explorerCanvas" class="explorer-canvas" aria-label="Interactive knowledge graph"></canvas>
         <div class="canvas-legend cluster" style="--cluster-gap: var(--space-s)">
           <span class="legend-item"><span class="legend-dot legend-dot--topic"></span> Topic Hub</span>
-          <span class="legend-item"><span class="legend-dot legend-dot--essay"></span> Technical Essay</span>
+          <span class="legend-item"><span class="legend-dot legend-dot--post"></span> Blog Post</span>
           <span class="legend-item"><span class="legend-dot legend-dot--project"></span> Architecture System</span>
         </div>
       </div>
@@ -76,6 +98,72 @@ const graphNodes = [
 </BaseLayout>
 
 <style>
+  .explorer-toolbar {
+    padding: var(--space-xs) var(--space-s);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    gap: var(--space-s);
+  }
+
+  .graph-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 24rem;
+  }
+
+  .graph-search-box svg {
+    position: absolute;
+    left: var(--space-xs);
+    color: var(--color-text-muted);
+  }
+
+  .graph-search-input {
+    width: 100%;
+    padding: 0.35rem 2rem 0.35rem 2rem;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: all var(--transition-fast);
+  }
+
+  .graph-search-input:focus {
+    border-color: var(--color-accent);
+  }
+
+  .graph-clear-btn {
+    position: absolute;
+    right: var(--space-xs);
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-size: 0.75rem;
+  }
+
+  .graph-btn {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .graph-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
   .explorer-layout {
     display: grid;
     grid-template-columns: 1fr 20rem;
@@ -129,7 +217,7 @@ const graphNodes = [
   .legend-dot--topic {
     background-color: #e09f67;
   }
-  .legend-dot--essay {
+  .legend-dot--post {
     background-color: #6fa882;
   }
   .legend-dot--project {
@@ -192,27 +280,31 @@ const graphNodes = [
     resize();
 
     const rect = canvas.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
+    let width = rect.width;
+    let height = rect.height;
 
-    const nodes = graphNodes.map((n, i) => {
-      const angle = (i / graphNodes.length) * Math.PI * 2;
-      const radius = n.type === "topic" ? 120 : 200;
-      return {
-        ...n,
-        x: width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 40,
-        y: height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 40,
-        vx: 0,
-        vy: 0,
-      };
-    });
+    function initNodePositions() {
+      return graphNodes.map((n, i) => {
+        const angle = (i / graphNodes.length) * Math.PI * 2;
+        const radius = n.type === "topic" ? 120 : 200;
+        return {
+          ...n,
+          x: width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 40,
+          y: height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 40,
+          vx: 0,
+          vy: 0,
+        };
+      });
+    }
+
+    let nodes = initNodePositions();
 
     // Generate links based on topics
     const links = [];
     const topics = nodes.filter((n) => n.type === "topic");
 
     nodes.forEach((n) => {
-      if (n.type === "essay" || n.type === "project") {
+      if (n.type === "post" || n.type === "project") {
         topics.forEach((t) => {
           const match =
             (n.topics && n.topics.includes(t.id)) ||
@@ -232,6 +324,7 @@ const graphNodes = [
     let hoveredNode = null;
     let selectedNode = null;
     let draggedNode = null;
+    let searchQuery = "";
 
     function stepPhysics() {
       // Repulsion
@@ -309,9 +402,21 @@ const graphNodes = [
         });
       }
 
+      // Search match set
+      const searchMatchIds = new Set();
+      if (searchQuery) {
+        nodes.forEach((n) => {
+          if (
+            n.label.toLowerCase().includes(searchQuery) ||
+            (n.summary && n.summary.toLowerCase().includes(searchQuery))
+          ) {
+            searchMatchIds.add(n.id);
+          }
+        });
+      }
+
       // 1. Draw Links
-      if (!activeNode) {
-        // Default: all links drawn with neutral subtle stroke
+      if (!activeNode && !searchQuery) {
         ctx.beginPath();
         ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.07)";
         ctx.lineWidth = 1.2;
@@ -334,26 +439,30 @@ const graphNodes = [
         ctx.stroke();
 
         // Highlighted connected links
-        ctx.beginPath();
-        ctx.strokeStyle = isDark ? "rgba(224, 159, 103, 0.9)" : "rgba(184, 93, 25, 0.85)";
-        ctx.lineWidth = 2.4;
-        connectedLinkSet.forEach((l) => {
-          ctx.moveTo(l.source.x, l.source.y);
-          ctx.lineTo(l.target.x, l.target.y);
-        });
-        ctx.stroke();
+        if (connectedLinkSet.size > 0) {
+          ctx.beginPath();
+          ctx.strokeStyle = isDark ? "rgba(224, 159, 103, 0.9)" : "rgba(184, 93, 25, 0.85)";
+          ctx.lineWidth = 2.4;
+          connectedLinkSet.forEach((l) => {
+            ctx.moveTo(l.source.x, l.source.y);
+            ctx.lineTo(l.target.x, l.target.y);
+          });
+          ctx.stroke();
+        }
       }
 
       // 2. Draw Nodes
       nodes.forEach((n) => {
         const isActive = activeNode ? n.id === activeNode.id : false;
         const isConnected = activeNode ? connectedNodeIds.has(n.id) : true;
+        const isSearchMatch = searchQuery ? searchMatchIds.has(n.id) : true;
 
-        // Dim unconnected nodes to make connections stand out
-        if (activeNode) {
+        if (searchQuery) {
+          ctx.globalAlpha = isSearchMatch ? 1.0 : 0.12;
+        } else if (activeNode) {
           if (isActive) ctx.globalAlpha = 1.0;
           else if (isConnected) ctx.globalAlpha = 0.95;
-          else ctx.globalAlpha = 0.15; // Dull/dimmed non-connected node
+          else ctx.globalAlpha = 0.15;
         } else {
           ctx.globalAlpha = 1.0;
         }
@@ -368,7 +477,7 @@ const graphNodes = [
         ctx.fill();
 
         // Node border / ring
-        if (isActive) {
+        if (isActive || (searchQuery && isSearchMatch)) {
           ctx.lineWidth = 3.5;
           ctx.strokeStyle = isDark ? "#ffffff" : "#111111";
           ctx.stroke();
@@ -381,13 +490,11 @@ const graphNodes = [
         // Labels
         const shouldShowLabel = activeNode
           ? isConnected
-          : (n.type === "topic" || n === hoveredNode);
+          : (searchQuery ? isSearchMatch : (n.type === "topic" || n === hoveredNode));
 
         if (shouldShowLabel) {
           ctx.font = isActive
             ? "700 12px system-ui, sans-serif"
-            : (isConnected && activeNode)
-            ? "600 11px system-ui, sans-serif"
             : "600 11px system-ui, sans-serif";
           ctx.fillStyle = isDark ? "#f0ebe1" : "#1f1d1a";
           ctx.textAlign = "center";
@@ -395,7 +502,6 @@ const graphNodes = [
           ctx.fillText(labelText, n.x, n.y + n.radius + 13);
         }
 
-        // Restore default alpha
         ctx.globalAlpha = 1.0;
       });
 
@@ -435,6 +541,36 @@ const graphNodes = [
         link.style.display = "none";
         if (deselectBtn) deselectBtn.style.display = "none";
       }
+    }
+
+    // Search bar listener
+    const searchInput = document.getElementById("graphSearchInput");
+    const clearSearchBtn = document.getElementById("clearGraphSearchBtn");
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        if (clearSearchBtn) {
+          clearSearchBtn.style.display = searchQuery ? "inline-block" : "none";
+        }
+      });
+    }
+
+    if (clearSearchBtn && searchInput) {
+      clearSearchBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        searchQuery = "";
+        clearSearchBtn.style.display = "none";
+      });
+    }
+
+    // Reset Layout Button
+    const resetBtn = document.getElementById("resetLayoutBtn");
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        nodes = initNodePositions();
+        selectedNode = null;
+        updateInspector(null);
+      });
     }
 
     const deselectBtn = document.getElementById("inspectorDeselectBtn");
@@ -488,7 +624,6 @@ const graphNodes = [
         selectedNode = clickedNode;
         updateInspector(clickedNode);
       } else {
-        // Clicking empty space deselects
         selectedNode = null;
         updateInspector(null);
       }

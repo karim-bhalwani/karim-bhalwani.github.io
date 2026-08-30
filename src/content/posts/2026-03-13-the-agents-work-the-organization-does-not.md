@@ -4,7 +4,7 @@ title: "The Agents Work. The Organization Does Not."
 date: 2026-03-13 09:00:00 -0500
 reading_time: 12
 categories: AI systems engineering
-tags: [AI Workforce, Organizational Adaptation, Hyperadaptive Enterprise, J-Curve, Change Management, Production Systems]
+tags: [Multi-Agent Fleets, Org Adaptation, Production Systems]
 author: Karim Bhalwani
 excerpt: "80% of enterprise AI initiatives fail. Not because the models are weak. Because the organization was never redesigned to run them. Here is what the research shows about managing an agentic workforce, and why the window to get it right is shorter than you think."
 topics: [multi-agent-orchestration]

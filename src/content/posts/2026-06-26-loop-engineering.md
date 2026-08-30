@@ -4,7 +4,7 @@ title: "You're Not Above the Loop. You're Building It."
 date: 2026-06-26 09:00:00 -0500
 reading_time: 8
 categories: AI systems engineering
-tags: [Loop Engineering, Agentic AI, Human-Above-the-Loop, Agent Harness, Specification]
+tags: [Agent Loops & Control, Agent Harness, Spec-Driven Dev, Production Systems]
 author: Karim Bhalwani
 excerpt: "Human-above-the-loop was the right framing earlier 2026. It is already incomplete. The job was never to approve the agent's work or even to direct it. The job is to design the mechanism that does the directing."
 topics: [agent-harness, ai-verification]

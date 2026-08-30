@@ -4,14 +4,24 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Tag from "../../components/Tag.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
-  return posts.map((post) => ({
+  const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+  const sorted = allPosts.sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  );
+
+  return sorted.map((post, i) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      // Older post (chronologically previous)
+      prevPost: i < sorted.length - 1 ? sorted[i + 1] : null,
+      // Newer post (chronologically next)
+      nextPost: i > 0 ? sorted[i - 1] : null,
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { data } = post;
 const { Content } = await render(post);
 
@@ -27,10 +37,15 @@ const categoryText = Array.isArray(data.categories)
 ---
 
 <BaseLayout title={`${data.title} | Karim Bhalwani`} description={data.excerpt} type="article">
+  <!-- Reading Progress Indicator -->
+  <div class="reading-progress-track" aria-hidden="true">
+    <div class="reading-progress-bar" id="readingProgressBar"></div>
+  </div>
+
   <article class="container container-narrow post stack stack-l" style="margin-top: var(--space-xl)">
     <!-- Article Header -->
     <header class="post-header stack stack-s">
-      <div class="cluster" style="justify-content: space-between">
+      <div class="cluster" style="justify-content: space-between; align-items: center">
         <span class="kicker">{categoryText}</span>
         <time datetime={new Date(data.date).toISOString()} class="muted">
           {formattedDate} {data.reading_time ? `· ${data.reading_time} min read` : ""}
@@ -41,31 +56,66 @@ const categoryText = Array.isArray(data.categories)
 
       {data.excerpt && <p class="post__dek">{data.excerpt}</p>}
 
-      <div class="post-meta muted cluster" style="--cluster-gap: var(--space-xs)">
-        <span>By {data.author || "Karim Bhalwani"}</span>
+      <div class="post-meta-bar cluster" style="justify-content: space-between; align-items: center">
+        <div class="post-meta muted cluster" style="--cluster-gap: var(--space-xs)">
+          <span>By {data.author || "Karim Bhalwani"}</span>
+        </div>
+        <button type="button" class="btn-share" id="shareBtn" title="Copy article link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+          <span id="shareBtnText">Copy Link</span>
+        </button>
       </div>
 
       <hr class="post-divider" />
     </header>
 
     <!-- Article Content -->
-    <div class="prose">
+    <div class="prose" id="postContent">
       <Content />
     </div>
 
     <!-- Article Footer -->
-    <footer class="post-footer stack stack-s">
+    <footer class="post-footer stack stack-m">
       <hr class="post-divider" />
+
       {
         data.tags && data.tags.length > 0 && (
           <div class="stack stack-3xs">
-            <span class="muted" style="font-family: var(--font-mono)">Topics & Tags:</span>
+            <span class="muted" style="font-family: var(--font-mono); font-size: 0.78rem">Topics & Tags:</span>
             <div class="cluster" style="--cluster-gap: var(--space-3xs)">
               {data.tags.map((t) => (
-                <Tag text={t} />
+                <Tag text={t} href={`/writing?tag=${encodeURIComponent(t)}`} />
               ))}
             </div>
           </div>
+        )
+      }
+
+      <!-- Next / Previous Post Navigation Cards -->
+      {
+        (prevPost || nextPost) && (
+          <nav class="adjacent-posts-grid" aria-label="Sequential reading">
+            {prevPost ? (
+              <a href={`/writing/${prevPost.id}`} class="adjacent-card adjacent-card--prev">
+                <span class="adjacent-card__direction">← Previous Post</span>
+                <span class="adjacent-card__title">{prevPost.data.title}</span>
+              </a>
+            ) : (
+              <div class="adjacent-card-placeholder" />
+            )}
+
+            {nextPost ? (
+              <a href={`/writing/${nextPost.id}`} class="adjacent-card adjacent-card--next">
+                <span class="adjacent-card__direction">Next Post →</span>
+                <span class="adjacent-card__title">{nextPost.data.title}</span>
+              </a>
+            ) : (
+              <div class="adjacent-card-placeholder" />
+            )}
+          </nav>
         )
       }
 
@@ -75,12 +125,61 @@ const categoryText = Array.isArray(data.categories)
       </div>
     </footer>
   </article>
+
+  <!-- Floating Back to Top Button -->
+  <button type="button" id="backToTopBtn" class="back-to-top" aria-label="Scroll back to top" title="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
 </BaseLayout>
 
 <style>
+  /* Reading Progress Track */
+  .reading-progress-track {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: transparent;
+    z-index: 1000;
+  }
+
+  .reading-progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--color-accent);
+    transition: width 0.08s ease-out;
+  }
+
   .post-title {
     font-size: var(--step-4);
     line-height: var(--leading-tight);
+  }
+
+  .post-meta-bar {
+    padding-top: var(--space-3xs);
+  }
+
+  .btn-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-text-secondary);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-share:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
   .post-divider {
@@ -92,4 +191,188 @@ const categoryText = Array.isArray(data.categories)
   .post-footer {
     margin-top: var(--space-xl);
   }
+
+  /* Adjacent Post Navigation Cards */
+  .adjacent-posts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-s);
+    margin-block: var(--space-m);
+  }
+
+  .adjacent-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-m);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .adjacent-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .adjacent-card--next {
+    text-align: right;
+  }
+
+  .adjacent-card__direction {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-accent);
+    margin-bottom: var(--space-3xs);
+  }
+
+  .adjacent-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    color: var(--color-text);
+    line-height: var(--leading-snug);
+  }
+
+  .adjacent-card:hover .adjacent-card__title {
+    color: var(--color-accent);
+  }
+
+  .adjacent-card-placeholder {
+    display: block;
+  }
+
+  /* Back to Top Button */
+  .back-to-top {
+    position: fixed;
+    bottom: var(--space-l);
+    right: var(--space-l);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: all var(--transition-normal);
+    z-index: 90;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 600px) {
+    .adjacent-posts-grid {
+      grid-template-columns: 1fr;
+    }
+    .adjacent-card--next {
+      text-align: left;
+    }
+  }
 </style>
+
+<script>
+  function setupPostInteractions() {
+    // 1. Reading Progress Bar
+    const progressBar = document.getElementById("readingProgressBar");
+    const content = document.getElementById("postContent");
+
+    function updateProgress() {
+      if (!progressBar || !content) return;
+      const rect = content.getBoundingClientRect();
+      const totalHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      const scrolled = Math.max(0, -rect.top);
+      const maxScroll = totalHeight - windowHeight;
+      const progress = maxScroll > 0 ? Math.min(100, Math.max(0, (scrolled / maxScroll) * 100)) : 0;
+      progressBar.style.width = `${progress}%`;
+    }
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+
+    // 2. Back to Top Button
+    const topBtn = document.getElementById("backToTopBtn");
+    function checkScrollTop() {
+      if (!topBtn) return;
+      if (window.scrollY > 450) {
+        topBtn.classList.add("visible");
+      } else {
+        topBtn.classList.remove("visible");
+      }
+    }
+    window.addEventListener("scroll", checkScrollTop, { passive: true });
+    checkScrollTop();
+
+    if (topBtn) {
+      topBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
+    // 3. Share / Copy Article Link
+    const shareBtn = document.getElementById("shareBtn");
+    const shareBtnText = document.getElementById("shareBtnText");
+    if (shareBtn && shareBtnText) {
+      shareBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          const originalText = shareBtnText.textContent;
+          shareBtnText.textContent = "Copied!";
+          setTimeout(() => {
+            shareBtnText.textContent = originalText;
+          }, 2000);
+        } catch (e) {}
+      });
+    }
+
+    // 4. Code Block Copy Buttons
+    const preBlocks = document.querySelectorAll("pre");
+    preBlocks.forEach((pre) => {
+      if (pre.querySelector(".code-copy-btn")) return;
+
+      const btn = document.createElement("button");
+      btn.className = "code-copy-btn";
+      btn.type = "button";
+      btn.title = "Copy code to clipboard";
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span>`;
+
+      btn.addEventListener("click", async () => {
+        const code = pre.querySelector("code")?.textContent || pre.textContent || "";
+        try {
+          await navigator.clipboard.writeText(code);
+          btn.innerHTML = `<span>Copied!</span>`;
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span>`;
+            btn.classList.remove("copied");
+          }, 2000);
+        } catch (err) {}
+      });
+
+      pre.style.position = "relative";
+      pre.appendChild(btn);
+    });
+  }
+
+  setupPostInteractions();
+  document.addEventListener("astro:after-swap", setupPostInteractions);
+</script>

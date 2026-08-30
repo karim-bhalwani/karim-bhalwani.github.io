@@ -4,7 +4,7 @@ title: "Procedure Over Intelligence: Building Reliable AI Systems"
 date: 2026-01-26 09:00:00 -0500
 reading_time: 10
 categories: AI systems software-engineering open-standards
-tags: [AI agents, Procedures, Reliability, Agent Skills, Production Systems, Compliance]
+tags: [Agent Harness, AI Governance, Production Systems, AI Verification]
 author: Karim Bhalwani
 excerpt: "Intelligence without systematic workflows is just noise. Learn how Agent Skills encode organizational expertise to make AI agents reliable, reproducible, and trustworthy at scale."
 topics: [agent-harness, ai-verification]

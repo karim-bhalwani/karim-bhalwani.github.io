@@ -15,33 +15,78 @@ const { topic } = Astro.props;
 const { data } = topic;
 const { Content } = await render(topic);
 
-const allPosts = await getCollection("posts");
-// Match posts that mention this topic in tags or topics array
-const relatedPosts = allPosts.filter((post) => {
-  const tags = post.data.tags.map((t) => t.toLowerCase());
-  const topicId = topic.id.toLowerCase();
-  return (
-    post.data.topics.includes(topic.id) ||
-    tags.some((t) => topicId.includes(t) || t.includes(topicId.replace("-", " ")))
-  );
-}).sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const allTopics = await getCollection("topics");
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+
+// Match posts that connect to this topic
+const relatedPosts = allPosts
+  .filter((post) => {
+    const postTopics = post.data.topics || [];
+    return postTopics.includes(topic.id);
+  })
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+// Related topic hubs
+const relatedHubs = (data.related || [])
+  .map((relId) => allTopics.find((t) => t.id === relId))
+  .filter(Boolean);
 ---
 
 <BaseLayout title={`${data.title} | Topics | Karim Bhalwani`} description={data.summary}>
   <div class="container container-narrow stack stack-l" style="margin-top: var(--space-xl)">
-    <header class="stack stack-xs">
-      <p class="kicker">{data.category || "Topic Hub"}</p>
+    <!-- Header -->
+    <header class="stack stack-s">
+      <div class="cluster" style="justify-content: space-between; align-items: center">
+        <span class="kicker">{data.category || "Topic Hub"}</span>
+        <span class="badge-count">{relatedPosts.length} {relatedPosts.length === 1 ? "Post" : "Posts"}</span>
+      </div>
+
       <h1>{data.title}</h1>
       <p class="lead">{data.summary}</p>
-      <hr style="border: 0; border-top: 1px solid var(--color-border); margin-block: var(--space-s)" />
+
+      <!-- Topic Action Shortcuts -->
+      <div class="cluster" style="--cluster-gap: var(--space-xs); margin-top: var(--space-2xs)">
+        <a href={`/writing?topic=${topic.id}`} class="btn btn--ghost" style="font-size: 0.8rem">
+          Filter in Archive ({relatedPosts.length}) →
+        </a>
+        <a href="/explorer" class="btn btn--ghost" style="font-size: 0.8rem">
+          View in Knowledge Graph →
+        </a>
+      </div>
+
+      <hr class="topic-divider" />
     </header>
 
+    <!-- Hub Overview Description -->
     <div class="prose">
       <Content />
     </div>
 
-    <section class="stack stack-m" style="margin-top: var(--space-xl)">
-      <h2>Related Essays & Analysis</h2>
+    <!-- Related Topic Hubs if any -->
+    {
+      relatedHubs.length > 0 && (
+        <div class="related-hubs-box stack stack-3xs">
+          <span class="related-hubs-label">Connected Topic Hubs:</span>
+          <div class="cluster" style="--cluster-gap: var(--space-xs)">
+            {relatedHubs.map((hub) => (
+              <a href={`/topics/${hub.id}`} class="related-hub-pill">
+                <span class="hub-bullet">●</span> {hub.data.title}
+              </a>
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    <!-- Posts in this Hub -->
+    <section class="stack stack-m" style="margin-top: var(--space-l)">
+      <div class="section-header cluster" style="justify-content: space-between; align-items: baseline">
+        <h2>Blog Posts in this Hub</h2>
+        <span class="muted" style="font-family: var(--font-mono); font-size: 0.8rem">
+          {relatedPosts.length} {relatedPosts.length === 1 ? "article" : "articles"}
+        </span>
+      </div>
+
       {
         relatedPosts.length > 0 ? (
           <div class="stack stack-m">
@@ -59,14 +104,80 @@ const relatedPosts = allPosts.filter((post) => {
           </div>
         ) : (
           <p class="muted">
-            Check the <a href="/writing">complete writing archive</a> for all articles related to this topic.
+            Check the <a href="/writing">complete writing archive</a> for all articles.
           </p>
         )
       }
     </section>
 
-    <div style="margin-top: var(--space-xl)">
+    <!-- Navigation -->
+    <div class="cluster" style="justify-content: space-between; margin-top: var(--space-xl)">
       <a href="/topics" class="btn btn--ghost">← Back to All Topics</a>
+      <a href="/writing" class="btn btn--ghost">All Writing Archive →</a>
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .badge-count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.18rem 0.55rem;
+    background-color: color-mix(in oklch, var(--color-accent) 12%, transparent);
+    color: var(--color-accent);
+    border: 1px solid color-mix(in oklch, var(--color-accent) 30%, transparent);
+    border-radius: var(--radius-sm);
+    font-weight: var(--weight-medium);
+  }
+
+  .topic-divider {
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    margin-block: var(--space-xs);
+  }
+
+  .related-hubs-box {
+    padding: var(--space-s);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-block: var(--space-s);
+  }
+
+  .related-hubs-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-muted);
+  }
+
+  .related-hub-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .related-hub-pill:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .hub-bullet {
+    color: var(--color-accent);
+    font-size: 0.65rem;
+  }
+
+  .section-header {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-2xs);
+  }
+</style>

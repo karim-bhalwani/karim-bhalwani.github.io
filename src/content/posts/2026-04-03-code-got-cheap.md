@@ -4,7 +4,7 @@ title: "Code Got Cheap. Judgment Did Not."
 date: 2026-04-03 09:00:00 -0500
 reading_time: 10
 categories: AI systems engineering
-tags: [Code Economy, Specification, Career, Technical Debt, Radical Prototyping, Production Systems]
+tags: [Token Economics, Spec-Driven Dev, Org Adaptation, Production Systems]
 author: Karim Bhalwani
 excerpt: "Code used to be scarce. Now agents generate thousands of lines in seconds for the cost of a few API tokens. The cost of writing code collapsed. What remains scarce is the judgment to direct it."
 topics: [token-economics, multi-agent-orchestration]
