@@ -14,6 +14,7 @@ const graphNodes = [
     summary: t.data.summary,
     url: `/topics/${t.id}`,
     radius: 18,
+    topics: t.data.related || [],
   })),
   ...allPosts.map((p) => ({
     id: p.id,
@@ -63,8 +64,9 @@ const graphNodes = [
           class="graph-search-input"
           placeholder="Filter graph nodes..."
           aria-label="Filter graph nodes"
+          autocomplete="off"
         />
-        <button type="button" id="clearGraphSearchBtn" class="graph-clear-btn" style="display:none">✕</button>
+        <button type="button" id="clearGraphSearchBtn" class="graph-clear-btn" style="display:none" title="Clear filter">✕</button>
       </div>
 
       <div class="graph-controls cluster" style="--cluster-gap: var(--space-3xs)">
@@ -283,43 +285,86 @@ const graphNodes = [
     let width = rect.width;
     let height = rect.height;
 
+    // Position nodes radially around the center
     function initNodePositions() {
-      return graphNodes.map((n, i) => {
-        const angle = (i / graphNodes.length) * Math.PI * 2;
-        const radius = n.type === "topic" ? 120 : 200;
-        return {
-          ...n,
-          x: width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 40,
-          y: height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 40,
+      const topics = graphNodes.filter((n) => n.type === "topic");
+      const nonTopics = graphNodes.filter((n) => n.type !== "topic");
+
+      const nodeMap = [];
+
+      // Place topics in inner ring
+      topics.forEach((t, i) => {
+        const angle = (i / topics.length) * Math.PI * 2 - Math.PI / 2;
+        const r = Math.min(width, height) * 0.22;
+        nodeMap.push({
+          ...t,
+          x: width / 2 + Math.cos(angle) * r,
+          y: height / 2 + Math.sin(angle) * r,
           vx: 0,
           vy: 0,
-        };
+        });
       });
+
+      // Place posts and projects in outer ring
+      nonTopics.forEach((p, i) => {
+        const angle = (i / nonTopics.length) * Math.PI * 2;
+        const r = Math.min(width, height) * 0.38 + (i % 2 === 0 ? 25 : -25);
+        nodeMap.push({
+          ...p,
+          x: width / 2 + Math.cos(angle) * r + (Math.random() - 0.5) * 20,
+          y: height / 2 + Math.sin(angle) * r + (Math.random() - 0.5) * 20,
+          vx: 0,
+          vy: 0,
+        });
+      });
+
+      return nodeMap;
+    }
+
+    // Build resilient link network
+    function buildLinks(currentNodes) {
+      const links = [];
+      const topics = currentNodes.filter((n) => n.type === "topic");
+      const nonTopics = currentNodes.filter((n) => n.type !== "topic");
+
+      // 1. Connect posts and projects to their matching topics
+      nonTopics.forEach((n) => {
+        let connectedCount = 0;
+        const nodeTopics = n.topics || [];
+        const nodeTags = (n.tags || []).map((t) => t.toLowerCase());
+
+        topics.forEach((t) => {
+          const isTopicMatch = nodeTopics.includes(t.id);
+          const isTagMatch = nodeTags.some(
+            (tag) => t.id.includes(tag) || tag.includes(t.id) || t.label.toLowerCase().includes(tag)
+          );
+
+          if (isTopicMatch || isTagMatch) {
+            links.push({ source: n, target: t, distance: 95 });
+            connectedCount++;
+          }
+        });
+
+        // Fail-safe: If no connection was found, connect to the first topic
+        if (connectedCount === 0 && topics.length > 0) {
+          links.push({ source: n, target: topics[0], distance: 95 });
+        }
+      });
+
+      // 2. Interconnect topic hubs into a backbone mesh
+      for (let i = 0; i < topics.length; i++) {
+        const current = topics[i];
+        const next = topics[(i + 1) % topics.length];
+        if (current && next && current !== next) {
+          links.push({ source: current, target: next, distance: 140, isBackbone: true });
+        }
+      }
+
+      return links;
     }
 
     let nodes = initNodePositions();
-
-    // Generate links based on topics
-    const links = [];
-    const topics = nodes.filter((n) => n.type === "topic");
-
-    nodes.forEach((n) => {
-      if (n.type === "post" || n.type === "project") {
-        topics.forEach((t) => {
-          const match =
-            (n.topics && n.topics.includes(t.id)) ||
-            (n.tags && n.tags.some((tag) => t.id.includes(tag.toLowerCase()) || tag.toLowerCase().includes(t.id)));
-          if (match) {
-            links.push({ source: n, target: t });
-          }
-        });
-      }
-    });
-
-    // Connect topics together
-    for (let i = 0; i < topics.length - 1; i++) {
-      links.push({ source: topics[i], target: topics[i + 1] });
-    }
+    let links = buildLinks(nodes);
 
     let hoveredNode = null;
     let selectedNode = null;
@@ -327,16 +372,17 @@ const graphNodes = [
     let searchQuery = "";
 
     function stepPhysics() {
-      // Repulsion
+      // 1. Node Repulsion
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const a = nodes[i];
           const b = nodes[j];
           const dx = b.x - a.x;
           const dy = b.y - a.y;
-          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          if (dist < 280) {
-            const force = (900 / (dist * dist));
+          const distSq = dx * dx + dy * dy + 25;
+          const dist = Math.sqrt(distSq);
+          if (dist < 260) {
+            const force = 1200 / distSq;
             const fx = (dx / dist) * force;
             const fy = (dy / dist) * force;
             a.vx -= fx;
@@ -347,34 +393,40 @@ const graphNodes = [
         }
       }
 
-      // Spring links
+      // 2. Link Spring Forces
       links.forEach((l) => {
         const dx = l.target.x - l.source.x;
         const dy = l.target.y - l.source.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const targetDist = 90;
-        const force = (dist - targetDist) * 0.02;
+        const targetDist = l.distance || 100;
+        const force = (dist - targetDist) * (l.isBackbone ? 0.025 : 0.018);
         const fx = (dx / dist) * force;
         const fy = (dy / dist) * force;
+
         l.source.vx += fx;
         l.source.vy += fy;
         l.target.vx -= fx;
         l.target.vy -= fy;
       });
 
-      // Damping & Center Gravity
+      // 3. Center Gravity & Boundary Clamping
       const cx = width / 2;
       const cy = height / 2;
       nodes.forEach((n) => {
         if (n === draggedNode) return;
-        n.vx += (cx - n.x) * 0.003;
-        n.vy += (cy - n.y) * 0.003;
+
+        // Gentle pull to center
+        n.vx += (cx - n.x) * 0.0035;
+        n.vy += (cy - n.y) * 0.0035;
+
+        // Velocity damping
         n.vx *= 0.88;
         n.vy *= 0.88;
+
         n.x += n.vx;
         n.y += n.vy;
 
-        const pad = n.radius + 15;
+        const pad = n.radius + 18;
         n.x = Math.max(pad, Math.min(width - pad, n.x));
         n.y = Math.max(pad, Math.min(height - pad, n.y));
       });
@@ -387,7 +439,7 @@ const graphNodes = [
       const isDark = document.documentElement.dataset.theme === "dark";
       const activeNode = selectedNode || hoveredNode;
 
-      // Build active neighborhood set
+      // Active neighborhood
       const connectedNodeIds = new Set();
       const connectedLinkSet = new Set();
 
@@ -402,7 +454,7 @@ const graphNodes = [
         });
       }
 
-      // Search match set
+      // Search matching set
       const searchMatchIds = new Set();
       if (searchQuery) {
         nodes.forEach((n) => {
@@ -418,7 +470,7 @@ const graphNodes = [
       // 1. Draw Links
       if (!activeNode && !searchQuery) {
         ctx.beginPath();
-        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.07)";
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.09)";
         ctx.lineWidth = 1.2;
         links.forEach((l) => {
           ctx.moveTo(l.source.x, l.source.y);
@@ -426,9 +478,9 @@ const graphNodes = [
         });
         ctx.stroke();
       } else {
-        // Dimmed background links
+        // Dimmed links
         ctx.beginPath();
-        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.02)" : "rgba(0, 0, 0, 0.02)";
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 0, 0, 0.03)";
         ctx.lineWidth = 0.8;
         links.forEach((l) => {
           if (!connectedLinkSet.has(l)) {
@@ -438,10 +490,10 @@ const graphNodes = [
         });
         ctx.stroke();
 
-        // Highlighted connected links
+        // Highlighted active links
         if (connectedLinkSet.size > 0) {
           ctx.beginPath();
-          ctx.strokeStyle = isDark ? "rgba(224, 159, 103, 0.9)" : "rgba(184, 93, 25, 0.85)";
+          ctx.strokeStyle = isDark ? "rgba(224, 159, 103, 0.95)" : "rgba(184, 93, 25, 0.9)";
           ctx.lineWidth = 2.4;
           connectedLinkSet.forEach((l) => {
             ctx.moveTo(l.source.x, l.source.y);
@@ -462,7 +514,7 @@ const graphNodes = [
         } else if (activeNode) {
           if (isActive) ctx.globalAlpha = 1.0;
           else if (isConnected) ctx.globalAlpha = 0.95;
-          else ctx.globalAlpha = 0.15;
+          else ctx.globalAlpha = 0.18;
         } else {
           ctx.globalAlpha = 1.0;
         }
@@ -476,7 +528,7 @@ const graphNodes = [
 
         ctx.fill();
 
-        // Node border / ring
+        // Rings
         if (isActive || (searchQuery && isSearchMatch)) {
           ctx.lineWidth = 3.5;
           ctx.strokeStyle = isDark ? "#ffffff" : "#111111";
@@ -543,7 +595,7 @@ const graphNodes = [
       }
     }
 
-    // Search bar listener
+    // Search filter listener
     const searchInput = document.getElementById("graphSearchInput");
     const clearSearchBtn = document.getElementById("clearGraphSearchBtn");
     if (searchInput) {
@@ -563,11 +615,12 @@ const graphNodes = [
       });
     }
 
-    // Reset Layout Button
+    // Reset Layout Button — restores fresh nodes and rebuilds connected links cleanly
     const resetBtn = document.getElementById("resetLayoutBtn");
     if (resetBtn) {
       resetBtn.addEventListener("click", () => {
         nodes = initNodePositions();
+        links = buildLinks(nodes);
         selectedNode = null;
         updateInspector(null);
       });
