@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Scaffold Was Never the Safety."
-date: 2026-10-04 09:00:00 -0500
+date: 2026-10-04 08:00:00 -0400
 reading_time: 12
 categories: AI systems engineering
 tags: [Agent Loops & Control, AI Governance, Production Systems, Agent Harness]

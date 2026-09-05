@@ -4,9 +4,8 @@ on:
   push:
     branches: [main]
   schedule:
-    # Runs daily at ~8:17 AM Eastern Time to publish scheduled posts
-    - cron: "17 8 * * *"
-      timezone: "America/New_York"
+    # Runs daily at 12:17 UTC (~8:17 AM EDT / 7:17 AM EST) to publish scheduled posts
+    - cron: "17 12 * * *"
   workflow_dispatch:
 
 permissions:

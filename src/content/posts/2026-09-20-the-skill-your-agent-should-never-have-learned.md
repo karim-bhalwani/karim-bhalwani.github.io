@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Skill Your Agent Should Never Have Learned."
-date: 2026-09-20 09:00:00 -0500
+date: 2026-09-20 08:00:00 -0400
 reading_time: 7
 categories: AI systems engineering
 tags: [Agent Harness, Model Routing, AI Governance, Production Systems]
