@@ -1,7 +1,6 @@
 ---
-layout: post
 title: "The Scaffold Was Never the Safety."
-date: 2026-10-04 08:00:00 -0400
+date: 2026-10-18 08:00:00 -0400
 reading_time: 12
 categories: AI systems engineering
 tags: [Agent Loops & Control, AI Governance, Production Systems, Agent Harness]
@@ -149,3 +148,4 @@ Stop adding approval gates. Start designing systems where the gates you keep are
 - Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
 - Related post: [Your Chatbot Hallucinated. Your Agent Passed the Test.](/writing/2026-08-22-your-agent-passed-the-test)
 - Related post: [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not)
+- Related post: [You Are Measuring the Wrong Thing.](/writing/2026-10-04-you-are-measuring-the-wrong-thing)

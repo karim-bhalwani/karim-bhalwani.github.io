@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "The Skill Your Agent Should Never Have Learned."
 date: 2026-09-20 08:00:00 -0400
 reading_time: 7
