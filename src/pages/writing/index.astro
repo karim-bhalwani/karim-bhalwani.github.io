@@ -486,6 +486,7 @@ const sortedTags = Object.entries(tagCountMap)
       searchInput.addEventListener("input", (e) => {
         searchTerm = (e.target as HTMLInputElement).value;
         applyFilter();
+        syncUrl();
       });
     }
 
@@ -508,12 +509,27 @@ const sortedTags = Object.entries(tagCountMap)
       }
     });
 
+    // Sync active filter state back to the URL so views are shareable / bookmarkable
+    function syncUrl() {
+      try {
+        const params = new URLSearchParams();
+        if (activeTopic !== "all") params.set("topic", activeTopic);
+        if (activeTag) params.set("tag", activeTag);
+        if (searchTerm.trim()) params.set("q", searchTerm.trim());
+        const newUrl = params.toString()
+          ? `${window.location.pathname}?${params.toString()}`
+          : window.location.pathname;
+        window.history.replaceState({}, "", newUrl);
+      } catch (e) {}
+    }
+
     // Topic tab clicks
     topicTabs.forEach((tab) => {
       tab.addEventListener("click", () => {
         const topic = tab.dataset.topic || "all";
         activeTopic = topic;
         applyFilter();
+        syncUrl();
       });
     });
 
@@ -524,8 +540,11 @@ const sortedTags = Object.entries(tagCountMap)
         // Toggle tag off if clicked again
         activeTag = activeTag === tag ? null : tag;
         applyFilter();
+        syncUrl();
       });
     });
+
+
 
     function resetFilters() {
       activeTopic = "all";
@@ -533,23 +552,25 @@ const sortedTags = Object.entries(tagCountMap)
       searchTerm = "";
       if (searchInput) searchInput.value = "";
       applyFilter();
+      syncUrl();
     }
 
     if (clearBtn) clearBtn.addEventListener("click", resetFilters);
     if (statusResetBtn) statusResetBtn.addEventListener("click", resetFilters);
     if (emptyResetBtn) emptyResetBtn.addEventListener("click", resetFilters);
 
-    // Support URL Search Params (e.g., ?tag=Agent+Harness or ?topic=agent-harness)
+    // Support URL Search Params on load (e.g., ?tag=Agent+Harness or ?topic=agent-harness or ?q=...)
     try {
       const params = new URLSearchParams(window.location.search);
       const urlTag = params.get("tag");
       const urlTopic = params.get("topic");
+      const urlQ = params.get("q");
 
-      if (urlTag) {
-        activeTag = urlTag;
-      }
-      if (urlTopic) {
-        activeTopic = urlTopic;
+      if (urlTag) activeTag = urlTag;
+      if (urlTopic) activeTopic = urlTopic;
+      if (urlQ && searchInput) {
+        searchTerm = urlQ;
+        searchInput.value = urlQ;
       }
     } catch (e) {}
 

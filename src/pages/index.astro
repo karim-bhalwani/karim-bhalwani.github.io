@@ -7,7 +7,9 @@ import { getCollection } from "astro:content";
 
 const sortedPosts = await getPublishedPosts();
 const allPosts = sortedPosts;
-const recentPosts = sortedPosts.slice(0, 5);
+const featuredPosts = sortedPosts.filter((p) => p.data.featured);
+const nonFeaturedPosts = sortedPosts.filter((p) => !p.data.featured);
+const recentPosts = nonFeaturedPosts.slice(0, 5);
 const topics = await getCollection("topics");
 ---
 
@@ -42,9 +44,39 @@ const topics = await getCollection("topics");
     </section>
 
     <!-- Interactive Knowledge Graph -->
-    <section class="section">
+    <section class="section stack stack-s">
+      <div class="section-head">
+        <h2>Knowledge Graph</h2>
+        <a href="/explorer" class="section-head__more">Open Explorer →</a>
+      </div>
       <MiniGraph />
     </section>
+
+    <!-- Featured Posts (only renders when posts have featured: true) -->
+    {featuredPosts.length > 0 && (
+      <section class="section stack stack-s">
+        <div class="section-head">
+          <h2>Featured</h2>
+          <a href="/writing" class="section-head__more">All writing →</a>
+        </div>
+        <div class="featured-grid">
+          {featuredPosts.map((post) => (
+            <a href={`/writing/${post.id}`} class="featured-card">
+              <div class="featured-card__meta cluster" style="--cluster-gap: var(--space-xs)">
+                <span class="kicker">{Array.isArray(post.data.categories) ? post.data.categories[0] : post.data.categories || "AI Systems"}</span>
+                <time datetime={new Date(post.data.date).toISOString()} class="muted" style="font-size: var(--step--1)">
+                  {new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric" }).format(new Date(post.data.date))}
+                  {post.data.reading_time ? ` · ${post.data.reading_time} min read` : ""}
+                </time>
+              </div>
+              <h3 class="featured-card__title">{post.data.title}</h3>
+              {post.data.excerpt && <p class="featured-card__excerpt">{post.data.excerpt}</p>}
+              <span class="featured-card__cta">Read post →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
     <!-- Topics -->
     <section class="section stack stack-s">
@@ -186,5 +218,56 @@ const topics = await getCollection("topics");
     background-color: color-mix(in oklch, var(--color-accent) 10%, transparent);
     border: 1px solid color-mix(in oklch, var(--color-accent) 25%, transparent);
     border-radius: var(--radius-sm);
+  }
+
+  /* Featured posts grid */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: var(--space-m);
+  }
+
+  .featured-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-l);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .featured-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .featured-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: var(--leading-snug);
+    color: var(--color-text);
+  }
+
+  .featured-card:hover .featured-card__title {
+    color: var(--color-accent);
+  }
+
+  .featured-card__excerpt {
+    font-size: var(--step--1);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    flex: 1;
+  }
+
+  .featured-card__cta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-accent);
+    margin-top: var(--space-2xs);
   }
 </style>

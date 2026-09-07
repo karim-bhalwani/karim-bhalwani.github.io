@@ -1,6 +1,8 @@
 ---
 layout: post
 title: "Welcome"
+categories: AI Systems Engineering
+author: Karim Bhalwani
 tags: [Agent Harness, Production Systems]
 excerpt: "A place to build, experiment, and think through problems with data and AI systems."
 topics: [agent-harness]
