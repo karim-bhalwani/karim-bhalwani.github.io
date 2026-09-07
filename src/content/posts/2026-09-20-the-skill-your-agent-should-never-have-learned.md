@@ -1,7 +1,7 @@
 ---
 title: "The Skill Your Agent Should Never Have Learned."
 date: 2026-09-20 08:00:00 -0400
-reading_time: 7
+reading_time: 8
 categories: AI systems engineering
 tags: [Agent Harness, Model Routing, AI Governance, Production Systems]
 author: Karim Bhalwani
@@ -85,9 +85,7 @@ Elegant idea. Bad assumption.
 
 The assumption is that a two-line description captures everything that matters. The preconditions, the auth model, the environment target, the artifact format. Two recipes for the same dish, written by different chefs, look identical from the title alone. The distinguishing details are on page three.
 
-Researchers tested this on eighty thousand skills. Routing on descriptions alone dropped accuracy by 37 to 44 percentage points. That is not drift. That is collapse. Better descriptions recovered some of the gap, but stayed 7 to 21 points below routing that could see the full body.
-
-The signal that matters lives inside the skill, not in its label.
+Researchers tested this on eighty thousand skills. Routing on descriptions alone dropped accuracy by more than a third. That is not drift. That is collapse. Better descriptions helped at the margins. The fundamental problem remained: the signal that matters is inside the skill, not in its label.
 
 In [Route the Intelligence, Not Just the Context](/writing/2026-05-10-route-the-intelligence), I wrote that the harness should route intelligence, not just context. Same principle here. You are routing the model to the right skill. The information needed to do that correctly is in the recipe itself, not in the title.
 
@@ -105,7 +103,7 @@ GitHub Copilot had forty tools. Telemetry showed the agent ignoring instructions
 
 Fewer tools. Faster answers. Better code.
 
-The academic version does the same for skills. A small embedding model filters eighty thousand skills down to twenty candidates. A reranker reads the full body of each candidate, the complete recipe, and picks the best match. The reasoning model only sees the winner. This pipeline uses 1.2 billion parameters and runs six times faster than having the foundation model do the routing.
+The academic version does the same for skills. A small embedding model filters thousands of skills down to a handful of candidates. A reranker reads the full body of each one and picks the best match. The reasoning model only sees the winner. It runs faster and more accurately than asking the reasoning model to choose from the full catalog.
 
 Both approaches share one insight: the reasoning model should not be choosing. It should be reasoning. Choosing is a different job.
 

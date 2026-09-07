@@ -6,7 +6,7 @@ categories: AI systems engineering
 tags: [Token Economics, AI Governance, Agent Loops & Control, Production Systems]
 author: Karim Bhalwani
 excerpt: "Every team tracking AI spend is watching the same number: tokens consumed. It is the wrong number. The right number is cost per successful outcome, and almost nobody has it."
-topics: [token-economics, ai-governance, agent-harness]
+topics: [token-economics, agent-harness]
 ---
 
 ![You Are Measuring the Wrong Thing.](/assets/you-are-measuring-the-wrong-thing/hero-main.png)
@@ -67,21 +67,21 @@ A cheaper model running more turns to reach the same outcome costs more. Not les
 
 There is a second cost buried inside every agent session, and it comes in three forms. Most teams have measured none of them.
 
-**The MCP Tax: tool schema injection.** When an agent initializes, it receives definitions for every tool it might use—function names, parameter types, descriptions, validation schemas. These get injected into the context on every single turn. Not once. Every turn.
+**The MCP Tax: tool schema injection.** When an agent initializes, it receives a definition for every tool it might use. Function names, parameter types, descriptions, validation schemas. These inject into the context on every single turn. Not once. Every turn.
 
-A basic tool server might add 1,000 tokens to each call. A cloud database integration with 40 methods can add 12,000. An enterprise environment running four or five connected services simultaneously carries between 15,000 and 55,000 tokens of tool definition overhead per turn, before any user query or task context is included. In large enterprise catalogs with 100-plus tools, the payload has been measured above 54,000 tokens per turn.
+In a typical enterprise environment connected to four or five services, that catalog adds tens of thousands of tokens per turn before a word of the actual task appears. An agent handling a 20-turn support workflow processes those definitions twenty times on a single ticket. Not because it used every tool twenty times. Just because it might.
 
-Put numbers on it. An agent handling a 20-turn support workflow, carrying a 15,000-token tool payload, processes 300,000 tokens of API documentation on a single ticket. Tokens describing function signatures the model may never invoke. At production rates, that overhead alone costs roughly $0.90 per ticket. At 100,000 monthly tickets, you have paid $90,000 to repeatedly transmit your tool catalog. The mitigation exists: progressive tool disclosure loads schemas on demand, and sandboxed code execution reduces the schema payload by over 95%. Red Hat's production benchmarks showed a 53% total token reduction by switching from full schema injection to a sandboxed Python model.
+The fix is to load schemas on demand rather than all at once. Red Hat's production benchmarks showed a 53% total token reduction by switching from full schema injection to a sandboxed model. No different model. No different architecture. Just measuring where the tokens were actually going.
 
-**The Skills Tax: instruction payload overhead.** Skills—the structured instruction files that give an agent its persona, its procedures, and its domain knowledge—solve a real problem. They encode expertise so it does not have to live in a developer's head. But they carry a cost that most teams never account for separately.
+**The Skills Tax: instruction payload overhead.** Every skill loaded into the agent, its persona, its procedures, its rules, gets resent in full on every turn. A coding agent carrying five active skills might inject 10,000 tokens of instructions before the task begins. Those 10,000 tokens do not change between turn one and turn thirty. You pay for them thirty times.
 
-A skill file describing a support triage procedure might run 2,000 tokens. A coding agent loaded with five active skills—security review, test writing, documentation, code style, and escalation procedures—carries 8,000 to 15,000 tokens of instruction payload before any task content appears. Multiplied across a 30-turn session, that static overhead processes between 240,000 and 450,000 tokens that describe what the agent should do, not what it is actually doing. In [Stop Renting the Intelligence](/writing/2026-07-19-stop-renting-the-intelligence), the architecture that compounds correctly is the one that bakes context into weights rather than re-sending it on every call. Skills injected as prompt text are the re-sending model. Skills encoded as fine-tuned adapters are the ownership model. The token math is different.
+In [Stop Renting the Intelligence](/writing/2026-07-19-stop-renting-the-intelligence), the principle is that the architecture which compounds correctly bakes context into weights rather than re-sends it on every call. Skills injected as prompt text are the re-sending model. Skills encoded as fine-tuned adapters are the ownership model. The token math is different.
 
-**The Tool Result Tax: verbose environmental payloads.** Every time an agent calls a tool, the result comes back into the context. A database query returning a formatted 200-row result set. A terminal command producing 3,000 lines of build log. A web fetch returning full HTML before the relevant two sentences are extracted. These are not errors. They are how most tools behave by default, and every one of those tokens re-transmits on the next turn.
+**The Tool Result Tax: verbose environmental payloads.** Every time an agent calls a tool, the result comes back into the context. A database query returning a 200-row result set. A terminal command producing pages of build log. A web fetch returning full HTML when the agent needed one sentence.
 
-Compressing tool results—extracting only what the model needs before passing it back into context—is one of the highest-leverage optimizations available. It does not require switching models. It does not require architectural changes. It requires measuring what tool results actually cost and deciding what the model actually needs to see.
+These are not errors. They are how most tools behave by default. And every one of those tokens re-transmits on the next turn. Compressing tool results before passing them back is one of the highest-leverage optimizations available. No model change required. Just measuring what the model actually needs to see.
 
-Taken together, MCP schemas, skill payloads, and tool result verbosity are a hidden tax that compounds with every turn. In production agentic systems, this overhead regularly accounts for 40 to 70 percent of total token consumption on a given session. The model spend on actual reasoning is often the minority of the bill.
+Taken together, these three taxes account for 40 to 70 percent of total token consumption in most production sessions. The model spend on actual reasoning is often the minority of the bill.
 
 **You cannot optimize what you have not measured. Most teams have never separated the tax from the work.**
 
@@ -93,11 +93,11 @@ Software engineering benchmarks have become the clearest available window into w
 
 On SWE-bench, a standard evaluation where agents attempt to resolve real GitHub issues by generating patches that pass hidden test suites, the data tells a consistent story. Success rate matters far more than token price.
 
-Early agent configurations on GPT-4 resolved less than 1% of tasks. Each attempt cost around $0.24. The effective cost per resolved issue, accounting for the failures, was over $30. A simpler architecture at $0.05 per attempt delivered a lower cost per fix, not because it was smarter, but because it failed less catastrophically.
+Early agent configurations on GPT-4 resolved less than 1% of tasks. Each attempt cost $0.24. The effective cost per resolved issue, accounting for the failures, was over $30.
 
-Current frontier configurations tell a different story. Agents achieving 75 to 80% solve rates spend between $0.07 and $0.75 per attempt, yielding $0.09 to $1.00 per resolved task. The model priced at half the per-token rate does not automatically win. If it loops through more self-correction cycles to reach a working patch, its effective cost per resolved output climbs past the more expensive model that solved it in fewer turns.
+A simpler architecture at $0.05 per attempt delivered a lower cost per fix. Not because it was smarter. Because it failed less often.
 
-This is the trap: optimizing for the rate card without measuring the resolution rate. The cheapest token is not the cheapest outcome.
+The model priced at half the per-token rate does not automatically win. If it loops through more self-correction cycles to reach the same result, the cheaper sticker price compounds into a more expensive outcome.
 
 METR's Expenditure Horizon adds a harder constraint. Across open-ended machine learning optimization tasks, autonomous agents are cost-effective at low budgets. Below a few hundred dollars, agents implement improvements efficiently. Beyond $600 to $3,300 in total spend, the returns flatten. Human researchers become more cost-effective. The L-shaped curve appears consistently across model families and task types. Spending more does not produce proportionally more. At some point, it produces almost nothing.
 
@@ -139,7 +139,7 @@ Three phases, in order.
 
 **Measurement second.** You track cost per successful outcome, not cost per call. You instrument resolution rates per workflow type. You measure loop stagnation: how often an agent iterates without converging, because every stagnant loop is spend without output. If your instrumentation cannot tell you whether a session produced a verified result, you do not have cost measurement. You have billing data.
 
-**Governance third.** Budget limits by team and workflow. Routing policies that direct routine work to cheaper model tiers and escalate to frontier capability only when complexity warrants it—which is exactly what [Route the Intelligence](/writing/2026-05-10-route-the-intelligence) established as the starting point. Circuit breakers that halt sessions when spend exceeds a threshold without a resolution signal. Not to cap the system arbitrarily, but because an agent running past its expenditure horizon is burning budget on work that a human would resolve faster.
+**Governance third.** Budget limits by team and workflow. Routing policies that direct routine work to cheaper model tiers and escalate to frontier capability only when complexity warrants it. This is exactly what [Route the Intelligence](/writing/2026-05-10-route-the-intelligence) established as the starting point. Circuit breakers that halt sessions when spend exceeds a threshold without a resolution signal. Not to cap the system arbitrarily, but because an agent running past its expenditure horizon is burning budget on work that a human would resolve faster.
 
 The tooling exists. OpenTelemetry semantic conventions for generative AI provide vendor-agnostic token tracing. Langfuse provides granular cost attribution per prompt version and execution step. AI gateway layers like Portkey or LiteLLM enforce budget hard-caps by team or workflow. The technology is available. What is missing is the organizational decision to make cost per successful outcome a first-class metric, owned by someone, tracked in every review.
 
@@ -165,7 +165,7 @@ The teams that will build durable AI practices are not the ones that spend the m
 
 Back to the finance meeting from the opening. A hundred and twenty million tokens. $38,000. Three features. Four thousand support tickets.
 
-The team that cannot connect those numbers is hoping for credit. The team that can—resolution rate, cost per ticket, improvement over baseline, expenditure horizon by workflow—is asking for more budget, with evidence that it will compound.
+The team that cannot connect those numbers is hoping for credit. The team that can, with resolution rate, cost per ticket, improvement over baseline, and expenditure horizon by workflow, is asking for more budget, with evidence that it will compound.
 
 **You will not defend AI spend with a token count. You will defend it with an outcome.**
 
@@ -176,10 +176,10 @@ The team that cannot connect those numbers is hoping for credit. The team that c
 - [METR Expenditure Horizon: Measuring Optimization Ability](https://metr.org/blog/2026-07-21-expenditure-horizon/). The framework for measuring when autonomous agent spend crosses into diminishing returns and human effort becomes more economical.
 - [SWE-bench Leaderboard](https://www.swebench.com/). Cost-per-resolved-task data across agent architectures and model tiers.
 - [Dynamic Tool Gating and Lazy Schema Loading (arXiv:2604.21816)](https://arxiv.org/html/2604.21816v1). The research behind progressive tool disclosure and quantified MCP Tax measurements.
-- [Sandboxed Python Reduces Tool Schema Overhead — Red Hat Emerging Tech](https://next.redhat.com/2026/04/23/how-sandboxed-python-reduces-tool-schema-overhead-in-ai-agents/). The production benchmark showing 53% total token reduction.
+- [Sandboxed Python Reduces Tool Schema Overhead: Red Hat Emerging Tech](https://next.redhat.com/2026/04/23/how-sandboxed-python-reduces-tool-schema-overhead-in-ai-agents/). The production benchmark showing 53% total token reduction.
 - [Langfuse: Token and Cost Tracking](https://langfuse.com/docs/observability/features/token-and-cost-tracking). Open-source cost attribution at the trace and prompt version level.
 - [OpenTelemetry GenAI Semantic Conventions](https://opentelemetry.io/blog/2024/otel-generative-ai/). The vendor-agnostic standard for instrumenting agent token consumption across providers.
-- [FinOps for AI Overview — FinOps Foundation](https://www.finops.org/wg/finops-for-ai-overview/). The cloud FinOps parallel and emerging TokenOps working group framework.
+- [FinOps for AI Overview: FinOps Foundation](https://www.finops.org/wg/finops-for-ai-overview/). The cloud FinOps parallel and emerging TokenOps working group framework.
 - Related post: [Route the Intelligence, Not Just the Context.](/writing/2026-05-10-route-the-intelligence)
 - Related post: [The Skill Your Agent Should Never Have Learned.](/writing/2026-09-20-the-skill-your-agent-should-never-have-learned)
 - Related post: [You Don't Maximize Tokens. You Maximize Learning.](/writing/2026-08-05-token-maxing-learning)
