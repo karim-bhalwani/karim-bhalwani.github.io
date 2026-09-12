@@ -11,6 +11,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
  */
 export function isPostPublished(post: CollectionEntry<"posts">): boolean {
   if (post.data.draft) return false;
+  if (process.env.BUILD_ALL === "true") return true;
   if (import.meta.env.PROD) {
     const postDate = new Date(post.data.date);
     const now = new Date();
