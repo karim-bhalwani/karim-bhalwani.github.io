@@ -1,13 +1,18 @@
 ---
-layout: post
 title: "MIT Gave the Model a Python Interpreter. The Results Are Hard to Ignore."
+section: "Research"
 date: 2026-02-22 09:00:00 -0500
+read-time: "8 min read"
 reading_time: 8
-categories: AI RAG document-intelligence
-tags: [Context Engineering, AI Verification, Production Systems, Privacy & Security]
-author: Karim Bhalwani
+author: "Karim Bhalwani"
+description: "MIT's Recursive Language Models reframe long-context reasoning. Instead of forcing a model to read everything, the model writes code to interrogate the corpus. The benchmark results are strong, the architecture is sound, and deploying this safely requires controls the paper does not specify."
 excerpt: "MIT's Recursive Language Models reframe long-context reasoning. Instead of forcing a model to read everything, the model writes code to interrogate the corpus. The benchmark results are strong, the architecture is sound, and deploying this safely requires controls the paper does not specify."
+topic-hub: "ai-verification"
 topics: [ai-verification, token-economics]
+tags: [Context Engineering, AI Verification, Production Systems, Privacy & Security]
+featured: true
+hero_image: "/assets/mit-gave-the-model/hero-main.png"
+doi: "arXiv:2512.24601"
 ---
 
 ![MIT Recursive Language Models Hero](/assets/mit-gave-the-model/hero-main.png)

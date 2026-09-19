@@ -12,4 +12,7 @@ export default defineConfig({
       wrap: true,
     },
   },
+  redirects: {
+    "/writing/2026-02-22-mit-gave-the-model-a-python-interpreter": "/research/2026-02-22-mit-gave-the-model-a-python-interpreter",
+  },
 });

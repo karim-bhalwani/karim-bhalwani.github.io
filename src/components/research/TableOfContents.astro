@@ -1,0 +1,186 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+
+// Only show h2 and h3
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{tocHeadings.length > 0 && (
+  <nav class="toc-wrapper" aria-label="Table of contents">
+    <div class="toc-header">
+      <span class="toc-kicker">Contents</span>
+      <span class="toc-count">{tocHeadings.length} sections</span>
+    </div>
+    <ul class="toc-list" role="list">
+      {tocHeadings.map((heading) => (
+        <li class={`toc-item toc-item--depth-${heading.depth}`}>
+          <a href={`#${heading.slug}`} class="toc-link" data-slug={heading.slug}>
+            <span class="toc-title">{heading.text}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  function initTOC() {
+    const links = document.querySelectorAll<HTMLAnchorElement>(".toc-link");
+    if (!links.length) return;
+
+    const headings: { link: HTMLAnchorElement; el: HTMLElement; slug: string }[] = [];
+    links.forEach((link) => {
+      const slug = link.getAttribute("data-slug");
+      if (slug) {
+        const el = document.getElementById(slug);
+        if (el) headings.push({ link, el, slug });
+      }
+    });
+
+    if (!headings.length) return;
+
+    function updateActive() {
+      // 120px offset accounts for sticky header (~68px) plus breathing space
+      const scrollPos = window.scrollY + 120;
+      let current = headings[0];
+
+      for (let i = 0; i < headings.length; i++) {
+        const item = headings[i];
+        if (!item) continue;
+        const top = item.el.getBoundingClientRect().top + window.scrollY;
+        if (top <= scrollPos) {
+          current = item;
+        } else {
+          break;
+        }
+      }
+
+      headings.forEach((h) => {
+        if (h === current) {
+          h.link.classList.add("toc-link--active");
+        } else {
+          h.link.classList.remove("toc-link--active");
+        }
+      });
+    }
+
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            updateActive();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    updateActive();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTOC);
+  } else {
+    initTOC();
+  }
+</script>
+
+<style>
+  .toc-wrapper {
+    padding: var(--space-s) var(--space-m);
+  }
+
+  .toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+    padding-bottom: var(--space-3xs);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .toc-kicker {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
+  .toc-count {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    background-color: var(--color-surface-raised);
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--radius-full);
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .toc-item {
+    line-height: 1.4;
+  }
+
+  .toc-item--depth-3 {
+    padding-left: 0.75rem;
+  }
+
+  .toc-link {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    display: block;
+    padding: 0.25rem 0.5rem;
+    border-left: 2px solid transparent;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    transition: all var(--transition-fast);
+  }
+
+  .toc-item--depth-3 .toc-link {
+    font-size: 0.78rem;
+  }
+
+  .toc-title {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .toc-link:hover {
+    color: var(--color-text);
+    background-color: var(--color-surface-raised);
+  }
+
+  .toc-link--active {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+    border-left-color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  }
+</style>

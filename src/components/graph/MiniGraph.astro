@@ -1,11 +1,14 @@
 ---
 // MiniGraph.astro - Dynamic interactive network graph connecting topics and 6 most recent blog posts
 import { getPublishedPosts } from "../../utils/posts";
+import { getPublishedResearch } from "../../utils/research";
 import { getCollection } from "astro:content";
 
 const topics = await getCollection("topics");
 const sortedPosts = await getPublishedPosts();
-const recentPosts = sortedPosts.slice(0, 6);
+const sortedResearch = await getPublishedResearch();
+const recentPosts = sortedPosts.slice(0, 5);
+const recentResearch = sortedResearch.slice(0, 2);
 
 const initialNodes = [
   ...topics.map((t) => ({
@@ -14,6 +17,13 @@ const initialNodes = [
     type: "topic",
     r: 16,
     url: `/topics/${t.id}`,
+  })),
+  ...recentResearch.map((r) => ({
+    id: r.id,
+    label: r.data.title,
+    type: "research",
+    r: 12,
+    url: `/research/${r.id}`,
   })),
   ...recentPosts.map((p) => ({
     id: p.id,
@@ -57,6 +67,22 @@ recentPosts.forEach((post) => {
   // Fallback: If no topic matched directly, link to the first topic
   if (!linked && topics.length > 0) {
     initialLinks.push({ source: post.id, target: topics[0].id });
+  }
+});
+
+// 3. Research-to-topic links
+recentResearch.forEach((paper) => {
+  let linked = false;
+  const hub = paper.data["topic-hub"] || paper.data.topic_hub;
+  const rTopics = paper.data.topics || [];
+  topics.forEach((topic) => {
+    if (topic.id === hub || rTopics.includes(topic.id)) {
+      initialLinks.push({ source: paper.id, target: topic.id });
+      linked = true;
+    }
+  });
+  if (!linked && topics.length > 0) {
+    initialLinks.push({ source: paper.id, target: topics[0].id });
   }
 });
 ---
@@ -241,6 +267,7 @@ recentPosts.forEach((post) => {
 
       const isDark = document.documentElement.dataset.theme === "dark";
       const topicColor = isDark ? "#e09f67" : "#b85d19";
+      const researchColor = isDark ? "#a78bfa" : "#7c3aed";
       const postColor = isDark ? "#6fa882" : "#3b7a54";
 
       // Compute neighborhood for hovered node
@@ -318,7 +345,7 @@ recentPosts.forEach((post) => {
 
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fillStyle = n.type === "topic" ? topicColor : postColor;
+        ctx.fillStyle = n.type === "topic" ? topicColor : (n.type === "research" ? researchColor : postColor);
         ctx.fill();
 
         if (isHovered) {

@@ -1,0 +1,668 @@
+---
+import { render } from "astro:content";
+import { getPublishedResearch, formatReadingTime, getResearchAbstract } from "../../utils/research";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Tag from "../../components/Tag.astro";
+import TableOfContents from "../../components/research/TableOfContents.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const sorted = await getPublishedResearch();
+
+  return sorted.map((paper, i) => ({
+    params: { slug: paper.id },
+    props: {
+      paper,
+      prevPaper: i < sorted.length - 1 ? sorted[i + 1] : null,
+      nextPaper: i > 0 ? sorted[i - 1] : null,
+    },
+  }));
+}
+
+const { paper, prevPaper, nextPaper } = Astro.props;
+const { data } = paper;
+const { Content, headings } = await render(paper);
+
+const topics = await getCollection("topics");
+const topicMap = new Map(topics.map((t) => [t.id, t.data.title]));
+
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(new Date(data.date));
+
+const hubId = data["topic-hub"] || data.topic_hub;
+const hubTitle = hubId ? topicMap.get(hubId) || hubId : undefined;
+const readingTimeText = formatReadingTime(paper);
+const abstract = getResearchAbstract(paper);
+
+const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png`;
+---
+
+<BaseLayout
+  title={`${data.title} | Research | Karim Bhalwani`}
+  description={abstract || data.title}
+  ogImage={heroImage}
+  article={{
+    publishedTime: new Date(data.date).toISOString(),
+    modifiedTime: data.updated ? new Date(data.updated).toISOString() : new Date(data.date).toISOString(),
+    tags: data.tags,
+  }}
+>
+  <div class="reading-progress-container" aria-hidden="true">
+    <div id="readingProgressBar" class="reading-progress-bar"></div>
+  </div>
+
+  <div class="monograph-page-layout">
+    <!-- Left Sidebar Rail (Menu moved to left, sticky) -->
+    <aside class="monograph-sidebar-rail" aria-label="Monograph Navigation and Metadata">
+      <div class="monograph-sidebar-sticky">
+        <div class="sidebar-card">
+          <!-- Table of Contents Section -->
+          <TableOfContents headings={headings} />
+
+          <!-- Divider -->
+          <div class="sidebar-divider" role="separator"></div>
+
+          <!-- Citation & Reference Section -->
+          <div class="sidebar-section">
+            <span class="sidebar-kicker">Reference &amp; Citation</span>
+            <p class="sidebar-desc">
+              Personal research inquiry grounded in empirical benchmarks and systems architecture.
+            </p>
+            {data.doi && (
+              <div class="sidebar-reference">
+                <span class="ref-heading">Primary Source:</span>
+                <a
+                  href={`https://arxiv.org/abs/${data.doi.replace(/^arXiv:/i, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="ref-url-link"
+                  title="View original research on arXiv"
+                >
+                  <span class="ref-url-text">{data.doi} (MIT)</span>
+                  <svg class="ext-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+            )}
+          </div>
+
+          <!-- Knowledge Graph Connection -->
+          {hubId && (
+            <>
+              <div class="sidebar-divider" role="separator"></div>
+              <div class="sidebar-section">
+                <span class="sidebar-kicker">Knowledge Graph</span>
+                <a href={`/topics/${hubId}`} class="sidebar-hub-pill">
+                  <span class="hub-pill-dot" aria-hidden="true">✦</span>
+                  <span class="hub-pill-text">{hubTitle}</span>
+                  <span class="hub-pill-arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </>
+          )}
+
+          <!-- Back to top quick action -->
+          <div class="sidebar-divider" role="separator"></div>
+          <div class="sidebar-footer-action">
+            <button type="button" class="back-to-top-btn" id="sidebarBackToTop" aria-label="Scroll back to top of monograph">
+              <span class="btn-arrow" aria-hidden="true">↑</span>
+              <span>Back to top</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center Monograph Article (Header, Abstract, Content, Footer all centered together) -->
+    <article class="monograph-center stack stack-l">
+      <!-- Monograph Header -->
+      <header class="monograph-header stack stack-s">
+        <div class="cluster" style="justify-content: space-between; align-items: center">
+          <div class="cluster" style="--cluster-gap: var(--space-2xs); align-items: center">
+            <a href="/research" class="kicker monograph-kicker">← All Research</a>
+            <span class="monograph-divider">/</span>
+            <span class="badge-research">Monograph</span>
+          </div>
+          {hubId && (
+            <a href={`/topics/${hubId}`} class="topic-pill">
+              Topic: {hubTitle}
+            </a>
+          )}
+        </div>
+
+        <h1 class="monograph-title">{data.title}</h1>
+
+        <!-- Monograph Metadata Bar -->
+        <div class="monograph-meta cluster" style="justify-content: space-between; align-items: center">
+          <div class="cluster muted" style="--cluster-gap: var(--space-xs); font-size: var(--step--1)">
+            <span>By {data.author || "Karim Bhalwani"}</span>
+            <span>·</span>
+            <time datetime={new Date(data.date).toISOString()}>{formattedDate}</time>
+            {readingTimeText && (
+              <>
+                <span>·</span>
+                <span>{readingTimeText}</span>
+              </>
+            )}
+          </div>
+        </div>
+
+        <!-- Executive Abstract Box -->
+        {abstract && (
+          <aside class="abstract-box stack stack-3xs" aria-label="Executive Abstract">
+            <div class="abstract-badge">Executive Abstract &amp; Central Thesis</div>
+            <p class="abstract-body">{abstract}</p>
+          </aside>
+        )}
+
+        <!-- Tags -->
+        {data.tags && data.tags.length > 0 && (
+          <div class="monograph-tags cluster" style="--cluster-gap: var(--space-3xs)">
+            {data.tags.map((tag: string) => (
+              <Tag text={tag} href={`/writing?tag=${encodeURIComponent(tag)}`} />
+            ))}
+          </div>
+        )}
+
+        <hr class="monograph-divider-hr" />
+      </header>
+
+      <!-- Article Content -->
+      <main class="monograph-content prose" id="monographContent">
+        <Content />
+      </main>
+
+      <!-- Monograph Footer Navigation -->
+      <footer class="monograph-footer stack stack-l">
+        <hr class="monograph-divider-hr" />
+        <div class="cluster" style="justify-content: space-between; align-items: center">
+          {prevPaper ? (
+            <a href={`/research/${prevPaper.id}`} class="monograph-nav-link monograph-nav-link--prev">
+              <span class="kicker">← Previous Paper</span>
+              <span class="nav-title">{prevPaper.data.title}</span>
+            </a>
+          ) : <div />}
+
+          {nextPaper ? (
+            <a href={`/research/${nextPaper.id}`} class="monograph-nav-link monograph-nav-link--next">
+              <span class="kicker">Next Paper →</span>
+              <span class="nav-title">{nextPaper.data.title}</span>
+            </a>
+          ) : <div />}
+        </div>
+
+        <div class="monograph-back-row cluster" style="justify-content: center; --cluster-gap: var(--space-s)">
+          <a href="/research" class="btn btn--ghost">Return to Research Index</a>
+          {hubId && <a href={`/topics/${hubId}`} class="btn btn--ghost">Explore Topic Hub</a>}
+        </div>
+      </footer>
+    </article>
+
+    <!-- Right Balance Spacer: empty column to keep center column 100% centered -->
+    <div class="monograph-spacer" aria-hidden="true"></div>
+  </div>
+</BaseLayout>
+
+<script>
+  function initReader() {
+    // 1. Reading progress bar
+    const bar = document.getElementById("readingProgressBar");
+    if (bar) {
+      window.addEventListener("scroll", () => {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
+        bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+      }, { passive: true });
+    }
+
+    // 2. Back to top button in sidebar
+    const backToTop = document.getElementById("sidebarBackToTop");
+    if (backToTop) {
+      backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initReader);
+  } else {
+    initReader();
+  }
+</script>
+
+<style>
+  .reading-progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 1001;
+    background: transparent;
+  }
+
+  .reading-progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--color-accent);
+    transition: width 0.1s ease-out;
+  }
+
+  /* Page Layout with Centered Content and Left-Rail Sidebar */
+  .monograph-page-layout {
+    width: 100%;
+    margin-top: var(--space-xl);
+    padding-inline: var(--space-s);
+  }
+
+  /* Wide Desktop (>= 1240px): 3 symmetric columns, post is exactly centered */
+  @media (min-width: 1240px) {
+    .monograph-page-layout {
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) min(100%, var(--width-prose)) minmax(240px, 1fr);
+      column-gap: var(--space-xl);
+      align-items: stretch;
+      max-width: var(--width-wide);
+      margin-inline: auto;
+    }
+
+    .monograph-sidebar-rail {
+      grid-column: 1;
+      justify-self: end;
+      width: 250px;
+    }
+
+    .monograph-center {
+      grid-column: 2;
+      width: 100%;
+      max-width: var(--width-prose);
+      margin-inline: auto;
+    }
+
+    .monograph-spacer {
+      grid-column: 3;
+      display: block;
+    }
+  }
+
+  /* Medium Screens (960px to 1239px): 2 columns, sidebar on left, post on right */
+  @media (min-width: 960px) and (max-width: 1239px) {
+    .monograph-page-layout {
+      display: grid;
+      grid-template-columns: 240px minmax(0, var(--width-prose));
+      column-gap: var(--space-l);
+      justify-content: center;
+      align-items: stretch;
+      max-width: var(--width-container);
+      margin-inline: auto;
+    }
+
+    .monograph-sidebar-rail {
+      grid-column: 1;
+      width: 240px;
+    }
+
+    .monograph-center {
+      grid-column: 2;
+      width: 100%;
+      max-width: var(--width-prose);
+    }
+
+    .monograph-spacer {
+      display: none;
+    }
+  }
+
+  /* Mobile/Tablet (< 960px): Single centered column, sidebar sits before text */
+  @media (max-width: 959px) {
+    .monograph-page-layout {
+      display: flex;
+      flex-direction: column;
+      max-width: var(--width-prose);
+      margin-inline: auto;
+    }
+
+    .monograph-sidebar-rail {
+      order: 2;
+      width: 100%;
+      margin-block: var(--space-s) var(--space-m);
+    }
+
+    .monograph-sidebar-sticky {
+      position: static;
+      max-height: none;
+      overflow-y: visible;
+    }
+
+    .monograph-center {
+      display: contents;
+    }
+
+    .monograph-header {
+      order: 1;
+    }
+
+    .monograph-content {
+      order: 3;
+    }
+
+    .monograph-footer {
+      order: 4;
+    }
+
+    .monograph-spacer {
+      display: none;
+    }
+  }
+
+  /* Sticky Sidebar */
+  .monograph-sidebar-rail {
+    position: relative;
+  }
+
+  .monograph-sidebar-sticky {
+    position: sticky;
+    top: 5.5rem;
+    max-height: calc(100vh - 6.5rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-border) 80%, transparent) transparent;
+  }
+
+  .sidebar-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    transition: border-color var(--transition-fast);
+  }
+
+  .sidebar-card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-border));
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 0;
+  }
+
+  .sidebar-section {
+    padding: var(--space-s) var(--space-m);
+  }
+
+  .sidebar-kicker {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    display: block;
+    margin-bottom: var(--space-3xs);
+  }
+
+  .sidebar-desc {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-xs) 0;
+  }
+
+  .sidebar-reference {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.4rem 0.6rem;
+    background-color: var(--color-surface-raised);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  .ref-heading {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .ref-url-link {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    text-underline-offset: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    word-break: break-all;
+    transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+  }
+
+  .ref-url-link:hover {
+    color: var(--color-accent-hover);
+    text-decoration-color: var(--color-accent-hover);
+  }
+
+  .ext-icon {
+    flex-shrink: 0;
+  }
+
+  .sidebar-hub-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    text-decoration: none;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    padding: 0.35rem 0.55rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-raised);
+    transition: all var(--transition-fast);
+  }
+
+  .sidebar-hub-pill:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface-raised));
+  }
+
+  .hub-pill-dot {
+    color: var(--color-accent);
+    font-size: 0.75rem;
+  }
+
+  .hub-pill-text {
+    flex: 1;
+    font-weight: var(--weight-medium);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hub-pill-arrow {
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    transition: transform var(--transition-fast);
+  }
+
+  .sidebar-hub-pill:hover .hub-pill-arrow {
+    transform: translateX(3px);
+    color: var(--color-accent);
+  }
+
+  .sidebar-footer-action {
+    padding: var(--space-2xs) var(--space-m);
+    background-color: color-mix(in srgb, var(--color-bg) 50%, transparent);
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .back-to-top-btn {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.3rem;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast);
+  }
+
+  .back-to-top-btn:hover {
+    color: var(--color-accent);
+  }
+
+  .btn-arrow {
+    transition: transform var(--transition-fast);
+  }
+
+  .back-to-top-btn:hover .btn-arrow {
+    transform: translateY(-2px);
+  }
+
+  /* Monograph Header */
+  .monograph-header {
+    width: 100%;
+    margin-bottom: var(--space-l);
+  }
+
+  .monograph-kicker {
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .monograph-kicker:hover {
+    color: var(--color-accent);
+  }
+
+  .monograph-divider {
+    color: var(--color-border);
+  }
+
+  .badge-research {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    color: var(--color-accent);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .topic-pill {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .topic-pill:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .monograph-title {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    line-height: var(--leading-tight);
+    color: var(--color-text);
+  }
+
+  .monograph-meta {
+    padding-block: var(--space-3xs);
+  }
+
+  .abstract-box {
+    background-color: color-mix(in srgb, var(--color-surface) 90%, var(--color-bg));
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-m);
+  }
+
+  .abstract-badge {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+
+  .abstract-body {
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .monograph-divider-hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: var(--space-s) 0;
+  }
+
+  .monograph-content {
+    font-size: var(--step-0);
+    line-height: 1.75;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .monograph-footer {
+    width: 100%;
+    margin-top: var(--space-2xl);
+  }
+
+  .monograph-nav-link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    max-width: 320px;
+  }
+
+  .monograph-nav-link--next {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .nav-title {
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    color: var(--color-text);
+    line-height: var(--leading-snug);
+  }
+
+  .monograph-nav-link:hover .nav-title {
+    color: var(--color-accent);
+  }
+</style>

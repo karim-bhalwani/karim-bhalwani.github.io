@@ -1,0 +1,141 @@
+---
+title: "The Core Resists Redesign. The Edge Doesn't."
+section: Research
+topic-hub: Multi-Agent Orchestration
+tags: [Org Adaptation, Multi-Agent Fleets, AI Governance, Production Systems, Data Systems]
+date: 2026-09-18
+read-time: 18 min read
+description: "You cannot redesign an organization by editing it in place. The people and systems running it have every reason to protect its current shape. The alternative is building small, AI-native teams outside the org chart, then earning your way back in."
+---
+
+# The Core Resists Redesign. The Edge Doesn't.
+
+I've been sitting with an idea for a while now, and I think it's time to write it down properly. You cannot make an organization AI-native by editing it in place. You can bolt AI onto it. You can watch the bolt-on plateau. And you can spend a long time wondering why the transformation everyone promised never actually showed up.
+
+Most of the AI work happening inside companies right now is enablement, not transformation. You take a process built thirty years ago for people, and you hand the people running it a copilot. It helps. Everyone reports moving faster, and I don't doubt those numbers. But the process underneath doesn't change. Same handoffs, same approval chain, same assumption baked into the design that a human sits in the loop at every step deciding what happens next. You've made the old machine louder, not built a new one.
+
+Deloitte's 2026 survey of over 500 tech leaders puts a number on exactly how far behind the structural work is: only 15% of organizations have actually managed to scale a multi-agent system, even though roughly half of those same leaders say they have a clear picture of where their AI operating model is headed. Having the picture and building the thing are not the same skill. McKinsey's numbers land in the same place from a different angle: 62% of organizations are experimenting with or piloting AI agents, but no more than 10% say they've reached meaningful scale in any given business function, and only 23% have gotten as far as scaling agent use in even one or two functions. That's not a model-capability gap. Claude and GPT-class models are available to basically everyone now. It's a design gap, and design gaps don't close because the tool got better.
+
+## Why you can't fix it from inside
+
+Here's the part I think gets underestimated. Large organizations aren't badly managed. They're optimized for a different goal than transformation, and that goal actively works against the thing you're trying to do.
+
+Think about what actually gets a process owner promoted. It's not "I redesigned my function and shrank my own team." It's "I ran this reliably, on budget, with no surprises." Ask that same person to rebuild their function around agents that might make their headcount smaller, and you're asking them to work against their own interest. Most people won't, and I don't think that's a character flaw. It's just what the incentives point at.
+
+Then there's the compliance problem, which is quieter and, honestly, worse. The moment a project has "AI" or "agent" attached to it, it gets routed through the same review as a full production launch, and that review usually isn't one person's call, it's a standing council. Look at how large enterprises actually structure this and the roster is remarkably consistent: security, legal, privacy, compliance, data governance, enterprise architecture, often procurement and HR, plus a business unit representative to speak for whoever actually wants the thing built. That's not unreasonable on paper, each of those functions is protecting something real. But getting five or six people with genuinely different priorities into the same room, on the same page, about a two-week prototype is its own project, separate from the prototype itself. One AI governance consultant summed up why a six-week review rarely goes to hard judgment calls: most of it goes to calendar logistics, getting the right five people into one meeting, only for someone like the privacy attorney to show up and quietly wonder why she was called in on a use case that never touched personal data to begin with.
+
+The numbers back up how bad this actually gets. One 2025 governance benchmark found 56% of enterprises take six to eighteen months to move an AI project from intake into production, and that's before anyone talks about training or integrating the model, that's purely the internal approval pipeline. Separate research found that while an employee can start using a new AI tool in under two minutes, the security review to formally sanction that same tool can take eleven weeks. Gartner is right that ungoverned agent deployment is a genuine, common cause of failure, not a hypothetical one. But when a rough idea has to survive that same gauntlet as a finished system before anyone knows if it even works, most good ideas die of overhead, not of being bad.
+
+Put those two together, incentives protecting the status quo and review processes taxing new ideas at full price, and you get a predictable outcome. Transformation attempted inside a live function gets killed by review, starved by whoever's turf it threatens, or watered down until it's just another dashboard. I don't think this is a story about any one company being dysfunctional. It's close to universal, which is exactly why I stopped treating it as a culture problem you fix with a better memo from the C-suite.
+
+## Sell it to the core, don't just outflank it
+
+I want to be careful here, because everything I just said about incentives is true, and it's also incomplete on its own. If the edge team's whole posture toward the core is "we're building around you because you'll block us," that posture is exactly what gets edge teams politically strangled. Nobody cooperates with something built to make them obsolete.
+
+The version of this that actually survives contact with an organization treats the edge team less like a rival unit and more like an internal vendor. Its pitch to the function it's eventually going to replace isn't "we're going to do your job better than you." It's "you have this process, what's your actual pain point, let us fix that specific thing." That's a different conversation. It's not an ambush, it's an offer, and it's one the threatened function can accept, push back on, or ignore, the way you'd treat any vendor showing up with a proposal.
+
+None of the structural independence goes away. The edge team still doesn't report into the function's chain of command, still builds on its own timeline, still skips the full production-review gauntlet while it's prototyping. What changes is the target. It's building toward a problem the function already knows it has, not toward proving the function unnecessary. And that reframing compounds nicely with the module idea from later on: an edge team that's shipped a few things that visibly made someone else's week easier has an easier time getting the next function to say yes, because now it has a track record as a vendor worth working with, not a rumor about a team trying to replace people. Work migrates because the receiving team wants it, not because it was mandated from three levels up.
+
+## What actually works instead
+
+If you can't redesign the core while it's running, the redesign has to happen somewhere structurally separate from it. Close enough that it can eventually take the work over. Insulated enough that it isn't fighting the core's incentives while it builds.
+
+Picture small teams, three to five people, sitting outside the normal org chart, paired with a set of AI agents doing most of the execution work. Give them one specific business function. Give them a way in on data that doesn't force them to sit in the data-governance queue before they've built anything, more on exactly what that means below. Give them a real mandate: if we were building this function today, assuming agents are the default tool instead of an add-on, what would it actually look like? Then let them build that, for real, not as a slide deck.
+
+**On data access, I've gone back and forth, and I think the honest answer is it depends on the phase.** One school of thought says start the team on synthetic or sandboxed data. It's fast, it doesn't wait on anyone's approval, and nobody's real customer information is at risk while the team is still figuring out if the idea even works. The other school says that's a trap: synthetic data is a cartoon of your real operation, and a team that builds and validates entirely against a fiction can produce something that looks great in the sandbox and falls apart the first week it touches real inputs. That view argues for scoped, governed access to live systems from day one, read-heavy, tightly permissioned, with the actual system of record treated as the final word whenever the edge team's output and production data disagree.
+
+My honest read is that both camps are right about different stages of the same team's life. Start on synthetic or sandboxed data for the first few weeks, while the team is still figuring out the shape of the workflow and stress-testing logic that doesn't need real inputs to validate. That's the phase where waiting on data governance would kill momentum for no good reason. But before anyone calls the thing proven, graduate it to scoped, read-first access to the live systems, the same way a software team promotes code from a local environment to a staging environment with real, limited data before it ever reaches production. If the team never makes that jump, you've built something optimized for a fictional dataset, and you won't find out how fictional until it's already live.
+
+This isn't hypothetical. Contact centers are the clearest place to already see it play out. The organizations that moved fastest generally didn't try to convert their existing call center in place. They stood up a separate, AI-native version and ran it alongside the old one until it proved itself, then moved volume over. NTT DATA reports real deployments seeing total cost of ownership drop by up to 60%, and Gartner projects agentic AI will resolve 80% of common customer service issues autonomously by 2029, cutting operational costs by around 30%. That's not incremental. That's a different operating curve, and it came from building outside, not editing inside.
+
+Inside each of these teams, the structure I'd bet on is a small human core paired with an agent mesh, not one generalist assistant trying to do everything. And the shift in how that human core actually operates is worth being explicit about, because it's a different job than "human in the loop" usually means. In the loop means a person checks or approves each step before the next one happens, which is exactly the assumption baked into most of today's workflows, and exactly why the old process can't just be handed to agents without redesign, someone's supposed to be standing at every step. Above the loop means something else: the human sets the goal, defines what a good outcome looks like, and steps in only where judgment genuinely can't be delegated, while the agents run the steps in between without a person rubber-stamping each one. McKinsey's research on the agentic organization describes this directly, not a single assistant bolted onto a workflow, but small groups of specialized agents, each handling one piece of a bigger process, with humans mostly positioned above the loop to steer, and pulled directly in only where judgment genuinely matters. Same idea that made microservices work in software, just applied to how the work itself gets organized. The human core's job isn't watching every agent action. It's deciding what "better" means for this function, and handling the calls the agents genuinely can't make.
+
+## The part that makes it scale, not just work once
+
+If each edge team just produces one finished system for one function, you've solved one problem and you're starting from zero on the next. That's not a model. That's a lucky outcome.
+
+What makes it a model is that these teams don't just build a system, they build modules. A fraud-detection component. A customer-verification step. A routing rule. Pieces that get shared across the organization instead of staying locked inside the team that built them. If one team has already built and cleared a fraud-detection module and a verification module, and another team needs both plus one new piece, that second team only builds the new piece. Everything else, they pull off the shelf, already approved.
+
+That's the abstract version. In practice, a handful of these modules keep showing up needing almost the same shape everywhere you look, which is exactly why building them once as shared infrastructure, instead of letting every line of business reinvent its own version, is the better bet.
+
+Call transcript summarization is one. Every LOB that talks to customers, support, collections, claims, sales, ends up needing some version of "take this call and produce a clean summary, flag what mattered, tag what the customer actually asked for." Legal and medical document summarization is another, same underlying capability, read a long, dense document and pull out the parts that matter in a format someone can act on, just pointed at contracts in one LOB and clinical notes in another. A RAG layer over internal knowledge is close to universal too. HR wants it for policy questions, IT wants it for troubleshooting, sales wants it for product specs, and it's the same retrieval-plus-citation pattern underneath each one.
+
+PII and PHI redaction is another one that shouldn't get rebuilt five times. Anywhere a document moves between systems, or between a person and a model, something has to strip out SSNs, dates of birth, and clinical details before that content goes anywhere it shouldn't. Build that once, properly, with the jurisdiction-specific rules baked in, and every LOB touching sensitive documents pulls from the same certified redaction step instead of each function inventing its own ad hoc version.
+
+The pattern across all of these is the same: each one is a horizontal capability a lot of different LOBs need a version of, not a business-specific one-off. That's the case for building them the way you'd build shared infrastructure rather than a bespoke app per team. Think less "each LOB builds its own fraud tool" and more how cloud infrastructure stopped every company from running its own data center: a small number of well-built, well-governed AI services, a summarization agent, a redaction agent, a document-fraud agent, a RAG-retrieval agent, sitting underneath the whole enterprise, that any edge team can call instead of building from scratch. IaaS gave everyone compute without everyone owning a server room. This is close to the same idea, aimed at the handful of AI capabilities almost every function ends up needing a version of anyway.
+
+The way I'd actually organize this is one edge team per line of business, not one generic innovation team floating above the company solving whatever seems interesting that quarter. A team tied to a specific LOB has a real business owner, a real functional problem, and a real customer for its work. That's what makes the internal-vendor pitch from earlier land, it's aimed at someone specific, not the company in the abstract.
+
+But teams organized by LOB still have to work in sync, not in silos, or you've just relocated a dozen separate reinvention efforts instead of preventing them. The habit that has to be non-negotiable is checking before building, not after. Before a team writes a line of code, it goes shopping, into the module registry, or straight to another LOB's edge team, and asks what already exists. Has claims processing already solved customer verification? Has retail banking already built a fraud-detection piece this team needs? If two of the three components this team needs already exist and are already approved, the actual build shrinks to the one genuinely new piece.
+
+That coordination doesn't happen automatically just because a registry exists somewhere. Someone has to actually own keeping it current and searchable, and someone has to make shopping-before-building a real habit and not a policy nobody follows under deadline pressure. That's ongoing work, not a one-time setup cost, and it's worth naming honestly rather than assuming it takes care of itself. When it does work, though, the payoff compounds across the whole portfolio, not just within one team's roadmap. Every LOB is still solving its own specific problem on its own timeline, but none of them is starting from zero, and the whole company gets cheaper to run with every team that joins in.
+
+This is where governance stops being the enemy of speed and starts compounding your advantage instead. Right now, every new AI project pays full compliance and security review price, every time, even when it's reusing logic that's already been reviewed a dozen times elsewhere. That's the actual bottleneck. Gartner has documented this exact failure mode in platform teams generally: when governance gets implemented as an approval queue instead of as infrastructure, cycle times stretch from days into weeks and months, and people start finding workarounds, which is worse for governance than the slow process was ever trying to prevent.
+
+The fix the software industry already found for this is what platform engineers call the golden path. Build the compliant option so it's also the easy option. A module gets reviewed once, earns a kind of internal seal, and after that, anyone can pull it into a new solution without re-litigating the same compliance questions from scratch. Access controls, spend limits, data handling, all enforced automatically at the platform layer instead of depending on someone checking every request one at a time. You're not removing governance. You're moving it earlier and paying for it once instead of every time.
+
+## Let them break, on purpose
+
+There's one more piece I think is easy to skip past, and I don't think it should be optional. Every AI system you deploy will eventually get pushed past whatever it can reliably handle. That's not a risk you're managing down to zero, it's a guarantee. The only real choice is where that ceiling gets discovered.
+
+If it gets discovered in production, against a real customer, that's an incident. Someone's writing a postmortem, and probably apologizing to someone. If it gets discovered inside the edge team's own sandbox, on purpose, before anything ships, that's just a Tuesday. Same failure, completely different cost, and the only variable that changed is whether you went looking for it first.
+
+So the edge team's job isn't only to build the thing and hope it holds up. Part of the mandate should be actively trying to break it, pushing volume, edge cases, and weird inputs at the system until something gives, then watching how it fails and how it recovers. That's a genuinely different kind of learning than a risk-assessment meeting produces. A meeting can speculate about where an agent might go wrong. Actually watching it go wrong, and cleaning up after it, tells you the real ceiling instead of a guessed one.
+
+This also gives the module-certification idea from a minute ago some actual teeth. A module earning that internal seal of approval shouldn't just mean "it worked in testing." It should mean someone deliberately tried to break it first, and it survived, or the team fixed what didn't. That's a meaningfully higher bar than most compliance review actually applies today, and it's a bar the edge team can clear faster than a traditional review cycle, because they're the ones doing the breaking on their own schedule instead of waiting for someone else to find the failure for them.
+
+## What the evidence actually says
+
+I don't think I'm reaching here. A few independent numbers, worth having in one place:
+
+- **Deloitte, 2026:** only 15% of organizations have scaled a multi-agent system, despite roughly half claiming a clear operating-model vision. Most are still applying agents on top of unredesigned processes because it's the fast path, and the fast path skips the real benefit.
+- **McKinsey, 2026:** less than 10% of agentic programs have reached meaningful scale in any given business function, even though 62% of organizations are experimenting with or piloting agents. Infrastructure costs for AI workloads are projected to rise two to three times by 2030 while budgets stay roughly flat, meaning the wrong operating model gets you the same output for more money.
+- **Gartner, 2025:** more than 40% of agentic AI projects will be canceled by the end of 2027. The driver isn't model capability, it's escalating cost, unclear business value, and inadequate risk controls.
+- **Gartner, 2026:** only 17% of enterprises have deployed AI agents so far, even as multi-agent system inquiries surged 1,445% between Q1 2024 and Q2 2025, the fastest adoption-intent curve Gartner has recorded for any emerging technology.
+- **Gartner, 2026:** by 2030, roughly 80% of software engineering organizations will shift toward smaller, AI-assisted "tiny teams," letting the people who understand the problem build the solution directly instead of routing everything through one centralized team.
+- **Anthropic's Economic Index:** current AI use still splits 57% augmentation to 43% automation, meaning most of what's happening today is AI helping a person do their job, not AI running a process end to end. Separately, the share of US employees using AI at work jumped from 20% in 2023 to 40% by 2025, a pace of adoption that took the internet roughly five years to reach and AI about two.
+
+Taken together, this isn't a story about model capability being the constraint. It's a story about organizational design being the constraint, almost everywhere you look.
+
+## The obvious objection
+
+Why not just buy a comprehensive agentic AI suite from a major vendor and roll it out everywhere, and skip the internal building?
+
+A purchased platform, however good, still gets deployed inside your existing structure. Same reporting lines, same functional boundaries, same approval chains. It makes those boundaries move faster. It doesn't redraw them, and redrawing them is the actual point.
+
+There's a competitive problem underneath the shortcut, too. If you and your closest competitor both buy the same vendor's agent catalog, neither of you gets ahead, because you've both purchased the identical cost reduction. Real advantage comes from proprietary process knowledge that builds up inside your own operations over time, and that only comes from your own people doing the work on your own workflows. You can't buy that off a shelf, by definition. And there's a lock-in problem on top of that: when one vendor supplies your orchestration layer, your governance tooling, and your core systems all at once, your ability to evolve is tied to their roadmap, not yours.
+
+None of this argues against using vendor tools. Edge teams should use the best available models and infrastructure instead of reinventing everything. The distinction is between vendor tools as components inside a structure you control, versus a vendor's entire operating model standing in for actually redesigning your own.
+
+## Where I land
+
+The organizations ahead in five years won't be the ones with the best models, because at this point basically everyone has access to good models. They'll be the ones that figured out early that adding AI to an existing process and becoming genuinely AI-native are two different projects, and that you can't do the second by editing the first in place.
+
+The harder part isn't the architecture. Small teams, modular builds, governance done once and reused, none of that is a particularly novel idea on its own. The harder part is the discipline. Letting these teams actually operate independently instead of quietly pulling them back under normal reporting the first time they threaten someone's turf. Treating most individual teams failing as the normal cost of running a real portfolio, not proof the approach was wrong. Keeping a sponsor in the room long enough for the module library to actually start compounding, which takes longer than most executives are comfortable waiting.
+
+That discipline, not the technology, is what separates the companies that get to AI-native from the ones still running a faster version of the same old process five years from now.
+
+---
+
+## Sources
+
+- McKinsey, "The agentic organization: A new operating model for AI," 2026. https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era
+- McKinsey, "Reimagining tech infrastructure for (and with) agentic AI," 2026. https://www.mckinsey.com/capabilities/mckinsey-technology/our-insights/reimagining-tech-infrastructure-for-and-with-agentic-ai
+- McKinsey report on AI agent scaling, as covered in "McKinsey report shows AI interest but slow scaling," IT Brief, 2025. https://itbrief.co.uk/story/mckinsey-report-shows-ai-interest-but-slow-scaling
+- Deloitte, "Agentic AI Years Away for Most Enterprises," CIO Dive coverage of Deloitte's 2026 survey of 500+ tech leaders. https://www.ciodive.com/news/agentic-ai-years-away-enterprises/827737/
+- Deloitte, "In a New Era of Work, Winning Organizations Will Build the Human Advantage" (2026 Global Human Capital Trends), press release, March 4, 2026. https://www.deloitte.com/us/en/about/press-room/deloitte-report-winning-organizations-will-build-the-human-advantage.html
+- Gartner, "Gartner Predicts Over 40% of Agentic AI Projects Will Be Canceled by End of 2027," press release, June 25, 2025. https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027
+- Gartner's 2026 Hype Cycle for Agentic AI, as summarized in "5 hard truths from the first-ever Agentic AI Hype Cycle," Tray.ai, 2026. https://tray.ai/blog/gartner-agentic-ai-hype-cycle-2026/
+- Gartner, "Future of Software Engineering 2030: AI-Native Tiny Teams," March 2, 2026. https://www.gartner.com/en/documents/7530885
+- Anthropic, "The Anthropic Economic Index," 2025. https://www.anthropic.com/research/the-anthropic-economic-index
+- Anthropic, "Anthropic Economic Index report: Uneven geographic and enterprise AI adoption," September 15, 2025. https://www.anthropic.com/research/anthropic-economic-index-september-2025-report
+- NTT DATA, contact-center agentic AI use cases and cost outcomes, 2026. https://nj-resources.nojitter.com/free/w_defa9660
+- Gartner contact-center projections, as summarized in "Agentic AI for Contact Centers," Avaya, 2026. https://www.avaya.com/en/insights/agentic-ai-for-contact-centers/
+- Tian Pan, "Golden Paths for AI Agents: How Platform Teams Can Enable Adoption Without Becoming a Bottleneck," 2026. https://tianpan.co/blog/2026/05/06/golden-path-internal-platform-ai-agent-self-service
+- TrueFoundry, "What Is AI Platform Engineering." https://www.truefoundry.com/ar/blog/what-is-ai-platform-engineering
+- OneTrust, "Establishing an AI Governance Committee: How to Structure Roles, Speed Approvals, and Reduce Rework," October 10, 2025. https://www.onetrust.com/content/onetrust/us/en/blog/establishing-an-ai-governance-committee-an-inside-look-at-onetrusts-process/
+- Credo.ai, "Accelerating AI governance: 4 pipes to unclog," August 5, 2026. https://www.credo.ai/blog/accelerating-ai-governance-4-pipes-to-unclog
+- Unframe, "How to Build AI Guardrails Without Slowing Everything Down," citing ModelOp's 2025 AI Governance Benchmark Report and McKinsey's 2025 State of AI report, May 14, 2026. https://www.unframe.ai/blog/build-ai-guardrails-without-slowing-down
+- WitnessAI, "How to Shorten Your AI Approval Cycle," June 28, 2026. https://witness.ai/blog/how-to-shorten-your-ai-approval-cycle/
+- PYMNTS, "AI-Generated Fake Receipts Now Make Up 71% of Expense Fraud," citing AppZen platform data, 2026. https://www.pymnts.com/?p=3892615
+- Cassidy AI, "AI PII/PHI Redaction Agent," product documentation on jurisdiction-aware redaction across medical records, claims, and adjuster notes. https://cassidyai.com/solutions/ai-pii-phi-redaction-agent-fbbfd

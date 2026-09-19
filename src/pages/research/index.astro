@@ -1,0 +1,130 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ResearchCard from "../../components/research/ResearchCard.astro";
+import { getPublishedResearch, formatReadingTime, getResearchAbstract } from "../../utils/research";
+import { getCollection } from "astro:content";
+
+const papers = await getPublishedResearch();
+const topics = await getCollection("topics");
+
+// Create topic lookup for fast hub title mapping
+const topicMap = new Map(topics.map((t) => [t.id, t.data.title]));
+
+// Unique tags across research papers
+const tagCountMap: Record<string, number> = {};
+papers.forEach((p) => {
+  (p.data.tags || []).forEach((t: string) => {
+    tagCountMap[t] = (tagCountMap[t] || 0) + 1;
+  });
+});
+const sortedTags = Object.entries(tagCountMap)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  .map(([tag, count]) => ({ tag, count }));
+---
+
+<BaseLayout
+  title="Research & Monographs | Karim Bhalwani"
+  description="Foundational research, strategic whitepapers, and empirical investigations into multi-agent systems, organizational adaptation, and AI governance."
+>
+  <div class="container stack stack-l" style="margin-top: var(--space-xl)">
+    <header class="stack stack-xs">
+      <p class="kicker">Foundational Inquiries · Strategic Architecture</p>
+      <h1>Research &amp; Monographs</h1>
+      <p class="lead measure">
+        Long-form treatises and empirical inquiries examining multi-agent orchestration, organizational design, 
+        and structural AI governance. Grounded in benchmark data and systems reality.
+      </p>
+    </header>
+
+    {papers.length > 0 ? (
+      <div class="stack stack-m">
+        <div class="research-header-row cluster" style="justify-content: space-between; align-items: center">
+          <span class="research-counter kicker">
+            {papers.length} {papers.length === 1 ? "Monograph Published" : "Monographs Published"}
+          </span>
+          <div class="cluster" style="--cluster-gap: var(--space-2xs)">
+            <a href="/topics" class="btn btn--ghost" style="padding: 0.35rem 0.75rem; font-size: var(--step--1)">Browse Topic Hubs</a>
+            <a href="/writing" class="btn btn--ghost" style="padding: 0.35rem 0.75rem; font-size: var(--step--1)">Technical Notes Archive</a>
+          </div>
+        </div>
+
+        <div class="stack stack-l">
+          {papers.map((paper) => {
+            const hubId = paper.data["topic-hub"] || paper.data.topic_hub;
+            const hubTitle = hubId ? topicMap.get(hubId) || hubId : undefined;
+            return (
+              <ResearchCard
+                title={paper.data.title}
+                slug={paper.id}
+                date={paper.data.date}
+                reading_time={formatReadingTime(paper)}
+                description={getResearchAbstract(paper)}
+                tags={paper.data.tags}
+                topic_hub={hubId}
+                topic_hub_title={hubTitle}
+                featured={paper.data.featured}
+              />
+            );
+          })}
+        </div>
+      </div>
+    ) : (
+      <div class="research-empty-state stack stack-m">
+        <div class="empty-icon-wrap" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+            <path d="M6 6h10"></path>
+            <path d="M6 10h10"></path>
+            <path d="M6 14h6"></path>
+          </svg>
+        </div>
+        <div class="stack stack-2xs" style="max-width: 54ch; margin: 0 auto;">
+          <h2>Inquiries Under Peer Review &amp; Synthesis</h2>
+          <p class="muted">
+            Foundational research papers, institutional transformation studies, and empirical benchmark monographs are in active preparation.
+          </p>
+          <p class="muted" style="font-size: var(--step--1)">
+            In the meantime, explore our 19+ practical systems engineering posts in <strong><a href="/writing">Writing</a></strong> or explore interconnected themes in the <strong><a href="/topics">Topic Hubs</a></strong>.
+          </p>
+        </div>
+        <div class="cluster" style="justify-content: center; --cluster-gap: var(--space-s)">
+          <a href="/writing" class="btn">Read Technical Notes</a>
+          <a href="/topics" class="btn btn--ghost">Explore Topics</a>
+        </div>
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .research-header-row {
+    padding-bottom: var(--space-s);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .research-counter {
+    font-size: var(--step--1);
+  }
+
+  .research-empty-state {
+    text-align: center;
+    padding: var(--space-3xl) var(--space-m);
+    background-color: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg, 12px);
+    margin: var(--space-m) 0 var(--space-3xl);
+  }
+
+  .empty-icon-wrap {
+    color: var(--color-accent);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+  }
+
+  .research-empty-state h2 {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+  }
+</style>

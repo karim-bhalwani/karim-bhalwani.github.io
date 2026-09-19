@@ -1,19 +1,29 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getPublishedPosts } from "../../utils/posts";
+import { getPublishedResearch } from "../../utils/research";
 import { getCollection } from "astro:content";
 
 const topics = await getCollection("topics");
 const allPosts = await getPublishedPosts();
+const allResearch = await getPublishedResearch();
 
 const topicCards = topics.map((topic) => {
   const topicPosts = allPosts
     .filter((p) => (p.data.topics || []).includes(topic.id))
     .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
+  const topicResearch = allResearch
+    .filter((p) => {
+      const hub = p.data["topic-hub"] || p.data.topic_hub;
+      const t = p.data.topics || [];
+      return hub === topic.id || t.includes(topic.id);
+    });
+
   return {
     topic,
     count: topicPosts.length,
+    researchCount: topicResearch.length,
     latestPost: topicPosts[0],
   };
 });
@@ -34,12 +44,14 @@ const topicCards = topics.map((topic) => {
 
     <div class="auto-grid" style="--grid-min: 20rem">
       {
-        topicCards.map(({ topic, count, latestPost }) => {
+        topicCards.map(({ topic, count, researchCount, latestPost }) => {
           return (
             <article class="topic-hub-card stack stack-s">
               <div class="topic-hub-card__header cluster" style="justify-content: space-between; align-items: center">
                 <span class="kicker">{topic.data.category || "Topic Hub"}</span>
-                <span class="badge-count">{count} {count === 1 ? "Post" : "Posts"}</span>
+                <span class="badge-count">
+                  {researchCount > 0 ? `${researchCount} Research · ` : ""}{count} {count === 1 ? "Post" : "Posts"}
+                </span>
               </div>
 
               <h2 class="topic-hub-card__title">

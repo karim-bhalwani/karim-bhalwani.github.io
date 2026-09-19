@@ -16,6 +16,7 @@ h6 {
   letter-spacing: var(--tracking-tight);
   color: var(--color-text);
   text-wrap: balance;
+  scroll-margin-top: 5.5rem;
 }
 
 h1 {

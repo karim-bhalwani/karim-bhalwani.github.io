@@ -52,4 +52,29 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { posts, topics, projects };
+// 4. Research (Foundational Research, Monographs & Whitepapers)
+const research = defineCollection({
+  loader: base("research"),
+  schema: z.object({
+    title: z.string(),
+    section: z.string().default("Research"),
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
+    "read-time": z.string().optional(),
+    read_time: z.string().optional(),
+    reading_time: z.union([z.string(), z.number()]).optional(),
+    description: z.string().optional(),
+    excerpt: z.string().optional(),
+    "topic-hub": z.string().optional(),
+    topic_hub: z.string().optional(),
+    topics: z.array(z.string()).default([]),
+    tags: z.array(z.string()).default([]),
+    author: z.string().default("Karim Bhalwani"),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+    hero_image: z.string().optional(),
+    doi: z.string().optional(),
+  }),
+});
+
+export const collections = { posts, topics, projects, research };

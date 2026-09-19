@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getPublishedPosts } from "../utils/posts";
+import { getPublishedResearch } from "../utils/research";
 import { getCollection } from "astro:content";
 
 const allPosts = await getPublishedPosts();
+const allResearch = await getPublishedResearch();
 const allTopics = await getCollection("topics");
 const allProjects = await getCollection("projects");
 
@@ -17,6 +19,21 @@ const graphNodes = [
     radius: 18,
     topics: t.data.related || [],
   })),
+  ...allResearch.map((r) => {
+    const hub = r.data["topic-hub"] || r.data.topic_hub;
+    const rTopics = [...(r.data.topics || [])];
+    if (hub && !rTopics.includes(hub)) rTopics.push(hub);
+    return {
+      id: r.id,
+      label: r.data.title,
+      type: "research",
+      summary: r.data.description || r.data.excerpt || "",
+      url: `/research/${r.id}`,
+      radius: 13,
+      topics: rTopics,
+      tags: r.data.tags || [],
+    };
+  }),
   ...allPosts.map((p) => ({
     id: p.id,
     label: p.data.title,
@@ -81,6 +98,7 @@ const graphNodes = [
         <canvas id="explorerCanvas" class="explorer-canvas" aria-label="Interactive knowledge graph"></canvas>
         <div class="canvas-legend cluster" style="--cluster-gap: var(--space-s)">
           <span class="legend-item"><span class="legend-dot legend-dot--topic"></span> Topic Hub</span>
+          <span class="legend-item"><span class="legend-dot legend-dot--research"></span> Research Monograph</span>
           <span class="legend-item"><span class="legend-dot legend-dot--post"></span> Blog Post</span>
           <span class="legend-item"><span class="legend-dot legend-dot--project"></span> Architecture System</span>
         </div>
@@ -219,6 +237,9 @@ const graphNodes = [
 
   .legend-dot--topic {
     background-color: #e09f67;
+  }
+  .legend-dot--research {
+    background-color: #a78bfa;
   }
   .legend-dot--post {
     background-color: #6fa882;
@@ -524,6 +545,7 @@ const graphNodes = [
         ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
 
         if (n.type === "topic") ctx.fillStyle = isDark ? "#e09f67" : "#b85d19";
+        else if (n.type === "research") ctx.fillStyle = isDark ? "#a78bfa" : "#7c3aed";
         else if (n.type === "project") ctx.fillStyle = isDark ? "#5c9df5" : "#2b6cb0";
         else ctx.fillStyle = isDark ? "#6fa882" : "#3b7a54";
 

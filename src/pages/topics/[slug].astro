@@ -1,8 +1,10 @@
 ---
 import { getCollection, render } from "astro:content";
 import { getPublishedPosts } from "../../utils/posts";
+import { getPublishedResearch, formatReadingTime, getResearchAbstract } from "../../utils/research";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostCard from "../../components/PostCard.astro";
+import ResearchCard from "../../components/research/ResearchCard.astro";
 
 export async function getStaticPaths() {
   const topics = await getCollection("topics");
@@ -18,6 +20,16 @@ const { Content } = await render(topic);
 
 const allTopics = await getCollection("topics");
 const allPosts = await getPublishedPosts();
+const allResearch = await getPublishedResearch();
+
+// Match research papers that connect to this topic
+const relatedResearch = allResearch
+  .filter((paper) => {
+    const hub = paper.data["topic-hub"] || paper.data.topic_hub;
+    const pTopics = paper.data.topics || [];
+    return hub === topic.id || pTopics.includes(topic.id);
+  })
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
 // Match posts that connect to this topic
 const relatedPosts = allPosts
@@ -39,7 +51,9 @@ const relatedHubs = (data.related || [])
     <header class="stack stack-s">
       <div class="cluster" style="justify-content: space-between; align-items: center">
         <span class="kicker">{data.category || "Topic Hub"}</span>
-        <span class="badge-count">{relatedPosts.length} {relatedPosts.length === 1 ? "Post" : "Posts"}</span>
+        <span class="badge-count">
+          {relatedResearch.length > 0 ? `${relatedResearch.length} Research · ` : ""}{relatedPosts.length} {relatedPosts.length === 1 ? "Post" : "Posts"}
+        </span>
       </div>
 
       <h1>{data.title}</h1>
@@ -47,6 +61,11 @@ const relatedHubs = (data.related || [])
 
       <!-- Topic Action Shortcuts -->
       <div class="cluster" style="--cluster-gap: var(--space-xs); margin-top: var(--space-2xs)">
+        {relatedResearch.length > 0 && (
+          <a href="/research" class="btn btn--ghost" style="font-size: 0.8rem">
+            Research Monographs ({relatedResearch.length}) →
+          </a>
+        )}
         <a href={`/writing?topic=${topic.id}`} class="btn btn--ghost" style="font-size: 0.8rem">
           Filter in Archive ({relatedPosts.length}) →
         </a>
@@ -79,10 +98,39 @@ const relatedHubs = (data.related || [])
       )
     }
 
+    <!-- Research in this Hub if any -->
+    {
+      relatedResearch.length > 0 && (
+        <section class="stack stack-m" style="margin-top: var(--space-l)">
+          <div class="section-header cluster" style="justify-content: space-between; align-items: baseline">
+            <h2>Foundational Research &amp; Monographs</h2>
+            <span class="muted" style="font-family: var(--font-mono); font-size: 0.8rem">
+              {relatedResearch.length} {relatedResearch.length === 1 ? "monograph" : "monographs"}
+            </span>
+          </div>
+
+          <div class="stack stack-m">
+            {relatedResearch.map((paper) => (
+              <ResearchCard
+                title={paper.data.title}
+                slug={paper.id}
+                date={paper.data.date}
+                reading_time={formatReadingTime(paper)}
+                description={getResearchAbstract(paper)}
+                tags={paper.data.tags}
+                topic_hub={paper.data["topic-hub"] || paper.data.topic_hub}
+                featured={paper.data.featured}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
     <!-- Posts in this Hub -->
     <section class="stack stack-m" style="margin-top: var(--space-l)">
       <div class="section-header cluster" style="justify-content: space-between; align-items: baseline">
-        <h2>Blog Posts in this Hub</h2>
+        <h2>Technical Notes &amp; Implementation Articles</h2>
         <span class="muted" style="font-family: var(--font-mono); font-size: 0.8rem">
           {relatedPosts.length} {relatedPosts.length === 1 ? "article" : "articles"}
         </span>
