@@ -18,7 +18,7 @@ doi: "arXiv:2512.24601"
 ![MIT Recursive Language Models Hero](/assets/mit-gave-the-model/hero-main.png)
 
 
-In my [last post](/writing/2026-02-07-beyond-million-token-window), I argued that context capacity and context intelligence are not the same thing. A million-token window doesn't solve multi-hop reasoning. It just makes the failure modes more expensive. The fix was architectural: hierarchical navigation, scratchpad routing, cache-augmented generation. Build a system that reads documents the way a human expert does.
+Context capacity and context intelligence are fundamentally different properties. A million-token window doesn't solve multi-hop reasoning. It just makes the failure modes more expensive. The fix is architectural: hierarchical navigation, scratchpad routing, cache-augmented generation. Build a system that reads documents the way a human expert does.
 
 That framework works. But it assumes the decomposition strategy is designed in advance. You define the tree structure. You write the routing logic. You decide how chunks relate to each other.
 
@@ -34,7 +34,7 @@ A standard LLM call looks like this:
 llm(query + context)
 ```
 
-The model passively consumes everything and produces an answer. The failure modes from my last post all stem from this: attention degrades in the middle, multi-hop chains get lost, the Key (K) and Value (V) cache fills with noise.
+The model passively consumes everything and produces an answer. The predictable failure modes all stem from this: attention degrades in the middle, multi-hop chains get lost, the Key (K) and Value (V) cache fills with noise.
 
 An RLM call behaves differently:
 
@@ -117,7 +117,7 @@ Six controls worth adding before you deploy:
 
 ## Where RLMs Fit
 
-RLMs are not a replacement for the architectural thinking from my last post. They are an inference harness that adds dynamic decomposition on top of it.
+RLMs are not a replacement for deliberate retrieval architecture. They are an inference harness that adds dynamic decomposition on top of it.
 
 Hierarchical navigation gives you predictable routing, auditable decision paths, and stable performance envelopes. RLMs give you adaptive traversal, query-specific decomposition, and efficient scaling to token counts that flat ingestion simply cannot handle. In high-variance document environments the latter is powerful. In regulated environments the former is stabilizing. The strongest production systems will combine both, with a pre-indexed RAPTOR structure serving as the object the RLM reasons over.
 

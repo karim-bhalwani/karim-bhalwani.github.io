@@ -1,14 +1,17 @@
 ---
 title: "The Core Resists Redesign. The Edge Doesn't."
-section: Research
-topic-hub: Multi-Agent Orchestration
-tags: [Org Adaptation, Multi-Agent Fleets, AI Governance, Production Systems, Data Systems]
-date: 2026-09-18
-read-time: 18 min read
+section: "Research"
+date: 2026-09-18 09:00:00 -0400
+read-time: "18 min read"
+reading_time: 18
+author: "Karim Bhalwani"
 description: "You cannot redesign an organization by editing it in place. The people and systems running it have every reason to protect its current shape. The alternative is building small, AI-native teams outside the org chart, then earning your way back in."
+excerpt: "You cannot redesign an organization by editing it in place. The people and systems running it have every reason to protect its current shape. The alternative is building small, AI-native teams outside the org chart, then earning your way back in."
+topic-hub: "multi-agent-orchestration"
+topics: [multi-agent-orchestration, agent-harness, data-systems]
+tags: [Org Adaptation, Multi-Agent Fleets, AI Governance, Production Systems, Agent Harness]
+featured: true
 ---
-
-# The Core Resists Redesign. The Edge Doesn't.
 
 I've been sitting with an idea for a while now, and I think it's time to write it down properly. You cannot make an organization AI-native by editing it in place. You can bolt AI onto it. You can watch the bolt-on plateau. And you can spend a long time wondering why the transformation everyone promised never actually showed up.
 
@@ -117,25 +120,26 @@ That discipline, not the technology, is what separates the companies that get to
 
 ---
 
-## Sources
+## Resources
 
-- McKinsey, "The agentic organization: A new operating model for AI," 2026. https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era
-- McKinsey, "Reimagining tech infrastructure for (and with) agentic AI," 2026. https://www.mckinsey.com/capabilities/mckinsey-technology/our-insights/reimagining-tech-infrastructure-for-and-with-agentic-ai
-- McKinsey report on AI agent scaling, as covered in "McKinsey report shows AI interest but slow scaling," IT Brief, 2025. https://itbrief.co.uk/story/mckinsey-report-shows-ai-interest-but-slow-scaling
-- Deloitte, "Agentic AI Years Away for Most Enterprises," CIO Dive coverage of Deloitte's 2026 survey of 500+ tech leaders. https://www.ciodive.com/news/agentic-ai-years-away-enterprises/827737/
-- Deloitte, "In a New Era of Work, Winning Organizations Will Build the Human Advantage" (2026 Global Human Capital Trends), press release, March 4, 2026. https://www.deloitte.com/us/en/about/press-room/deloitte-report-winning-organizations-will-build-the-human-advantage.html
-- Gartner, "Gartner Predicts Over 40% of Agentic AI Projects Will Be Canceled by End of 2027," press release, June 25, 2025. https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027
-- Gartner's 2026 Hype Cycle for Agentic AI, as summarized in "5 hard truths from the first-ever Agentic AI Hype Cycle," Tray.ai, 2026. https://tray.ai/blog/gartner-agentic-ai-hype-cycle-2026/
-- Gartner, "Future of Software Engineering 2030: AI-Native Tiny Teams," March 2, 2026. https://www.gartner.com/en/documents/7530885
-- Anthropic, "The Anthropic Economic Index," 2025. https://www.anthropic.com/research/the-anthropic-economic-index
-- Anthropic, "Anthropic Economic Index report: Uneven geographic and enterprise AI adoption," September 15, 2025. https://www.anthropic.com/research/anthropic-economic-index-september-2025-report
-- NTT DATA, contact-center agentic AI use cases and cost outcomes, 2026. https://nj-resources.nojitter.com/free/w_defa9660
-- Gartner contact-center projections, as summarized in "Agentic AI for Contact Centers," Avaya, 2026. https://www.avaya.com/en/insights/agentic-ai-for-contact-centers/
-- Tian Pan, "Golden Paths for AI Agents: How Platform Teams Can Enable Adoption Without Becoming a Bottleneck," 2026. https://tianpan.co/blog/2026/05/06/golden-path-internal-platform-ai-agent-self-service
-- TrueFoundry, "What Is AI Platform Engineering." https://www.truefoundry.com/ar/blog/what-is-ai-platform-engineering
-- OneTrust, "Establishing an AI Governance Committee: How to Structure Roles, Speed Approvals, and Reduce Rework," October 10, 2025. https://www.onetrust.com/content/onetrust/us/en/blog/establishing-an-ai-governance-committee-an-inside-look-at-onetrusts-process/
-- Credo.ai, "Accelerating AI governance: 4 pipes to unclog," August 5, 2026. https://www.credo.ai/blog/accelerating-ai-governance-4-pipes-to-unclog
-- Unframe, "How to Build AI Guardrails Without Slowing Everything Down," citing ModelOp's 2025 AI Governance Benchmark Report and McKinsey's 2025 State of AI report, May 14, 2026. https://www.unframe.ai/blog/build-ai-guardrails-without-slowing-down
-- WitnessAI, "How to Shorten Your AI Approval Cycle," June 28, 2026. https://witness.ai/blog/how-to-shorten-your-ai-approval-cycle/
-- PYMNTS, "AI-Generated Fake Receipts Now Make Up 71% of Expense Fraud," citing AppZen platform data, 2026. https://www.pymnts.com/?p=3892615
-- Cassidy AI, "AI PII/PHI Redaction Agent," product documentation on jurisdiction-aware redaction across medical records, claims, and adjuster notes. https://cassidyai.com/solutions/ai-pii-phi-redaction-agent-fbbfd
+- **McKinsey Agentic Organization**: [The agentic organization: A new operating model for AI](https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era)
+- **McKinsey Tech Infrastructure**: [Reimagining tech infrastructure for (and with) agentic AI](https://www.mckinsey.com/capabilities/mckinsey-technology/our-insights/reimagining-tech-infrastructure-for-and-with-agentic-ai)
+- **McKinsey Agent Scaling**: [Report shows AI interest but slow scaling](https://itbrief.co.uk/story/mckinsey-report-shows-ai-interest-but-slow-scaling) (IT Brief)
+- **Deloitte Tech Leaders Survey**: [Agentic AI Years Away for Most Enterprises](https://www.ciodive.com/news/agentic-ai-years-away-enterprises/827737/) (CIO Dive)
+- **Deloitte Human Capital Trends**: [Winning Organizations Will Build the Human Advantage](https://www.deloitte.com/us/en/about/press-room/deloitte-report-winning-organizations-will-build-the-human-advantage.html)
+- **Gartner Project Cancellation Forecast**: [Over 40% of Agentic AI Projects Will Be Canceled by End of 2027](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027)
+- **Gartner Agentic Hype Cycle**: [5 Hard Truths from the First-Ever Agentic AI Hype Cycle](https://tray.ai/blog/gartner-agentic-ai-hype-cycle-2026/) (Tray.ai)
+- **Gartner Software Engineering 2030**: [Future of Software Engineering 2030: AI-Native Tiny Teams](https://www.gartner.com/en/documents/7530885)
+- **Anthropic Economic Index**: [The Anthropic Economic Index](https://www.anthropic.com/research/the-anthropic-economic-index)
+- **Anthropic Enterprise Adoption**: [Uneven Geographic and Enterprise AI Adoption](https://www.anthropic.com/research/anthropic-economic-index-september-2025-report)
+- **NTT DATA Contact Center Outcomes**: [Agentic AI Use Cases and Cost Outcomes](https://nj-resources.nojitter.com/free/w_defa9660) (No Jitter)
+- **Gartner Contact Center Projections**: [Agentic AI for Contact Centers](https://www.avaya.com/en/insights/agentic-ai-for-contact-centers/) (Avaya)
+- **Tian Pan on Golden Paths**: [Golden Paths for AI Agents: How Platform Teams Can Enable Adoption Without Bottlenecks](https://tianpan.co/blog/2026/05/06/golden-path-internal-platform-ai-agent-self-service)
+- **TrueFoundry**: [What Is AI Platform Engineering](https://www.truefoundry.com/ar/blog/what-is-ai-platform-engineering)
+- **OneTrust AI Governance**: [Establishing an AI Governance Committee: How to Structure Roles, Speed Approvals, and Reduce Rework](https://www.onetrust.com/content/onetrust/us/en/blog/establishing-an-ai-governance-committee-an-inside-look-at-onetrusts-process/)
+- **Credo.ai Governance Acceleration**: [Accelerating AI Governance: 4 Pipes to Unclog](https://www.credo.ai/blog/accelerating-ai-governance-4-pipes-to-unclog)
+- **Unframe AI Guardrails**: [How to Build AI Guardrails Without Slowing Everything Down](https://www.unframe.ai/blog/build-ai-guardrails-without-slowing-down)
+- **WitnessAI Approval Cycles**: [How to Shorten Your AI Approval Cycle](https://witness.ai/blog/how-to-shorten-your-ai-approval-cycle/)
+- **PYMNTS Expense Fraud Research**: [AI-Generated Fake Receipts Now Make Up 71% of Expense Fraud](https://www.pymnts.com/?p=3892615)
+- **Cassidy AI Redaction**: [Jurisdiction-Aware PII/PHI Redaction Agent](https://cassidyai.com/solutions/ai-pii-phi-redaction-agent-fbbfd)
+- **Related research & posts**: [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not) · [Three People, Ten Agents, Zero Sprints](/writing/2026-03-19-three-people-ten-agents-zero-sprints) · [Beyond the Million-Token Window](/research/2026-06-28-beyond-million-token-window)

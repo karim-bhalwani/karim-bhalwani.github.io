@@ -161,7 +161,7 @@ Context windows now exceed a million tokens. An agent holds the design intent an
 
 ![Systems skill vs personal skill](/assets/the-bottleneck-moved/section7.png)
 
-This is exactly what I was building toward in [Beyond the Million-Token Window](/writing/2026-02-07-beyond-million-token-window) and [MIT Gave the Model a Python Interpreter](/research/2026-02-22-mit-gave-the-model-a-python-interpreter): the value is not raw context capacity. It is intelligent navigation of that context.
+This is the fundamental principle behind intelligent context navigation and recursive model harnesses (as explored in the [MIT RLM research](/research/2026-02-22-mit-gave-the-model-a-python-interpreter)): the value is not raw context capacity. It is intelligent navigation of that context.
 
 Think of the difference between a code review and an audit. A reviewer reads the diff and makes a judgment call on what changed. Valuable. But an audit traces every dependency the change touches, every contract it implicitly breaks, every module three layers away that assumed something that is no longer true. Humans cannot run an audit on every PR. The cost is too high and attention does not scale.
 
@@ -203,6 +203,6 @@ Capability is no longer scarce. It doubles every four months.
 - **Simon Willison's StrongDM writeup**: [simonwillison.net](https://simonwillison.net/2026/Feb/7/software-factory/)
 - **Palisade Research: Specification Gaming**: [arxiv.org/html/2502.13295](https://arxiv.org/abs/2502.13295)
 - **Intent Engineering: The Shift Beyond Context Engineering**: [tericsoft.com/blogs/intent-engineering](https://www.tericsoft.com/blogs/intent-engineering)
-- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [Beyond the Million-Token Window](/writing/2026-02-07-beyond-million-token-window) · [MIT Gave the Model a Python Interpreter](/research/2026-02-22-mit-gave-the-model-a-python-interpreter)
+- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [MIT Gave the Model a Python Interpreter](/research/2026-02-22-mit-gave-the-model-a-python-interpreter)
 
 ---

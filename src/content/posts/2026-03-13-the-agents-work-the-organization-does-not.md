@@ -158,7 +158,7 @@ Three mechanisms make this concrete.
 
 **Auditable Decision Traces.** Every reasoning step logged. Not just inputs and outputs, but the intermediate chain. When the system makes a mistake, you can trace exactly which decision diverged. When it succeeds, you can verify the path was sound, not just lucky.
 
-This connects directly to what I built in [Beyond the Million-Token Window](/writing/2026-02-07-beyond-million-token-window) with scratchpad routing. The scratchpad created an auditable reasoning trace for document navigation. The same principle applies to organizational trust. Auditability is not overhead. It is the mechanism by which trust is earned.
+This connects directly to the core principle of scratchpad routing and verifiable reasoning traces. An explicit scratchpad creates an auditable trace for every navigation and decision step before execution. The same principle applies to organizational trust. Auditability is not overhead. It is the mechanism by which trust is earned.
 
 The organizations that achieve Stage 4 and Stage 5 in the Hyperadaptive Model are not the ones that deployed the most powerful agents. They are the ones that made agent behavior observable enough that trust could be continuously verified.
 
@@ -217,7 +217,7 @@ Four frontier models shipped in fourteen days in February 2026. Every release cy
 
 ## It Was Never About the Technology
 
-Every post in this series has circled the same insight from a different angle. [Systematic workflows](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) beat raw capability. [Intelligent architecture](/writing/2026-02-07-beyond-million-token-window) beats brute-force context. [Specification](/writing/2026-03-01-the-bottleneck-moved) is the new scarcity.
+Every post in this series has circled the same insight from a different angle. [Systematic workflows](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) beat raw capability. Intelligent architecture beats brute-force context. [Specification](/writing/2026-03-01-the-bottleneck-moved) is the new scarcity.
 
 This post is the layer underneath.
 
@@ -247,6 +247,6 @@ The agents work. The organization does not.
 - **Deloitte State of AI in the Enterprise 2026**: [deloitte.com/us/state-of-ai](https://www.deloitte.com/us/state-of-ai)
 - **WEF AI at Work: From Productivity Hacks to Organizational Transformation**: [weforum.org](https://www.weforum.org/publications/ai-at-work-from-productivity-hacks-to-organizational-transformation/)
 - **Stanford/ADP "Canaries in the Coal Mine"**: Brynjolfsson et al., Stanford Digital Economy Lab
-- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [Beyond the Million-Token Window](/writing/2026-02-07-beyond-million-token-window) · [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved)
+- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved)
 
 ---

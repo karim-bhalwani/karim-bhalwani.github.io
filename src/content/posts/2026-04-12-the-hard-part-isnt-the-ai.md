@@ -18,11 +18,11 @@ Then someone uploads a 200-page medical record. The summary misses the medicatio
 
 The demo worked. The system did not.
 
-Over the past three months, three posts explored each failure mode independently. [Context-aware redaction](/writing/2026-01-17-context-matters-redacting-health-records) solved the privacy problem. [Hierarchical navigation](/writing/2026-02-07-beyond-million-token-window) solved the "lost in the middle" problem. [Recursive language models](/research/2026-02-22-mit-gave-the-model-a-python-interpreter) solved the adaptive reasoning problem. Each post stood alone. Each addressed one failure mode in isolation.
+Over the past few months, we explored key architectural failure modes independently across separate investigations. [Context-aware redaction](/writing/2026-01-17-context-matters-redacting-health-records) solved the privacy problem. Hierarchical navigation solved the "lost in the middle" problem through structured document trees. [Recursive language models](/research/2026-02-22-mit-gave-the-model-a-python-interpreter) solved the adaptive reasoning problem. Each approach addressed one failure mode in isolation.
 
 This post is about what happens when you stop solving problems in isolation and build the complete pipeline: a privacy-first document analysis system that transforms unstructured medical records into summarized reports and verifiable Q&A, end to end.
 
-The three posts were ingredients. This is the recipe.
+These architectural patterns were ingredients. This is the recipe.
 
 ---
 
@@ -72,7 +72,7 @@ The standard approach: split text into fixed-size chunks, embed them, store them
 
 A medical record is not a bag of paragraphs. "History of cancer" in the family history section means something entirely different from "cancer" in the current diagnosis section. A flat chunking strategy collapses that distinction. The retrieval engine can't tell the difference because the structural signal was destroyed at ingest time.
 
-The fix is hierarchical chunking based on the RAPTOR architecture from the [second post](/writing/2026-02-07-beyond-million-token-window):
+The fix is hierarchical chunking based on the RAPTOR (Recursive Abstractive Processing for Tree-Organized Retrieval) architecture:
 
 **Level 0 (Foundation):** Text is split into sentence-aware chunks with page markers preserved. Every token belongs to exactly one chunk. Zero data loss.
 
@@ -112,15 +112,15 @@ The router operates in multiple passes:
 
 **Cross-Reference Resolution:** References like "See Page 5" or "Pathology Report" are automatically resolved, pulling in the linked content.
 
-This is the hierarchical navigation pattern from the second post, implemented as a production router. The scratchpad creates an auditable reasoning trace. When the system makes a mistake, you can see exactly where the navigation went wrong.
+This is the hierarchical navigation pattern, implemented as a production router. The scratchpad creates an auditable reasoning trace. When the system makes a mistake, you can see exactly where the navigation went wrong.
 
 ### Deep Reasoning (RLM)
 
-For complex analytical questions, the pipeline supports an optional deep reasoning mode based on the Recursive Language Model architecture from the [third post](/research/2026-02-22-mit-gave-the-model-a-python-interpreter).
+For complex analytical questions, the pipeline supports an optional deep reasoning mode based on the Recursive Language Model architecture from our [earlier research monograph](/research/2026-02-22-mit-gave-the-model-a-python-interpreter).
 
 Instead of passively consuming context, the root model writes Python code to interrogate the document programmatically. It peeks at sections, greps for anchors, partitions the corpus, and dispatches sub-queries to child LLM calls. Each child operates in an isolated context and returns only its conclusion. The parent's context stays clean.
 
-The security controls outlined in that earlier post are implemented here: code scanning before execution, an allowlist of safe builtins, OS-level resource limits, a queue-based proxy for process isolation, sub-query cost ceilings, and intermediate output truncation.
+The security controls outlined in that research are implemented here: code scanning before execution, an allowlist of safe builtins, OS-level resource limits, a queue-based proxy for process isolation, sub-query cost ceilings, and intermediate output truncation.
 
 The combination of hierarchical routing and adaptive RLM gives the pipeline two modes for the same problem class. Standard routing is fast, predictable, and auditable. Deep reasoning is slower, more expensive, and handles questions that require synthesis across structurally distant sections. The system classifies the query and picks the appropriate path.
 
@@ -217,13 +217,13 @@ These are not interesting architectural decisions. They're the decisions that ke
 
 ---
 
-## The Three Posts, Assembled
+## The Architecture, Assembled
 
-Every post in this series addressed a failure mode that's obvious once you've tried to build document analysis for real.
+Each foundational layer addressed a failure mode that's obvious once you've tried to build document analysis for real.
 
 [Context-aware redaction](/writing/2026-01-17-context-matters-redacting-health-records) solved the problem of privacy tools that destroy analytical utility. Two-pass redaction preserves clinical context while enforcing a hard privacy boundary before any LLM call.
 
-[Hierarchical navigation](/writing/2026-02-07-beyond-million-token-window) solved the problem of models drowning in context they can't navigate. A RAPTOR tree and scratchpad router turn a 200-page document into a navigable index where the model reads exactly what it needs.
+Hierarchical navigation solved the problem of models drowning in context they can't navigate. A RAPTOR tree and scratchpad router turn a 200-page document into a navigable index where the model reads exactly what it needs.
 
 [Recursive language models](/research/2026-02-22-mit-gave-the-model-a-python-interpreter) solved the problem of questions that require adaptive decomposition. A deep reasoning mode lets the model decide at inference time how to traverse the document, with the security controls to make that safe.
 
@@ -238,7 +238,7 @@ The models will keep improving. Context windows will keep growing. None of that 
 ## Resources & Next Steps
 
 - **Context-Aware Redactor**: [GitHub](https://github.com/karim-bhalwani/context-aware-redactor) | [Blog Post](/writing/2026-01-17-context-matters-redacting-health-records)
-- **Hierarchical Navigation**: [GitHub](https://github.com/karim-bhalwani/hierarchical-navigation) | [Blog Post](/writing/2026-02-07-beyond-million-token-window)
+- **Hierarchical Navigation**: [GitHub](https://github.com/karim-bhalwani/hierarchical-navigation)
 - **MIT RLM Paper**: [arxiv.org/abs/2512.24601v1](https://arxiv.org/abs/2512.24601v1) | [Research Monograph](/research/2026-02-22-mit-gave-the-model-a-python-interpreter)
 - **GitHub Repository**: [MedIQ](https://github.com/karim-bhalwani/document-insight-query)
 

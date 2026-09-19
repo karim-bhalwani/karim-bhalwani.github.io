@@ -46,7 +46,7 @@ const relatedHubs = (data.related || [])
 ---
 
 <BaseLayout title={`${data.title} | Topics | Karim Bhalwani`} description={data.summary}>
-  <div class="container container-narrow stack stack-l" style="margin-top: var(--space-xl)">
+  <div class="container stack stack-l" style="margin-top: var(--space-xl)">
     <!-- Header -->
     <header class="stack stack-s">
       <div class="cluster" style="justify-content: space-between; align-items: center">
@@ -57,7 +57,7 @@ const relatedHubs = (data.related || [])
       </div>
 
       <h1>{data.title}</h1>
-      <p class="lead">{data.summary}</p>
+      <p class="lead measure">{data.summary}</p>
 
       <!-- Topic Action Shortcuts -->
       <div class="cluster" style="--cluster-gap: var(--space-xs); margin-top: var(--space-2xs)">
@@ -78,7 +78,7 @@ const relatedHubs = (data.related || [])
     </header>
 
     <!-- Hub Overview Description -->
-    <div class="prose">
+    <div class="prose topic-overview">
       <Content />
     </div>
 
@@ -228,5 +228,9 @@ const relatedHubs = (data.related || [])
   .section-header {
     border-bottom: 1px solid var(--color-border);
     padding-bottom: var(--space-2xs);
+  }
+
+  .topic-overview {
+    margin-inline: 0;
   }
 </style>

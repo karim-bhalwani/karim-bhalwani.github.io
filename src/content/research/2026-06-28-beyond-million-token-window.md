@@ -1,16 +1,22 @@
 ---
-layout: post
 title: "Beyond the Million-Token Window: Why Context Capacity Isn't Context Intelligence"
-date: 2026-02-07 09:00:00 -0500
+section: "Research"
+date: 2026-06-28 09:00:00 -0400
+read-time: "12 min read"
 reading_time: 12
-categories: AI RAG document-intelligence
-tags: [Context Engineering, Token Economics, Production Systems]
-author: Karim Bhalwani
-excerpt: "RAG defined system design in 2025. In 2026, million-token context windows are shifting the paradigm but scale doesn’t equal reasoning. It amplifies failure modes. Here’s a framework for using large contexts effectively"
+author: "Karim Bhalwani"
+description: "RAG defined system design in 2025. In 2026, million-token context windows are shifting the paradigm but scale doesn’t equal reasoning. It amplifies failure modes. Here’s a framework for using large contexts effectively."
+excerpt: "RAG defined system design in 2025. In 2026, million-token context windows are shifting the paradigm but scale doesn’t equal reasoning. It amplifies failure modes. Here’s a framework for using large contexts effectively."
+topic-hub: "token-economics"
 topics: [token-economics, data-systems]
+tags: [Context Engineering, Token Economics, Production Systems]
+featured: true
+hero_image: "/assets/hierarchical-doc-intelligence/hero-main.png"
+doi: "arXiv:2401.18059"
 ---
 
 ![Beyond the Million-Token Window Hero](/assets/hierarchical-doc-intelligence/hero-main.png)
+
 
 You've probably seen this pitch: "Model has a 1M token context window. Just dump your entire document in and ask questions."
 
@@ -19,6 +25,7 @@ Sounds convenient. For a 200-page legal contract, that's roughly 150,000 tokens.
 I tried it. Here's what actually happened.
 
 ![Query Analysis](/assets/hierarchical-doc-intelligence/q1-q2-q3.png)
+
 
 **Cost for this session:** $4.80 in API calls. Three questions. Two failures.
 
@@ -39,6 +46,7 @@ For simple documents and straightforward questions, it works. For complex docume
 Research from Liu et al. demonstrates that LLMs exhibit a U-shaped attention curve. They're excellent at information positioned at the start or end of context. They're demonstrably worse at information buried in the middle.
 
 ![Lost in the Middle](/assets/hierarchical-doc-intelligence/lost-in-middle.png)
+
 
 A 200-page contract has critical clauses scattered throughout. Liability caps in Section 12. Penalty definitions in Section 8. Exception clauses in Section 15. Force majeure in Section 3.
 
@@ -61,6 +69,7 @@ Even with all three sections loaded, the model struggles to traverse the logical
 Loading 150,000 tokens per query is expensive. Not just in API costs. In latency. In carbon footprint.
 
 ![Cost Impact](/assets/hierarchical-doc-intelligence/cost-impact.png)
+
 
 For a document review workflow where analysts ask 50-100 questions per contract, this becomes:
 
@@ -117,6 +126,7 @@ The foundation is a hierarchical structure that combines mechanical precision wi
 
 ![RAPTOR Tree Architecture](/assets/hierarchical-doc-intelligence/raptor-tree.png)
 
+
 **Level 0: The Annotated Foundation**
 
 The base layer separates mechanical concerns from semantic concerns:
@@ -157,6 +167,7 @@ Navigation happens in multiple passes, with explicit reasoning at each depth.
 
 ![Hierarchical Routing](/assets/hierarchical-doc-intelligence/hierarchical-routing.png)
 
+
 **Pass 1: High-Level Navigation**
 
 - Router examines document-level semantic labels
@@ -186,6 +197,7 @@ Smart navigation is worthless if it's too expensive to use.
 The architecture leverages Cache-Augmented Generation (CAG), a pattern that structures prompts to maximize cache hit rates across repeated queries. By separating static document context from dynamic query specific content, the system achieves dramatic cost reductions.
 
 ![Cache-Augmented Generation](/assets/hierarchical-doc-intelligence/cache-pattern.png)
+
 
 **Static Prefix (Cached):**
 
@@ -229,6 +241,7 @@ The result: hierarchical navigation becomes economically viable for production w
 - Latency: 3-5 seconds
 
 ![Real World Comparison](/assets/hierarchical-doc-intelligence/realworld-comp.png)
+
 
 This isn't theoretical. These are metrics from document review workflows processing legal contracts, medical records, and policy documents.
 

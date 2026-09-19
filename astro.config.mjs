@@ -14,5 +14,7 @@ export default defineConfig({
   },
   redirects: {
     "/writing/2026-02-22-mit-gave-the-model-a-python-interpreter": "/research/2026-02-22-mit-gave-the-model-a-python-interpreter",
+    "/writing/2026-02-07-beyond-million-token-window": "/research/2026-06-28-beyond-million-token-window",
+    "/research/2026-02-07-beyond-million-token-window": "/research/2026-06-28-beyond-million-token-window",
   },
 });

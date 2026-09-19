@@ -229,6 +229,6 @@ They are not failing. They are succeeding at a game that already ended.
 - **Intellias AI Engineering**: [Achieving a 100% Boost with AI-Enabled Engineering](https://intellias.com/ai-enabled-engineering/)
 - **DORA 2025 Report**: [State of AI-Assisted Software Development](https://dora.dev/research/2025/dora-report/)
 - **Deloitte 2026 Report**: [State of AI in the Enterprise](https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html)
-- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [Beyond the Million-Token Window](/writing/2026-02-07-beyond-million-token-window) · [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved) · [The Agents Work](/writing/2026-03-13-the-agents-work-the-organization-does-not)
+- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved) · [The Agents Work](/writing/2026-03-13-the-agents-work-the-organization-does-not)
 
 ---
