@@ -43,12 +43,11 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png
 <BaseLayout
   title={`${data.title} | Research | Karim Bhalwani`}
   description={abstract || data.title}
-  ogImage={heroImage}
-  article={{
-    publishedTime: new Date(data.date).toISOString(),
-    modifiedTime: data.updated ? new Date(data.updated).toISOString() : new Date(data.date).toISOString(),
-    tags: data.tags,
-  }}
+  image={heroImage}
+  type="article"
+  publishedTime={new Date(data.date).toISOString()}
+  modifiedTime={data.updated ? new Date(data.updated).toISOString() : new Date(data.date).toISOString()}
+  articleTags={data.tags}
 >
   <div class="reading-progress-container" aria-hidden="true">
     <div id="readingProgressBar" class="reading-progress-bar"></div>
