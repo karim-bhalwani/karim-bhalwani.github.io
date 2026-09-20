@@ -3,6 +3,14 @@ import { getPublishedPosts } from "../utils/posts";
 import { getPublishedResearch, getResearchAbstract } from "../utils/research";
 import { getCollection } from "astro:content";
 
+function makeAbsolute(text: string, siteUrl: string): string {
+  return text
+    // Replace internal markdown links [text](/writing/...) with [text](https://siteUrl/writing/...)
+    .replace(/\]\(\/(writing|research|topics|explorer|about)/g, `](${siteUrl}/$1`)
+    // Replace markdown images ![](/assets/...) with ![](https://siteUrl/assets/...)
+    .replace(/!\[(.*?)\]\(\/(assets\/[^\)]+)\)/g, `![$1](${siteUrl}/$2)`);
+}
+
 export async function GET(context: APIContext) {
   const siteUrl = context.site ? context.site.origin : "https://karim-bhalwani.github.io";
   const posts = await getPublishedPosts();
@@ -72,7 +80,7 @@ export async function GET(context: APIContext) {
     lines.push("#### Full Document Content");
     lines.push("");
     if (paper.body) {
-      lines.push(paper.body.trim());
+      lines.push(makeAbsolute(paper.body.trim(), siteUrl));
     } else {
       lines.push(abstract || paper.data.excerpt || paper.data.description || "");
     }
@@ -97,7 +105,7 @@ export async function GET(context: APIContext) {
     lines.push("#### Full Document Content");
     lines.push("");
     if (post.body) {
-      lines.push(post.body.trim());
+      lines.push(makeAbsolute(post.body.trim(), siteUrl));
     } else {
       lines.push(post.data.excerpt || "");
     }

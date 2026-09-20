@@ -100,7 +100,7 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
               <div class="sidebar-divider" role="separator"></div>
               <div class="sidebar-section">
                 <span class="sidebar-kicker">Knowledge Graph</span>
-                <a href={`/topics/${hubId}`} class="sidebar-hub-pill">
+                <a href={`/topics/${hubId}/`} class="sidebar-hub-pill">
                   <span class="hub-pill-dot" aria-hidden="true">✦</span>
                   <span class="hub-pill-text">{hubTitle}</span>
                   <span class="hub-pill-arrow" aria-hidden="true">→</span>
@@ -127,12 +127,12 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
       <header class="monograph-header stack stack-s">
         <div class="cluster" style="justify-content: space-between; align-items: center">
           <div class="cluster" style="--cluster-gap: var(--space-2xs); align-items: center">
-            <a href="/research" class="kicker monograph-kicker">← All Research</a>
+            <a href="/research/" class="kicker monograph-kicker">← All Research</a>
             <span class="monograph-divider">/</span>
             <span class="badge-research">Monograph</span>
           </div>
           {hubId && (
-            <a href={`/topics/${hubId}`} class="topic-pill">
+            <a href={`/topics/${hubId}/`} class="topic-pill">
               Topic: {hubTitle}
             </a>
           )}
@@ -196,7 +196,7 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
           (prevPaper || nextPaper) && (
             <nav class="adjacent-posts-grid" aria-label="Sequential reading">
               {prevPaper ? (
-                <a href={`/research/${prevPaper.id}`} class="adjacent-card adjacent-card--prev">
+                <a href={`/research/${prevPaper.id}/`} class="adjacent-card adjacent-card--prev">
                   <span class="adjacent-card__direction">← Previous Paper</span>
                   <span class="adjacent-card__title">{prevPaper.data.title}</span>
                   {formatReadingTime(prevPaper) && (
@@ -213,7 +213,7 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
               )}
 
               {nextPaper ? (
-                <a href={`/research/${nextPaper.id}`} class="adjacent-card adjacent-card--next">
+                <a href={`/research/${nextPaper.id}/`} class="adjacent-card adjacent-card--next">
                   <span class="adjacent-card__direction">Next Paper →</span>
                   <span class="adjacent-card__title">{nextPaper.data.title}</span>
                   {formatReadingTime(nextPaper) && (
@@ -233,7 +233,7 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
         }
 
         <!-- Knowledge Graph Callout -->
-        <a href={hubId ? `/topics/${hubId}` : "/explorer"} class="kg-callout">
+        <a href={hubId ? `/topics/${hubId}/` : "/explorer/"} class="kg-callout">
           <div class="kg-callout__icon" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="5" r="2"/>
@@ -254,8 +254,8 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
         </a>
 
         <div class="monograph-back-row cluster" style="justify-content: flex-start; --cluster-gap: var(--space-s); margin-top: var(--space-s)">
-          <a href="/research" class="btn btn--ghost">← Back to All Research</a>
-          {hubId && <a href={`/topics/${hubId}`} class="btn btn--ghost">Explore Topic Hub</a>}
+          <a href="/research/" class="btn btn--ghost">← Back to All Research</a>
+          {hubId && <a href={`/topics/${hubId}/`} class="btn btn--ghost">Explore Topic Hub</a>}
         </div>
       </footer>
     </article>

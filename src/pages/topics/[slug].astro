@@ -45,44 +45,25 @@ const relatedHubs = (data.related || [])
   .filter((t): t is NonNullable<typeof t> => Boolean(t));
 
 const siteOrigin = Astro.site ? Astro.site.origin : "https://karim-bhalwani.github.io";
-const topicCanonical = new URL(Astro.url.pathname, siteOrigin).href;
 
-const collectionSchema = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "@id": topicCanonical,
-  url: topicCanonical,
-  name: `${data.title} — Topic Hub | Karim Bhalwani`,
-  description: data.summary,
-  isPartOf: {
-    "@type": "WebSite",
-    "@id": `${siteOrigin}/#website`,
-    name: "Karim Bhalwani",
-    url: siteOrigin,
-  },
-  mainEntity: {
-    "@type": "ItemList",
-    numberOfItems: relatedResearch.length + relatedPosts.length,
-    itemListElement: [
-      ...relatedResearch.map((paper, idx) => ({
-        "@type": "ListItem",
-        position: idx + 1,
-        name: paper.data.title,
-        url: `${siteOrigin}/research/${paper.id}/`,
-      })),
-      ...relatedPosts.map((post, idx) => ({
-        "@type": "ListItem",
-        position: relatedResearch.length + idx + 1,
-        name: post.data.title,
-        url: `${siteOrigin}/writing/${post.id}/`,
-      })),
-    ],
-  },
-};
+const collectionItems = [
+  ...relatedResearch.map((paper) => ({
+    name: paper.data.title,
+    url: `${siteOrigin}/research/${paper.id}/`,
+  })),
+  ...relatedPosts.map((post) => ({
+    name: post.data.title,
+    url: `${siteOrigin}/writing/${post.id}/`,
+  })),
+];
 ---
 
-<BaseLayout title={`${data.title} | Topics | Karim Bhalwani`} description={data.summary}>
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+<BaseLayout
+  title={`${data.title} | Topics | Karim Bhalwani`}
+  description={data.summary}
+  schemaType="CollectionPage"
+  collectionItems={collectionItems}
+>
   <div class="container stack stack-l" style="margin-top: var(--space-xl)">
     <!-- Header -->
     <header class="stack stack-s">
@@ -99,14 +80,14 @@ const collectionSchema = {
       <!-- Topic Action Shortcuts -->
       <div class="cluster" style="--cluster-gap: var(--space-xs); margin-top: var(--space-2xs)">
         {relatedResearch.length > 0 && (
-          <a href="/research" class="btn btn--ghost" style="font-size: 0.8rem">
+          <a href="/research/" class="btn btn--ghost" style="font-size: 0.8rem">
             Research Monographs ({relatedResearch.length}) →
           </a>
         )}
-        <a href={`/writing?topic=${topic.id}`} class="btn btn--ghost" style="font-size: 0.8rem">
+        <a href={`/writing/?topic=${topic.id}`} class="btn btn--ghost" style="font-size: 0.8rem">
           Filter in Archive ({relatedPosts.length}) →
         </a>
-        <a href="/explorer" class="btn btn--ghost" style="font-size: 0.8rem">
+        <a href="/explorer/" class="btn btn--ghost" style="font-size: 0.8rem">
           View in Knowledge Graph →
         </a>
       </div>
@@ -126,7 +107,7 @@ const collectionSchema = {
           <span class="related-hubs-label">Connected Topic Hubs:</span>
           <div class="cluster" style="--cluster-gap: var(--space-xs)">
             {relatedHubs.map((hub) => (
-              <a href={`/topics/${hub.id}`} class="related-hub-pill">
+              <a href={`/topics/${hub.id}/`} class="related-hub-pill">
                 <span class="hub-bullet">●</span> {hub.data.title}
               </a>
             ))}
@@ -190,7 +171,7 @@ const collectionSchema = {
           </div>
         ) : (
           <p class="muted">
-            Check the <a href="/writing">complete writing archive</a> for all articles.
+            Check the <a href="/writing/">complete writing archive</a> for all articles.
           </p>
         )
       }
@@ -198,8 +179,8 @@ const collectionSchema = {
 
     <!-- Navigation -->
     <div class="cluster" style="justify-content: space-between; margin-top: var(--space-xl)">
-      <a href="/topics" class="btn btn--ghost">← Back to All Topics</a>
-      <a href="/writing" class="btn btn--ghost">All Writing Archive →</a>
+      <a href="/topics/" class="btn btn--ghost">← Back to All Topics</a>
+      <a href="/writing/" class="btn btn--ghost">All Writing Archive →</a>
     </div>
   </div>
 </BaseLayout>

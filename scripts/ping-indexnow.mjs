@@ -22,6 +22,8 @@ const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow";
 
 const isDryRun = process.argv.includes("--dry-run");
+const daysArg = process.argv.find((a) => a.startsWith("--since-days="));
+const sinceDays = daysArg ? parseInt(daysArg.split("=")[1], 10) : null;
 
 async function main() {
   console.log(`[IndexNow] Starting automated submission for ${HOST}...`);
@@ -30,14 +32,35 @@ async function main() {
 
   if (fs.existsSync(sitemapPath)) {
     const sitemapContent = fs.readFileSync(sitemapPath, "utf-8");
-    const locMatches = sitemapContent.match(/<loc>(https:\/\/[^<]+)<\/loc>/g);
-    if (locMatches) {
-      urlList = locMatches.map((m) => m.replace(/<\/?loc>/g, ""));
+    
+    if (sinceDays && !isNaN(sinceDays)) {
+      const cutoffTime = Date.now() - sinceDays * 24 * 60 * 60 * 1000;
+      const urlBlocks = sitemapContent.match(/<url>[\s\S]*?<\/url>/g) || [];
+      urlBlocks.forEach((block) => {
+        const locMatch = block.match(/<loc>(https:\/\/[^<]+)<\/loc>/);
+        const modMatch = block.match(/<lastmod>([^<]+)<\/lastmod>/);
+        if (locMatch) {
+          if (modMatch) {
+            const modTime = new Date(modMatch[1]).getTime();
+            if (modTime >= cutoffTime) {
+              urlList.push(locMatch[1]);
+            }
+          } else {
+            urlList.push(locMatch[1]);
+          }
+        }
+      });
+      console.log(`[IndexNow] Filtered ${urlList.length} URLs modified in the last ${sinceDays} days.`);
+    } else {
+      const locMatches = sitemapContent.match(/<loc>(https:\/\/[^<]+)<\/loc>/g);
+      if (locMatches) {
+        urlList = locMatches.map((m) => m.replace(/<\/?loc>/g, ""));
+      }
     }
   }
 
   if (urlList.length === 0) {
-    console.warn(`[IndexNow] Warning: sitemap not found at ${sitemapPath}. Using base URLs fallback.`);
+    console.warn(`[IndexNow] Warning: sitemap not found or empty at ${sitemapPath}. Using base URLs fallback.`);
     urlList = [
       `https://${HOST}/`,
       `https://${HOST}/writing/`,

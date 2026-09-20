@@ -15,7 +15,7 @@ const graphNodes = [
     label: t.data.title,
     type: "topic",
     summary: t.data.summary,
-    url: `/topics/${t.id}`,
+    url: `/topics/${t.id}/`,
     radius: 18,
     topics: t.data.related || [],
   })),
@@ -28,7 +28,7 @@ const graphNodes = [
       label: r.data.title,
       type: "research",
       summary: r.data.description || r.data.excerpt || "",
-      url: `/research/${r.id}`,
+      url: `/research/${r.id}/`,
       radius: 13,
       topics: rTopics,
       tags: r.data.tags || [],
@@ -39,7 +39,7 @@ const graphNodes = [
     label: p.data.title,
     type: "post",
     summary: p.data.excerpt || "",
-    url: `/writing/${p.id}`,
+    url: `/writing/${p.id}/`,
     radius: 9,
     topics: p.data.topics || [],
     tags: p.data.tags || [],
@@ -49,7 +49,7 @@ const graphNodes = [
     label: proj.data.title,
     type: "project",
     summary: proj.data.summary,
-    url: proj.data.repo || "/about",
+    url: proj.data.repo || "/about/",
     radius: 12,
     topics: proj.data.topics || [],
   })),
@@ -101,6 +101,34 @@ const graphNodes = [
           <span class="legend-item"><span class="legend-dot legend-dot--research"></span> Research Monograph</span>
           <span class="legend-item"><span class="legend-dot legend-dot--post"></span> Blog Post</span>
           <span class="legend-item"><span class="legend-dot legend-dot--project"></span> Architecture System</span>
+        </div>
+
+        <!-- Accessible Crawler Fallback: Allows search bots and screen readers to crawl the complete taxonomy -->
+        <div class="sr-only" aria-label="Knowledge Graph Taxonomy and Connections">
+          <h2>Topic Hubs</h2>
+          <ul>
+            {allTopics.map((t) => (
+              <li>
+                <a href={`/topics/${t.id}/`}>{t.data.title}</a>: {t.data.summary}
+              </li>
+            ))}
+          </ul>
+          <h2>Research Monographs</h2>
+          <ul>
+            {allResearch.map((r) => (
+              <li>
+                <a href={`/research/${r.id}/`}>{r.data.title}</a>
+              </li>
+            ))}
+          </ul>
+          <h2>Technical Articles</h2>
+          <ul>
+            {allPosts.map((p) => (
+              <li>
+                <a href={`/writing/${p.id}/`}>{p.data.title}</a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

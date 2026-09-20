@@ -18,7 +18,8 @@ interface Props {
   doi?: string;
   noindex?: boolean;
   readingTime?: number | string;
-  schemaType?: "BlogPosting" | "TechArticle" | "ScholarlyArticle" | "Article";
+  schemaType?: "BlogPosting" | "TechArticle" | "ScholarlyArticle" | "Article" | "ProfilePage" | "CollectionPage";
+  collectionItems?: Array<{ name: string; url: string }>;
   googleSiteVerification?: string;
   bingSiteVerification?: string;
 }
@@ -36,6 +37,7 @@ const {
   articleTags,
   doi,
   schemaType,
+  collectionItems,
   googleSiteVerification,
   bingSiteVerification,
 } = Astro.props;
@@ -58,6 +60,7 @@ const {
       articleTags={articleTags}
       doi={doi}
       schemaType={schemaType}
+      collectionItems={collectionItems}
       googleSiteVerification={googleSiteVerification}
       bingSiteVerification={bingSiteVerification}
     />

@@ -1,47 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const siteOrigin = Astro.site ? Astro.site.origin : "https://karim-bhalwani.github.io";
-const profilePageSchema = {
-  "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  "@id": `${siteOrigin}/about/`,
-  url: `${siteOrigin}/about/`,
-  name: "About Karim Bhalwani",
-  description: "Personal profile, background, and engineering philosophy of Karim Bhalwani, writing on AI systems reliability, agentic architectures, and production systems design.",
-  isPartOf: {
-    "@type": "WebSite",
-    "@id": `${siteOrigin}/#website`,
-    name: "Karim Bhalwani",
-    url: siteOrigin,
-  },
-  mainEntity: {
-    "@type": "Person",
-    "@id": `${siteOrigin}/#author`,
-    name: "Karim Bhalwani",
-    jobTitle: "Solutions Architect & AI Systems Engineer",
-    url: `${siteOrigin}/about/`,
-    sameAs: [
-      "https://github.com/karim-bhalwani",
-      "https://linkedin.com/in/karim-bhalwani",
-    ],
-    knowsAbout: [
-      "Artificial Intelligence Systems",
-      "Agentic Architecture",
-      "Context Engineering",
-      "Multi-Agent Orchestration",
-      "AI Governance & Safety",
-      "Production Systems Design",
-    ],
-  },
-};
 ---
 
 <BaseLayout
   title="About - Karim Bhalwani"
   description="Personal writing on AI systems reliability, agentic architectures, context engineering, and production systems design."
+  schemaType="ProfilePage"
 >
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(profilePageSchema)} />
   <div class="container container-narrow stack stack-l" style="margin-top: var(--space-xl)">
 
     <header class="stack stack-xs">

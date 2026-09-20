@@ -55,7 +55,7 @@ const topicCards = topics.map((topic) => {
               </div>
 
               <h2 class="topic-hub-card__title">
-                <a href={`/topics/${topic.id}`} class="topic-title-link">
+                <a href={`/topics/${topic.id}/`} class="topic-title-link">
                   {topic.data.title}
                 </a>
               </h2>
@@ -65,17 +65,17 @@ const topicCards = topics.map((topic) => {
               {latestPost && (
                 <div class="topic-hub-card__latest">
                   <span class="latest-label">Latest:</span>
-                  <a href={`/writing/${latestPost.id}`} class="latest-link">
+                  <a href={`/writing/${latestPost.id}/`} class="latest-link">
                     {latestPost.data.title}
                   </a>
                 </div>
               )}
 
               <div class="topic-hub-card__footer cluster" style="justify-content: space-between; align-items: center; margin-top: auto; padding-top: var(--space-xs)">
-                <a href={`/topics/${topic.id}`} class="btn btn--ghost" style="font-size: 0.8rem">
+                <a href={`/topics/${topic.id}/`} class="btn btn--ghost" style="font-size: 0.8rem">
                   Explore Hub →
                 </a>
-                <a href={`/writing?topic=${topic.id}`} class="filter-link" title={`Filter writing by ${topic.data.title}`}>
+                <a href={`/writing/?topic=${topic.id}`} class="filter-link" title={`Filter writing by ${topic.data.title}`}>
                   View in Archive
                 </a>
               </div>

@@ -12,7 +12,8 @@ interface Props {
   doi?: string;
   noindex?: boolean;
   readingTime?: number | string;
-  schemaType?: "BlogPosting" | "TechArticle" | "ScholarlyArticle" | "Article";
+  schemaType?: "BlogPosting" | "TechArticle" | "ScholarlyArticle" | "Article" | "ProfilePage" | "CollectionPage";
+  collectionItems?: Array<{ name: string; url: string }>;
   googleSiteVerification?: string;
   bingSiteVerification?: string;
 }
@@ -30,6 +31,7 @@ const {
   articleTags = [],
   doi,
   schemaType,
+  collectionItems,
   googleSiteVerification,
   bingSiteVerification,
 } = Astro.props;
@@ -86,43 +88,57 @@ pathSegments.forEach((segment, idx) => {
   });
 });
 
-const breadcrumbSchema = pathSegments.length > 0 ? {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: breadcrumbItems,
-} : null;
+// Single Unified Schema.org @graph
+const graphElements: Record<string, any>[] = [
+  {
+    "@type": "WebSite",
+    "@id": `${siteOrigin}/#website`,
+    url: `${siteOrigin}/`,
+    name: "Karim Bhalwani",
+    description: "Personal writing on AI systems reliability, agentic architectures, and production systems design.",
+    publisher: {
+      "@id": `${siteOrigin}/#author`,
+    },
+    inLanguage: "en-US",
+  },
+  {
+    "@type": "Person",
+    "@id": `${siteOrigin}/#author`,
+    name: "Karim Bhalwani",
+    url: `${siteOrigin}/about/`,
+    jobTitle: "Solutions Architect & AI Systems Engineer",
+    description: "Architect writing about agent control layers, context engineering, and autonomous systems in production.",
+    sameAs: authorSameAs,
+    knowsAbout: knowsAboutTopics,
+  },
+];
 
-// Build Main Structured Data (Schema.org)
-let mainSchema: Record<string, any> | null = null;
+if (pathSegments.length > 0) {
+  graphElements.push({
+    "@type": "BreadcrumbList",
+    "@id": `${canonicalURL.href}#breadcrumb`,
+    itemListElement: breadcrumbItems,
+  });
+}
 
 if (isArticle) {
-  mainSchema = {
-    "@context": "https://schema.org",
+  const articleSchema: Record<string, any> = {
     "@type": effectiveArticleType,
+    "@id": `${canonicalURL.href}#article`,
+    isPartOf: {
+      "@id": `${siteOrigin}/#website`,
+    },
     headline: title.split("|")[0].trim(),
     description: description,
     image: imageURL,
     url: canonicalURL.href,
     datePublished: publishedTime,
     dateModified: modifiedTime || publishedTime,
-    isPartOf: {
-      "@type": "WebSite",
-      "@id": `${siteOrigin}/#website`,
-      name: "Karim Bhalwani",
-      url: siteOrigin,
-    },
     author: {
-      "@type": "Person",
-      name: authorName,
-      url: `${siteOrigin}/about`,
-      sameAs: authorSameAs,
-      jobTitle: "Solutions Architect & AI Systems Engineer",
+      "@id": `${siteOrigin}/#author`,
     },
     publisher: {
-      "@type": "Person",
-      name: "Karim Bhalwani",
-      url: siteOrigin,
-      sameAs: authorSameAs,
+      "@id": `${siteOrigin}/#author`,
     },
     keywords: articleTags.join(", "),
     inLanguage: "en-US",
@@ -136,53 +152,67 @@ if (isArticle) {
   if (readingTime) {
     const minutes = parseInt(String(readingTime), 10);
     if (!isNaN(minutes)) {
-      mainSchema.timeRequired = `PT${minutes}M`;
+      articleSchema.timeRequired = `PT${minutes}M`;
     }
   }
 
   if (effectiveArticleType === "TechArticle") {
-    mainSchema.proficiencyLevel = "Expert";
+    articleSchema.proficiencyLevel = "Expert";
     if (description) {
-      mainSchema.abstract = description;
+      articleSchema.abstract = description;
     }
   }
 
   if (doi) {
-    mainSchema.identifier = {
+    articleSchema.identifier = {
       "@type": "PropertyValue",
       propertyID: "DOI",
       value: doi,
     };
   }
-} else {
-  // WebSite and Person Schema on non-article pages (Homepage, About, Topics, Archive)
-  mainSchema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": `${siteOrigin}/#website`,
-        url: siteOrigin,
-        name: "Karim Bhalwani",
-        description: "Personal writing on AI systems reliability, agentic architectures, and production systems design.",
-        publisher: {
-          "@id": `${siteOrigin}/#author`,
-        },
-        inLanguage: "en-US",
-      },
-      {
-        "@type": "Person",
-        "@id": `${siteOrigin}/#author`,
-        name: "Karim Bhalwani",
-        url: `${siteOrigin}/about`,
-        jobTitle: "Solutions Architect & AI Systems Engineer",
-        description: "Architect writing about agent control layers, context engineering, and autonomous systems in production.",
-        sameAs: authorSameAs,
-        knowsAbout: knowsAboutTopics,
-      },
-    ],
-  };
+
+  graphElements.push(articleSchema);
+} else if (schemaType === "ProfilePage" || Astro.url.pathname === "/about" || Astro.url.pathname === "/about/") {
+  graphElements.push({
+    "@type": "ProfilePage",
+    "@id": `${canonicalURL.href}#webpage`,
+    url: canonicalURL.href,
+    name: "About Karim Bhalwani",
+    description: description,
+    isPartOf: {
+      "@id": `${siteOrigin}/#website`,
+    },
+    mainEntity: {
+      "@id": `${siteOrigin}/#author`,
+    },
+  });
+} else if (schemaType === "CollectionPage" && collectionItems && collectionItems.length > 0) {
+  graphElements.push({
+    "@type": "CollectionPage",
+    "@id": `${canonicalURL.href}#collection`,
+    url: canonicalURL.href,
+    name: title.split("|")[0].trim(),
+    description: description,
+    isPartOf: {
+      "@id": `${siteOrigin}/#website`,
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: collectionItems.length,
+      itemListElement: collectionItems.map((item, idx) => ({
+        "@type": "ListItem",
+        position: idx + 1,
+        name: item.name,
+        url: item.url,
+      })),
+    },
+  });
 }
+
+const unifiedSchema = {
+  "@context": "https://schema.org",
+  "@graph": graphElements,
+};
 ---
 
 <meta charset="utf-8" />
@@ -230,6 +260,8 @@ if (isArticle) {
       <meta name="citation_publication_date" content={publishedTime.split("T")[0].replace(/-/g, "/")} />
     )}
     {doi && <meta name="citation_doi" content={doi} />}
+    {description && <meta name="citation_abstract" content={description} />}
+    <meta name="citation_technical_report_institution" content="Karim Bhalwani AI Architecture" />
     <meta name="citation_fulltext_html_url" content={canonicalURL.href} />
   </>
 )}
@@ -274,12 +306,9 @@ if (isArticle) {
 <!-- RSS Feed Autodiscovery -->
 <link rel="alternate" type="application/rss+xml" title="Karim Bhalwani | Writing" href="/rss.xml" />
 
-<!-- JSON-LD Main Structured Data -->
-{mainSchema && (
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(mainSchema)} />
-)}
+<!-- LLM / Generative Engine Discovery Manifest -->
+<link rel="alternate" type="text/markdown" href="/llms.txt" title="LLM Context Index" />
 
-<!-- JSON-LD Breadcrumbs for Search Result Navigation Paths -->
-{breadcrumbSchema && (
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-)}
+<!-- Unified JSON-LD Schema.org Knowledge Graph -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify(unifiedSchema)} />
+

@@ -34,9 +34,9 @@ const topics = await getCollection("topics");
         Not a product, not a company.
       </p>
       <div class="hero__actions cluster" style="--cluster-gap: var(--space-s)">
-        <a href="/writing" class="btn">Read the Blog</a>
-        <a href="/research" class="btn btn--ghost">Research &amp; Monographs</a>
-        <a href="/about" class="btn btn--ghost">About</a>
+        <a href="/writing/" class="btn">Read the Blog</a>
+        <a href="/research/" class="btn btn--ghost">Research &amp; Monographs</a>
+        <a href="/about/" class="btn btn--ghost">About</a>
       </div>
 
       <!-- Disclosure -->
@@ -51,7 +51,7 @@ const topics = await getCollection("topics");
     <section class="section stack stack-s">
       <div class="section-head">
         <h2>Knowledge Graph</h2>
-        <a href="/explorer" class="section-head__more">Open Explorer →</a>
+        <a href="/explorer/" class="section-head__more">Open Explorer →</a>
       </div>
       <MiniGraph />
     </section>
@@ -61,7 +61,7 @@ const topics = await getCollection("topics");
       <section class="section stack stack-s">
         <div class="section-head">
           <h2>Research &amp; Monographs</h2>
-          <a href="/research" class="section-head__more">All Research ({sortedResearch.length}) →</a>
+          <a href="/research/" class="section-head__more">All Research ({sortedResearch.length}) →</a>
         </div>
         <div class="stack stack-m">
           {sortedResearch.slice(0, 2).map((paper) => {
@@ -90,11 +90,11 @@ const topics = await getCollection("topics");
       <section class="section stack stack-s">
         <div class="section-head">
           <h2>Featured</h2>
-          <a href="/writing" class="section-head__more">All writing →</a>
+          <a href="/writing/" class="section-head__more">All writing →</a>
         </div>
         <div class="featured-grid">
           {featuredPosts.map((post) => (
-            <a href={`/writing/${post.id}`} class="featured-card">
+            <a href={`/writing/${post.id}/`} class="featured-card">
               <div class="featured-card__meta cluster" style="--cluster-gap: var(--space-xs)">
                 <span class="kicker">{Array.isArray(post.data.categories) ? post.data.categories[0] : post.data.categories || "AI Systems"}</span>
                 <time datetime={new Date(post.data.date).toISOString()} class="muted" style="font-size: var(--step--1)">
@@ -115,7 +115,7 @@ const topics = await getCollection("topics");
     <section class="section stack stack-s">
       <div class="section-head">
         <h2>Topics</h2>
-        <a href="/topics" class="section-head__more">All topics →</a>
+        <a href="/topics/" class="section-head__more">All topics →</a>
       </div>
       <div class="auto-grid" style="--grid-min: 16rem">
         {
@@ -134,7 +134,7 @@ const topics = await getCollection("topics");
                   </span>
                 </div>
                 <h3 class="topic-card__title">
-                  <a href={`/topics/${t.id}`}>{t.data.title}</a>
+                  <a href={`/topics/${t.id}/`}>{t.data.title}</a>
                 </h3>
                 <p class="muted">{t.data.summary}</p>
               </div>
@@ -148,7 +148,7 @@ const topics = await getCollection("topics");
     <section class="section stack stack-s">
       <div class="section-head">
         <h2>Recent Posts</h2>
-        <a href="/writing" class="section-head__more">Complete Archive ({sortedPosts.length}) →</a>
+        <a href="/writing/" class="section-head__more">Complete Archive ({sortedPosts.length}) →</a>
       </div>
       <div class="stack stack-m">
         {

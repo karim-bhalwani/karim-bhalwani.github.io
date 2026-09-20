@@ -43,7 +43,7 @@ const readTimeText = typeof reading_time === "number" ? `${reading_time} min rea
   </div>
 
   <h3 class="post-card__title">
-    <a href={`/research/${slug}`} class="post-card__link">
+    <a href={`/research/${slug}/`} class="post-card__link">
       {title}
     </a>
   </h3>
@@ -54,7 +54,7 @@ const readTimeText = typeof reading_time === "number" ? `${reading_time} min rea
     tags.length > 0 && (
       <div class="post-card__tags cluster" style="--cluster-gap: var(--space-3xs)">
         {tags.slice(0, 4).map((tag) => (
-          <Tag text={tag} href={`/writing?tag=${encodeURIComponent(tag)}`} />
+          <Tag text={tag} href={`/writing/?tag=${encodeURIComponent(tag)}`} />
         ))}
       </div>
     )

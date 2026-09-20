@@ -55,6 +55,9 @@ export async function GET(context: APIContext) {
     description: "Personal writing and research monographs on AI systems engineering, agent harness architecture, and systems design.",
     site: siteUrl,
     items: allItems,
-    customData: `<language>en-us</language>`,
+    customData: `<language>en-us</language><atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml" />`,
+    xmlns: {
+      atom: "http://www.w3.org/2005/Atom",
+    },
   });
 }
