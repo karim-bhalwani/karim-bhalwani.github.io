@@ -20,7 +20,7 @@ The approval gate was real. The review was theater.
 
 ---
 
-In [The Human Was Always the Next Ceiling](/writing/2026-06-14-human-ceiling), I argued that asking humans to approve agent work in real time does not work. Machines move faster than humans can respond. Someone is always asleep when the agent fires at 2 AM.
+In [The Human Was Always the Next Ceiling](/writing/2026-06-14-human-ceiling/), I argued that asking humans to approve agent work in real time does not work. Machines move faster than humans can respond. Someone is always asleep when the agent fires at 2 AM.
 
 That argument was about speed. There is a worse problem underneath it.
 
@@ -38,11 +38,11 @@ There are three things that go wrong. They do not happen one at a time. They hap
 
 **Approval fatigue.** An agent working through a long task stops frequently to ask for confirmation. Write a file. Call an API. Update a database. Each request shows up without the full context behind it. The operator answers. The agent continues. Do this enough times without anything going wrong, and the human stops actually evaluating the requests. The habit of clicking approve replaces the habit of checking. The human in the loop becomes a button the agent pushes.
 
-I described a version of this in [The Human Was Always the Next Ceiling](/writing/2026-06-14-human-ceiling): "The review collapses into pattern-matching. Familiar shapes get rubber-stamped." What the research shows goes further. The chance that a supervisor catches a real error drops fast as the session goes on. Not slowly. Fast.
+I described a version of this in [The Human Was Always the Next Ceiling](/writing/2026-06-14-human-ceiling/): "The review collapses into pattern-matching. Familiar shapes get rubber-stamped." What the research shows goes further. The chance that a supervisor catches a real error drops fast as the session goes on. Not slowly. Fast.
 
 **Automation bias.** Every time the agent does something without visible failure, the person watching it trusts it a little more. Not because they decided to. Because that is how the human brain works. After a hundred steps that went fine, the hundred-and-first feels safe even when it is not. The agent has built up a credibility it has not actually earned for the situation it is now in.
 
-I pointed at this in [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering): a bad loop runs all night on the wrong goal. Automation bias makes it worse. The longer the loop runs correctly, the less prepared the person watching it is to notice when it starts going wrong.
+I pointed at this in [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering/): a bad loop runs all night on the wrong goal. Automation bias makes it worse. The longer the loop runs correctly, the less prepared the person watching it is to notice when it starts going wrong.
 
 **Information overload.** Agents produce a lot of output. Reasoning notes. Tool call logs. API responses. Messages from other agents in multi-agent setups. Nobody can read all of it in real time. So the operator gets a summary. A diff. An abstracted view. But abstraction cuts detail. The detail that would expose a subtle error is often exactly what the summary leaves out.
 
@@ -62,7 +62,7 @@ That is not oversight. It is treating the human like a function the platform cal
 
 And when something goes wrong, that person takes the blame. There is a name for this: the *moral crumple zone*. The human at the front of the system absorbs the damage for failures that were baked into the design long before they sat down.
 
-I made a similar argument in [Building the Control Layer](/writing/2026-04-26-building-the-control-layer). The harness around the model is the real system. Right now, most harnesses are designed around what is convenient for the agent. They are not designed around what the person supervising the agent can actually handle.
+I made a similar argument in [Building the Control Layer](/writing/2026-04-26-building-the-control-layer/). The harness around the model is the real system. Right now, most harnesses are designed around what is convenient for the agent. They are not designed around what the person supervising the agent can actually handle.
 
 ---
 
@@ -76,7 +76,7 @@ It is not about showing the operator more information. It is about designing the
 
 **On the software side, four things matter:**
 
-*Gate by risk, not by action.* Not every agent step needs a human check. What needs a check is the small set of high-impact things that cannot be undone: writing to a production database, running an arbitrary script, making network calls at scale, changing permissions. Everything else should run without interruption. Sending every small action through a confirmation prompt does not create safety. It creates the fatigue that makes humans unable to catch the one action that actually matters. I built this principle into the harness design in [Building the Control Layer](/writing/2026-04-26-building-the-control-layer). It is not optional.
+*Gate by risk, not by action.* Not every agent step needs a human check. What needs a check is the small set of high-impact things that cannot be undone: writing to a production database, running an arbitrary script, making network calls at scale, changing permissions. Everything else should run without interruption. Sending every small action through a confirmation prompt does not create safety. It creates the fatigue that makes humans unable to catch the one action that actually matters. I built this principle into the harness design in [Building the Control Layer](/writing/2026-04-26-building-the-control-layer/). It is not optional.
 
 *Make high-stakes approvals require effort.* When a genuinely risky action is about to run, a single click is the wrong design. Require the operator to do something that takes a second of thought: write down what they expect to happen, flag one thing that could go wrong, confirm a key number. Research on this is consistent. Adding a small deliberate step before a high-stakes decision stops the autopilot from firing. These moments are rare in most sessions. The added time is small. The benefit is real.
 
@@ -88,7 +88,7 @@ It is not about showing the operator more information. It is about designing the
 
 *Limit how long anyone monitors in a single stretch.* Watching agents run is tiring work. Treating it as something a person can do all day without a break is wrong. Air traffic controllers have shift limits. Surgeons have rules about operating hours. Agent oversight needs the same. Fixed durations. Mandatory breaks. Hard stops before the person checking the work is too tired to check anything.
 
-*Keep people doing the actual work, not just reviewing it.* The more you hand off to agents, the faster you lose the skill to catch their mistakes. Knowing that a database migration is risky, or that a particular API call pattern is a security problem, requires experience doing that work. If your team only reviews agent output and never does the underlying work themselves, that knowledge fades. I covered this risk in [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not). The fix is scheduled blocks where operators work on relevant tasks without agent help. Not as a punishment. To keep the skill sharp.
+*Keep people doing the actual work, not just reviewing it.* The more you hand off to agents, the faster you lose the skill to catch their mistakes. Knowing that a database migration is risky, or that a particular API call pattern is a security problem, requires experience doing that work. If your team only reviews agent output and never does the underlying work themselves, that knowledge fades. I covered this risk in [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not/). The fix is scheduled blocks where operators work on relevant tasks without agent help. Not as a punishment. To keep the skill sharp.
 
 *Spread the responsibility.* Right now, blame lands on the person who clicked approve. That person was not set up to succeed. The real responsibility belongs with the people who built the harness, designed the interface, and set the supervision policies. Accountability has to sit there, because that is the only place where fixing the underlying problem makes sense.
 
@@ -96,7 +96,7 @@ It is not about showing the operator more information. It is about designing the
 
 ## The Loop Reframed
 
-In [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering), I argued the human job has shifted. You are not directing the agent step by step anymore. You are building the system that directs it.
+In [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering/), I argued the human job has shifted. You are not directing the agent step by step anymore. You are building the system that directs it.
 
 That is still right. But there is something I did not say clearly enough.
 
@@ -104,7 +104,7 @@ Designing the loop is not just about what the agent does. It is about what the p
 
 The goal, the trigger, the stop condition: those are engineering decisions. Cognitive scaffolding is the other half. It is the design work that keeps the human in a state where they can actually intervene when something goes wrong.
 
-In [Your Chatbot Hallucinated. Your Agent Passed the Test.](/writing/2026-08-22-your-agent-passed-the-test), I wrote about keeping the system that checks the agent's work separate from the agent itself. The same logic applies here. The human's ability to think clearly is a resource the system depends on. If the system uses up that resource faster than the session requires, the oversight is gone. Not visibly. Not loudly. Just gone.
+In [Your Chatbot Hallucinated. Your Agent Passed the Test.](/writing/2026-08-22-your-agent-passed-the-test/), I wrote about keeping the system that checks the agent's work separate from the agent itself. The same logic applies here. The human's ability to think clearly is a resource the system depends on. If the system uses up that resource faster than the session requires, the oversight is gone. Not visibly. Not loudly. Just gone.
 
 The green checkmark was never proof the software was right. The human approval was never proof the judgment was sound.
 
@@ -128,7 +128,7 @@ If you are building a system that asks a human to review agent decisions, answer
 
 Every reliable system goes through the same stages. Manual first. Then supervised automation. Then automation with human oversight at the edges.
 
-Human-in-the-loop was the right call when agents were unreliable, nobody knew the blast radius, and there was no infrastructure to catch mistakes automatically. In [The Human Was Always the Next Ceiling](/writing/2026-06-14-human-ceiling), I argued that moment has passed. The harness, the sandbox, the audit trail, the spec discipline: those exist now. The trust lives in the infrastructure. The synchronous approval gate is a holdover from 2024.
+Human-in-the-loop was the right call when agents were unreliable, nobody knew the blast radius, and there was no infrastructure to catch mistakes automatically. In [The Human Was Always the Next Ceiling](/writing/2026-06-14-human-ceiling/), I argued that moment has passed. The harness, the sandbox, the audit trail, the spec discipline: those exist now. The trust lives in the infrastructure. The synchronous approval gate is a holdover from 2024.
 
 The gate was never providing the safety it looked like it was providing. And as agents get more capable, it provides less protection while burning through more of the mental energy that would be needed to catch the things the gate misses.
 
@@ -144,9 +144,9 @@ Stop adding approval gates. Start designing systems where the gates you keep are
 
 - [AI Agents Push Humans Out of the Loop (arXiv:2608.23642)](https://arxiv.org/abs/2608.23642). Mitchell, Ghosh, Passi.
 - [Cognitive Forcing Functions Can Reduce Overreliance on AI](https://www.researchgate.net/publication/351120800_To_Trust_or_to_Think_Cognitive_Forcing_Functions_Can_Reduce_Overreliance_on_AI_in_AI-assisted_Decision-making). The research behind deliberate friction at high-stakes gates.
-- Related post: [The Human Was Always the Next Ceiling.](/writing/2026-06-14-human-ceiling)
-- Related post: [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering)
-- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
-- Related post: [Your Chatbot Hallucinated. Your Agent Passed the Test.](/writing/2026-08-22-your-agent-passed-the-test)
-- Related post: [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not)
-- Related post: [You Are Measuring the Wrong Thing.](/writing/2026-10-04-you-are-measuring-the-wrong-thing)
+- Related post: [The Human Was Always the Next Ceiling.](/writing/2026-06-14-human-ceiling/)
+- Related post: [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering/)
+- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer/)
+- Related post: [Your Chatbot Hallucinated. Your Agent Passed the Test.](/writing/2026-08-22-your-agent-passed-the-test/)
+- Related post: [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not/)
+- Related post: [You Are Measuring the Wrong Thing.](/writing/2026-10-04-you-are-measuring-the-wrong-thing/)

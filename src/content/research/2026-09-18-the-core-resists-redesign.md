@@ -49,9 +49,9 @@ The model that works is what I call **edge teams**: small, structurally independ
 
 This is not hypothetical. Contact centers are the clearest proof. The organizations that moved fastest did not try to convert their existing call center in place. They stood up a separate, AI-native operation and ran it alongside the old one until it proved itself, then moved volume over. NTT DATA reports real deployments seeing total cost of ownership drop by up to 60%, and Gartner projects agentic AI will resolve 80% of common customer service issues autonomously by 2029, cutting operational costs by around 30%. That is not incremental. That is a different operating curve, and it came from building outside, not editing inside.
 
-Inside each team, the shift in how the human core operates is worth being explicit about, because it is a different job than what "human in the loop" usually means. [In the loop](/writing/2026-04-26-building-the-control-layer) means a person checks or approves each step before the next one happens. That is exactly the assumption baked into most of today's workflows, and exactly why the old process cannot just be handed to agents without redesign. [Above the loop](/writing/2026-06-14-human-ceiling) means something else: the human sets the goal, defines what a good outcome looks like, and steps in only where judgment genuinely cannot be delegated, while the agents run the steps in between without a person rubber-stamping each one.
+Inside each team, the shift in how the human core operates is worth being explicit about, because it is a different job than what "human in the loop" usually means. [In the loop](/writing/2026-04-26-building-the-control-layer/) means a person checks or approves each step before the next one happens. That is exactly the assumption baked into most of today's workflows, and exactly why the old process cannot just be handed to agents without redesign. [Above the loop](/writing/2026-06-14-human-ceiling/) means something else: the human sets the goal, defines what a good outcome looks like, and steps in only where judgment genuinely cannot be delegated, while the agents run the steps in between without a person rubber-stamping each one.
 
-McKinsey's research on the agentic organization describes this directly. Not a single assistant bolted onto a workflow, but small groups of specialized agents, each handling one piece of a process, with humans positioned above the loop to steer. [The value migrates](/writing/2026-04-03-code-got-cheap) from doing the work to deciding what "better" means for this function, and handling the calls the agents genuinely cannot make.
+McKinsey's research on the agentic organization describes this directly. Not a single assistant bolted onto a workflow, but small groups of specialized agents, each handling one piece of a process, with humans positioned above the loop to steer. [The value migrates](/writing/2026-04-03-code-got-cheap/) from doing the work to deciding what "better" means for this function, and handling the calls the agents genuinely cannot make.
 
 ---
 
@@ -75,7 +75,7 @@ A handful of these capabilities show up needing the same shape everywhere:
 
 - **Call and document summarization.** Every LOB that talks to customers or processes legal, medical, or policy documents needs a version of "read this, extract what matters, produce a clean summary."
 - **RAG over internal knowledge.** HR needs it for policy questions, IT for troubleshooting, sales for product specs. Same retrieval-plus-citation pattern underneath.
-- **[PII and PHI redaction](/writing/2026-01-17-context-matters-redacting-health-records).** Anywhere a document moves between systems, or between a person and a model, something has to strip sensitive details before content goes where it should not. Build that once with jurisdiction-specific rules baked in, and every LOB pulls from the same certified capability.
+- **[PII and PHI redaction](/writing/2026-01-17-context-matters-redacting-health-records/).** Anywhere a document moves between systems, or between a person and a model, something has to strip sensitive details before content goes where it should not. Build that once with jurisdiction-specific rules baked in, and every LOB pulls from the same certified capability.
 
 The pattern across all of these: each is a horizontal capability many LOBs need, not a business-specific one-off. Build them the way you would build shared infrastructure, a small number of well-governed AI services sitting underneath the enterprise that any edge team can call instead of building from scratch.
 
@@ -83,7 +83,7 @@ Organize this as **one edge team per line of business**, not a generic innovatio
 
 That coordination does not happen automatically just because a registry exists. Someone has to own keeping it current and searchable, and someone has to make shopping-before-building a real habit under deadline pressure. When it works, the payoff compounds across the whole portfolio. Every LOB is still solving its own problem on its own timeline, but none of them is starting from zero.
 
-This is where [governance stops being the enemy of speed](/writing/2026-04-26-building-the-control-layer) and starts compounding advantage. Right now, every new AI project pays full compliance and security review price, even when it reuses logic already reviewed elsewhere. Gartner has documented this failure mode in platform teams: when governance gets implemented as an approval queue instead of infrastructure, cycle times stretch from days into months, and people start finding workarounds. That is worse for governance than the slow process was trying to prevent.
+This is where [governance stops being the enemy of speed](/writing/2026-04-26-building-the-control-layer/) and starts compounding advantage. Right now, every new AI project pays full compliance and security review price, even when it reuses logic already reviewed elsewhere. Gartner has documented this failure mode in platform teams: when governance gets implemented as an approval queue instead of infrastructure, cycle times stretch from days into months, and people start finding workarounds. That is worse for governance than the slow process was trying to prevent.
 
 The fix is what platform engineers call the **golden path**: build the compliant option so it is also the easy option. A capability gets reviewed once, earns an internal seal, and anyone can pull it into a new solution without re-litigating the same compliance questions from scratch. Access controls, spend limits, data handling, all enforced automatically at the platform layer. You are not removing governance. You are moving it earlier and paying for it once instead of every time.
 
@@ -109,10 +109,14 @@ This gives capability certification teeth. A capability earning its internal sea
 
 The data points woven through this analysis converge on a single conclusion: the constraint is organizational design, not model capability.
 
-- **Gartner, 2025:** more than 40% of agentic AI projects will be canceled by the end of 2027. The driver is not model capability. It is escalating cost, unclear business value, and inadequate risk controls.
-- **Gartner, 2026:** only 17% of enterprises have deployed AI agents, even as multi-agent system inquiries surged 1,445% between Q1 2024 and Q2 2025, the fastest adoption-intent curve Gartner has recorded for any emerging technology.
-- **Gartner, 2026:** by 2030, roughly 80% of software engineering organizations will shift toward smaller, AI-assisted "tiny teams," letting the people who understand the problem build the solution directly.
-- **Anthropic Economic Index:** current AI use still splits 57% augmentation to 43% automation. Most of what is happening today is AI helping a person do their job, not AI running a process end to end.
+| Research Benchmark & Source | Quantitative Metric / Finding | Core Systems Implication |
+| :--- | :--- | :--- |
+| **Gartner (2025 AI Survey)** | **>40% cancellation rate** for agentic AI projects by end of 2027 | Failure driven by escalating cost and missing risk controls, not model smarts. |
+| **Gartner (2026 MAS Inquiries)** | **17% enterprise deployment**, despite **1,445% surge** in inquiries | Widest adoption-intent gap recorded; organizations want agents but lack operating models. |
+| **Deloitte (2026 Tech Leader Survey)** | Only **15% of enterprises** scaled multi-agent systems to production | Scaling requires architectural redesign, not tool enablement. |
+| **McKinsey (2026 Enterprise Pilot Data)** | **62% piloting agents**, but **<10% reaching scale** in any business unit | Incremental pilots fail when bolted onto existing human approval loops. |
+| **Gartner (2026 Workforce Outlook)** | **~80% of software orgs** shifting to AI-assisted "tiny teams" by 2030 | Small cross-functional edge teams replace monolithic departmental sprint structures. |
+| **Anthropic Economic Index** | AI task execution split: **57% augmentation vs. 43% automation** | Work remains trapped human-in-the-loop until workflows are re-architected above-the-loop. |
 
 ---
 
@@ -122,7 +126,7 @@ Why not buy a comprehensive agentic AI suite from a major vendor and skip the in
 
 A purchased platform, however good, still gets deployed inside your existing structure. Same reporting lines, same functional boundaries, same approval chains. It makes those boundaries move faster. It does not redraw them, and redrawing them is the actual point.
 
-There is a competitive problem underneath. If you and your closest competitor both buy the same vendor's agent catalog, neither gets ahead. You have both purchased the identical cost reduction. [Real advantage comes from proprietary process knowledge](/writing/2026-07-19-stop-renting-the-intelligence) that builds up inside your own operations, and that only comes from your own people doing the work on your own workflows. You cannot buy that off a shelf, by definition. And when one vendor supplies your orchestration layer, governance tooling, and core systems, your ability to evolve is tied to their roadmap, not yours.
+There is a competitive problem underneath. If you and your closest competitor both buy the same vendor's agent catalog, neither gets ahead. You have both purchased the identical cost reduction. [Real advantage comes from proprietary process knowledge](/writing/2026-07-19-stop-renting-the-intelligence/) that builds up inside your own operations, and that only comes from your own people doing the work on your own workflows. You cannot buy that off a shelf, by definition. And when one vendor supplies your orchestration layer, governance tooling, and core systems, your ability to evolve is tied to their roadmap, not yours.
 
 This does not argue against using vendor tools. Edge teams should use the best available models and infrastructure instead of reinventing everything. The distinction is between vendor tools as components inside a structure you control, versus a vendor's entire operating model standing in for actually redesigning your own.
 
@@ -149,4 +153,4 @@ That discipline, not the technology, is what separates the companies that get to
 - **Anthropic Economic Index**: [The Anthropic Economic Index](https://www.anthropic.com/research/the-anthropic-economic-index)
 - **NTT DATA Contact Center Outcomes**: [Agentic AI Use Cases and Cost Outcomes](https://nj-resources.nojitter.com/free/w_defa9660) (No Jitter)
 - **Gartner Contact Center Projections**: [Agentic AI for Contact Centers](https://www.avaya.com/en/insights/agentic-ai-for-contact-centers/) (Avaya)
-- **Related research & posts**: [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not) · [Three People, Ten Agents, Zero Sprints](/writing/2026-03-19-three-people-ten-agents-zero-sprints) · [Beyond the Million-Token Window](/research/2026-06-28-beyond-million-token-window)
+- **Related research & posts**: [The Agents Work. The Organization Does Not.](/writing/2026-03-13-the-agents-work-the-organization-does-not/) · [Three People, Ten Agents, Zero Sprints](/writing/2026-03-19-three-people-ten-agents-zero-sprints/) · [Beyond the Million-Token Window](/research/2026-06-28-beyond-million-token-window/)

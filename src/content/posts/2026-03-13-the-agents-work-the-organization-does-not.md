@@ -29,7 +29,7 @@ Ninety-five percent of generative AI implementations do not deliver a positive R
 
 Erik Brynjolfsson, director of Stanford's Digital Economy Lab: "The real bottleneck in the digital economy is not invention. It is diffusion."
 
-In my [last post](/writing/2026-03-01-the-bottleneck-moved), I argued that specification is the new scarcity. That was half the story. Specification requires specifiers. Specifiers work inside organizations. And most organizations were never redesigned to run an agentic workforce.
+In my [last post](/writing/2026-03-01-the-bottleneck-moved/), I argued that specification is the new scarcity. That was half the story. Specification requires specifiers. Specifiers work inside organizations. And most organizations were never redesigned to run an agentic workforce.
 
 ---
 
@@ -81,7 +81,7 @@ Here is what the research makes unambiguous. Organizations that attempt to jump 
 
 This is the same lesson every Agile transformation taught. You cannot bolt a new methodology onto a broken culture and expect the methodology to fix the culture. The methodology exposes the culture. AI exposes it faster.
 
-I wrote about this in [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems): Agent Skills encode organizational wisdom into executable workflows. But Skills only work when the organization has wisdom to encode. Stage 2 is where that wisdom gets created. Skip it, and your Skills encode the wrong things.
+I wrote about this in [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems/): Agent Skills encode organizational wisdom into executable workflows. But Skills only work when the organization has wisdom to encode. Stage 2 is where that wisdom gets created. Skip it, and your Skills encode the wrong things.
 
 **You cannot bolt an AI workforce onto a broken organization and expect the AI to fix the organization.**
 
@@ -184,7 +184,7 @@ The 201 Level is where value lives. At this level, people can:
 - Recognize the symptoms of context pollution and organizational drift before they compound
 - Specify work precisely enough that agents execute reliably without hand-holding
 
-This is not a training problem. It is a systems design problem. The same distinction I drew in [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved): "The teams that made the transition are not better at prompting. They are better at specifying. That is a systems skill, not a personal one."
+This is not a training problem. It is a systems design problem. The same distinction I drew in [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved/): "The teams that made the transition are not better at prompting. They are better at specifying. That is a systems skill, not a personal one."
 
 The organizational implication is uncomfortable but clear. Broad, shallow AI training produces the worst possible outcome: an entire workforce that uses AI poorly, generates confident-looking garbage, and creates a perception that AI "doesn't work" for this organization. Meanwhile, a small team with genuine fluency rewires the same workflows and delivers 10x the output.
 
@@ -218,7 +218,7 @@ Four frontier models shipped in fourteen days in February 2026. Every release cy
 
 ## It Was Never About the Technology
 
-Every post in this series has circled the same insight from a different angle. [Systematic workflows](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) beat raw capability. Intelligent architecture beats brute-force context. [Specification](/writing/2026-03-01-the-bottleneck-moved) is the new scarcity.
+Every post in this series has circled the same insight from a different angle. [Systematic workflows](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems/) beat raw capability. Intelligent architecture beats brute-force context. [Specification](/writing/2026-03-01-the-bottleneck-moved/) is the new scarcity.
 
 This post is the layer underneath.
 
@@ -248,6 +248,6 @@ The agents work. The organization does not.
 - **Deloitte State of AI in the Enterprise 2026**: [deloitte.com/us/state-of-ai](https://www.deloitte.com/us/state-of-ai)
 - **WEF AI at Work: From Productivity Hacks to Organizational Transformation**: [weforum.org](https://www.weforum.org/publications/ai-at-work-from-productivity-hacks-to-organizational-transformation/)
 - **Stanford/ADP "Canaries in the Coal Mine"**: Brynjolfsson et al., Stanford Digital Economy Lab
-- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems) · [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved)
+- **Related posts**: [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems/) · [The Bottleneck Moved](/writing/2026-03-01-the-bottleneck-moved/)
 
 ---

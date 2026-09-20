@@ -20,7 +20,7 @@ Hold that gap. We are coming back to it.
 
 ---
 
-In [Route the Intelligence](/writing/2026-05-10-route-the-intelligence), I wrote about the cost of sending every task to the wrong model tier. In [You Don't Maximize Tokens, You Maximize Learning](/writing/2026-08-05-token-maxing-learning), I argued that raw token volume teaches you nothing useful about whether the spend was worth it. Both posts circled the same problem without naming it directly.
+In [Route the Intelligence](/writing/2026-05-10-route-the-intelligence/), I wrote about the cost of sending every task to the wrong model tier. In [You Don't Maximize Tokens, You Maximize Learning](/writing/2026-08-05-token-maxing-learning/), I argued that raw token volume teaches you nothing useful about whether the spend was worth it. Both posts circled the same problem without naming it directly.
 
 The problem is this: the metric everyone is tracking is not the metric that matters.
 
@@ -76,7 +76,7 @@ The fix is to load schemas on demand rather than all at once. Red Hat's producti
 
 **The Skills Tax: instruction payload overhead.** Every skill loaded into the agent, its persona, its procedures, its rules, gets resent in full on every turn. A coding agent carrying five active skills might inject 10,000 tokens of instructions before the task begins. Those 10,000 tokens do not change between turn one and turn thirty. You pay for them thirty times.
 
-In [Stop Renting the Intelligence](/writing/2026-07-19-stop-renting-the-intelligence), the principle is that the architecture which compounds correctly bakes context into weights rather than re-sends it on every call. Skills injected as prompt text are the re-sending model. Skills encoded as fine-tuned adapters are the ownership model. The token math is different.
+In [Stop Renting the Intelligence](/writing/2026-07-19-stop-renting-the-intelligence/), the principle is that the architecture which compounds correctly bakes context into weights rather than re-sends it on every call. Skills injected as prompt text are the re-sending model. Skills encoded as fine-tuned adapters are the ownership model. The token math is different.
 
 **The Tool Result Tax: verbose environmental payloads.** Every time an agent calls a tool, the result comes back into the context. A database query returning a 200-row result set. A terminal command producing pages of build log. A web fetch returning full HTML when the agent needed one sentence.
 
@@ -140,7 +140,7 @@ Three phases, in order.
 
 **Measurement second.** You track cost per successful outcome, not cost per call. You instrument resolution rates per workflow type. You measure loop stagnation: how often an agent iterates without converging, because every stagnant loop is spend without output. If your instrumentation cannot tell you whether a session produced a verified result, you do not have cost measurement. You have billing data.
 
-**Governance third.** Budget limits by team and workflow. Routing policies that direct routine work to cheaper model tiers and escalate to frontier capability only when complexity warrants it. This is exactly what [Route the Intelligence](/writing/2026-05-10-route-the-intelligence) established as the starting point. Circuit breakers that halt sessions when spend exceeds a threshold without a resolution signal. Not to cap the system arbitrarily, but because an agent running past its expenditure horizon is burning budget on work that a human would resolve faster.
+**Governance third.** Budget limits by team and workflow. Routing policies that direct routine work to cheaper model tiers and escalate to frontier capability only when complexity warrants it. This is exactly what [Route the Intelligence](/writing/2026-05-10-route-the-intelligence/) established as the starting point. Circuit breakers that halt sessions when spend exceeds a threshold without a resolution signal. Not to cap the system arbitrarily, but because an agent running past its expenditure horizon is burning budget on work that a human would resolve faster.
 
 The tooling exists. OpenTelemetry semantic conventions for generative AI provide vendor-agnostic token tracing. Langfuse provides granular cost attribution per prompt version and execution step. AI gateway layers like Portkey or LiteLLM enforce budget hard-caps by team or workflow. The technology is available. What is missing is the organizational decision to make cost per successful outcome a first-class metric, owned by someone, tracked in every review.
 
@@ -181,10 +181,10 @@ The team that cannot connect those numbers is hoping for credit. The team that c
 - [Langfuse: Token and Cost Tracking](https://langfuse.com/docs/observability/features/token-and-cost-tracking). Open-source cost attribution at the trace and prompt version level.
 - [OpenTelemetry GenAI Semantic Conventions](https://opentelemetry.io/blog/2024/otel-generative-ai/). The vendor-agnostic standard for instrumenting agent token consumption across providers.
 - [FinOps for AI Overview: FinOps Foundation](https://www.finops.org/wg/finops-for-ai-overview/). The cloud FinOps parallel and emerging TokenOps working group framework.
-- Related post: [Route the Intelligence, Not Just the Context.](/writing/2026-05-10-route-the-intelligence)
-- Related post: [The Skill Your Agent Should Never Have Learned.](/writing/2026-09-20-the-skill-your-agent-should-never-have-learned)
-- Related post: [You Don't Maximize Tokens. You Maximize Learning.](/writing/2026-08-05-token-maxing-learning)
-- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
-- Related post: [Your Chatbot Hallucinated. Your Agent Passed the Test. Both Are Wrong.](/writing/2026-08-22-your-agent-passed-the-test)
+- Related post: [Route the Intelligence, Not Just the Context.](/writing/2026-05-10-route-the-intelligence/)
+- Related post: [The Skill Your Agent Should Never Have Learned.](/writing/2026-09-20-the-skill-your-agent-should-never-have-learned/)
+- Related post: [You Don't Maximize Tokens. You Maximize Learning.](/writing/2026-08-05-token-maxing-learning/)
+- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer/)
+- Related post: [Your Chatbot Hallucinated. Your Agent Passed the Test. Both Are Wrong.](/writing/2026-08-22-your-agent-passed-the-test/)
 
 ---

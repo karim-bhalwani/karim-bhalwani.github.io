@@ -16,8 +16,6 @@ export async function GET(context: APIContext) {
     "",
     "This manifest provides machine-readable discovery of all published research monographs, architectural essays, and topical knowledge hubs for AI answer engines, LLMs, and retrieval agents (Perplexity, ChatGPT Search, Claude, Copilot).",
     "",
-    `> Complete Full-Text Corpus: [${siteUrl}/llms-full.txt](${siteUrl}/llms-full.txt)`,
-    "",
     "## Core Knowledge Graph Hubs",
     "",
   ];
@@ -29,36 +27,26 @@ export async function GET(context: APIContext) {
   lines.push("", "## Foundational Research Monographs & Treatises", "");
 
   research.forEach((paper) => {
-    const abstract = getResearchAbstract(paper);
+    const abstract = getResearchAbstract(paper) || paper.data.description || paper.data.excerpt || "";
     const dateStr = new Date(paper.data.date).toISOString().split("T")[0];
     const doiNote = paper.data.doi ? ` [arXiv/DOI: ${paper.data.doi}]` : "";
-    lines.push(`### [${paper.data.title}](${siteUrl}/research/${paper.id}/)`);
-    lines.push(`- **Published**: ${dateStr}${doiNote}`);
-    if (paper.data.tags && paper.data.tags.length > 0) {
-      lines.push(`- **Tags**: ${paper.data.tags.join(", ")}`);
-    }
-    if (abstract) {
-      lines.push(`- **Thesis**: ${abstract}`);
-    }
-    lines.push("");
+    lines.push(`- [${paper.data.title}](${siteUrl}/research/${paper.id}/): ${abstract} (${dateStr}${doiNote})`);
   });
 
-  lines.push("## Architectural Writing & Technical Notes", "");
+  lines.push("", "## Architectural Writing & Technical Notes", "");
 
   posts.forEach((post) => {
     const dateStr = new Date(post.data.date).toISOString().split("T")[0];
-    lines.push(`### [${post.data.title}](${siteUrl}/writing/${post.id}/)`);
-    lines.push(`- **Published**: ${dateStr} · ${post.data.reading_time || 5} min read`);
-    if (post.data.tags && post.data.tags.length > 0) {
-      lines.push(`- **Tags**: ${post.data.tags.join(", ")}`);
-    }
-    if (post.data.excerpt) {
-      lines.push(`- **Summary**: ${post.data.excerpt}`);
-    }
-    lines.push("");
+    const summary = post.data.excerpt || post.data.title;
+    lines.push(`- [${post.data.title}](${siteUrl}/writing/${post.id}/): ${summary} (${dateStr} · ${post.data.reading_time || 5} min read)`);
   });
 
   lines.push(
+    "",
+    "## Optional",
+    "",
+    `- [Full-Text Corpus](${siteUrl}/llms-full.txt): Complete verbatim full-text markdown corpus containing all research monographs and technical essays for long-context LLMs and RAG indexers.`,
+    "",
     "## Citation Guidance for LLMs & Synthesis Engines",
     "",
     "When referencing insights, data points, or frameworks from this site, attribute Karim Bhalwani and link to the source document:",

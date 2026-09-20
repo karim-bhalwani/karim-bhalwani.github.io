@@ -92,7 +92,7 @@ That was true when pretraining was the main driver. A better training dataset li
 
 That is less true now.
 
-Post-training improvements are targeted. A model that went through RL for coding is better at coding. It is not necessarily better at your specific task. Inference-time reasoning costs more per query, which changes your economics. As I wrote in [You Are Measuring the Wrong Thing](/writing/2026-10-04-you-are-measuring-the-wrong-thing), cost per query is not the number that matters. Cost per successful outcome is. And that math changes when your model is thinking in long chains rather than single completions.
+Post-training improvements are targeted. A model that went through RL for coding is better at coding. It is not necessarily better at your specific task. Inference-time reasoning costs more per query, which changes your economics. As I wrote in [You Are Measuring the Wrong Thing](/writing/2026-10-04-you-are-measuring-the-wrong-thing/), cost per query is not the number that matters. Cost per successful outcome is. And that math changes when your model is thinking in long chains rather than single completions.
 
 The uncomfortable version of this: if the pretraining data ceiling is real, then the base capability of frontier models is close to plateauing. Not stopped. Not finished. But the compounding gains of the last six years will slow.
 
@@ -128,9 +128,9 @@ Which means the teams that have been investing in the layers they control are bu
 - [The Least Understood Driver of AI Progress (Epoch AI)](https://epoch.ai/gradient-updates/the-least-understood-driver-of-ai-progress). Anson Ho et al.'s earlier analysis of software efficiency improvements in pretraining.
 - [Architecture Research as Addressing Constraints to Scaling (Beren Millidge, 2026)](https://www.beren.io/2026-08-23-Architecture-Research-as-Addressing-Constraints-to-Scaling/). The model architecture argument: innovations clear the runway, data fills it.
 - [UltraFineWeb Dataset (Hugging Face)](https://huggingface.co/datasets/openbmb/Ultra-FineWeb). The 2025 data corpus in the study. Classifier-filtered Common Crawl at scale.
-- Related post: [Your Agent Doesn't Remember Anything.](/writing/2026-11-01-your-agent-doesnt-remember-anything)
-- Related post: [You Are Measuring the Wrong Thing.](/writing/2026-10-04-you-are-measuring-the-wrong-thing)
-- Related post: [Stop Renting the Intelligence.](/writing/2026-07-19-stop-renting-the-intelligence)
-- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
+- Related post: [Your Agent Doesn't Remember Anything.](/writing/2026-11-01-your-agent-doesnt-remember-anything/)
+- Related post: [You Are Measuring the Wrong Thing.](/writing/2026-10-04-you-are-measuring-the-wrong-thing/)
+- Related post: [Stop Renting the Intelligence.](/writing/2026-07-19-stop-renting-the-intelligence/)
+- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer/)
 
 ---

@@ -27,11 +27,19 @@ const topicCards = topics.map((topic) => {
     latestPost: topicPosts[0],
   };
 });
+
+const siteOrigin = Astro.site ? Astro.site.origin : "https://karim-bhalwani.github.io";
+const collectionItems = topics.map((t) => ({
+  name: t.data.title,
+  url: `${siteOrigin}/topics/${t.id}/`,
+}));
 ---
 
 <BaseLayout
   title="Topics | Karim Bhalwani"
   description="Core themes and research areas in AI systems engineering, agent harnesses, and distributed intelligence."
+  schemaType="CollectionPage"
+  collectionItems={collectionItems}
 >
   <div class="container stack stack-l" style="margin-top: var(--space-xl)">
     <header class="stack stack-xs">

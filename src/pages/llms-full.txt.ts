@@ -5,8 +5,16 @@ import { getCollection } from "astro:content";
 
 function makeAbsolute(text: string, siteUrl: string): string {
   return text
-    // Replace internal markdown links [text](/writing/...) with [text](https://siteUrl/writing/...)
-    .replace(/\]\(\/(writing|research|topics|explorer|about)/g, `](${siteUrl}/$1`)
+    // Replace internal markdown links [text](/writing/...) and enforce trailing slashes
+    .replace(/\]\(\/(writing|research|topics|explorer|about)([^)]*)\)/g, (_match, prefix, rest) => {
+      let cleanRest = rest || "";
+      if (cleanRest && !cleanRest.endsWith("/") && !cleanRest.includes("#") && !cleanRest.includes("?")) {
+        cleanRest = `${cleanRest}/`;
+      } else if (!cleanRest) {
+        cleanRest = "/";
+      }
+      return `](${siteUrl}/${prefix}${cleanRest})`;
+    })
     // Replace markdown images ![](/assets/...) with ![](https://siteUrl/assets/...)
     .replace(/!\[(.*?)\]\(\/(assets\/[^\)]+)\)/g, `![$1](${siteUrl}/$2)`);
 }

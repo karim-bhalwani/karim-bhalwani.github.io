@@ -30,9 +30,24 @@ async function main() {
 
   let urlList = [];
 
+  let sitemapContent = null;
   if (fs.existsSync(sitemapPath)) {
-    const sitemapContent = fs.readFileSync(sitemapPath, "utf-8");
-    
+    sitemapContent = fs.readFileSync(sitemapPath, "utf-8");
+    console.log(`[IndexNow] Loaded sitemap from local filesystem: ${sitemapPath}`);
+  } else {
+    console.log(`[IndexNow] Local sitemap not found at ${sitemapPath}. Fetching live sitemap from https://${HOST}/sitemap-0.xml...`);
+    try {
+      const sitemapRes = await fetch(`https://${HOST}/sitemap-0.xml`);
+      if (sitemapRes.ok) {
+        sitemapContent = await sitemapRes.text();
+        console.log(`[IndexNow] Successfully retrieved live sitemap from https://${HOST}/sitemap-0.xml`);
+      }
+    } catch (err) {
+      console.warn(`[IndexNow] Unable to fetch live sitemap: ${err.message}`);
+    }
+  }
+
+  if (sitemapContent) {
     if (sinceDays && !isNaN(sinceDays)) {
       const cutoffTime = Date.now() - sinceDays * 24 * 60 * 60 * 1000;
       const urlBlocks = sitemapContent.match(/<url>[\s\S]*?<\/url>/g) || [];
@@ -60,7 +75,7 @@ async function main() {
   }
 
   if (urlList.length === 0) {
-    console.warn(`[IndexNow] Warning: sitemap not found or empty at ${sitemapPath}. Using base URLs fallback.`);
+    console.warn(`[IndexNow] Warning: sitemap not found or empty. Using base URLs fallback.`);
     urlList = [
       `https://${HOST}/`,
       `https://${HOST}/writing/`,

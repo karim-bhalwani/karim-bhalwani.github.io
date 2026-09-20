@@ -95,6 +95,11 @@ const graphElements: Record<string, any>[] = [
     "@id": `${siteOrigin}/#website`,
     url: `${siteOrigin}/`,
     name: "Karim Bhalwani",
+    alternateName: [
+      "Karim Bhalwani AI Architecture",
+      "Karim Bhalwani Blog",
+      "Karim Bhalwani Systems Research",
+    ],
     description: "Personal writing on AI systems reliability, agentic architectures, and production systems design.",
     publisher: {
       "@id": `${siteOrigin}/#author`,
@@ -106,6 +111,7 @@ const graphElements: Record<string, any>[] = [
     "@id": `${siteOrigin}/#author`,
     name: "Karim Bhalwani",
     url: `${siteOrigin}/about/`,
+    image: `${siteOrigin}/assets/og-image.png`,
     jobTitle: "Solutions Architect & AI Systems Engineer",
     description: "Architect writing about agent control layers, context engineering, and autonomous systems in production.",
     sameAs: authorSameAs,
@@ -138,7 +144,10 @@ if (isArticle) {
       "@id": `${siteOrigin}/#author`,
     },
     publisher: {
+      "@type": "Person",
       "@id": `${siteOrigin}/#author`,
+      name: authorName,
+      url: `${siteOrigin}/about/`,
     },
     keywords: articleTags.join(", "),
     inLanguage: "en-US",
@@ -146,6 +155,16 @@ if (isArticle) {
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": canonicalURL.href,
+    },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: [
+        ".post-title",
+        ".monograph-title",
+        ".post__dek",
+        ".abstract-body",
+        ".takeaways-list",
+      ],
     },
   };
 
@@ -291,6 +310,9 @@ const unifiedSchema = {
 )}
 {isArticle && (
   <meta property="article:author" content={authorName} />
+)}
+{isArticle && (
+  <meta property="article:section" content={effectiveArticleType === "TechArticle" ? "Research" : "AI Systems Architecture"} />
 )}
 {isArticle && articleTags.map((tag) => (
   <meta property="article:tag" content={tag} />

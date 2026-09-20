@@ -19,7 +19,7 @@ Then someone uploads a 200-page medical record. The summary misses the medicatio
 
 The demo worked. The system did not.
 
-Over the past few months, we explored key architectural failure modes independently across separate investigations. [Context-aware redaction](/writing/2026-01-17-context-matters-redacting-health-records) solved the privacy problem. Hierarchical navigation solved the "lost in the middle" problem through structured document trees. [Recursive language models](/research/2026-02-22-mit-gave-the-model-a-python-interpreter) solved the adaptive reasoning problem. Each approach addressed one failure mode in isolation.
+Over the past few months, we explored key architectural failure modes independently across separate investigations. [Context-aware redaction](/writing/2026-01-17-context-matters-redacting-health-records/) solved the privacy problem. Hierarchical navigation solved the "lost in the middle" problem through structured document trees. [Recursive language models](/research/2026-02-22-mit-gave-the-model-a-python-interpreter/) solved the adaptive reasoning problem. Each approach addressed one failure mode in isolation.
 
 This post is about what happens when you stop solving problems in isolation and build the complete pipeline: a privacy-first document analysis system that transforms unstructured medical records into summarized reports and verifiable Q&A, end to end.
 
@@ -45,7 +45,7 @@ Every production failure in document analysis traces back to one of those shortc
 
 ## Stage 1: Privacy as Architecture, Not Afterthought
 
-The [first post](/writing/2026-01-17-context-matters-redacting-health-records) in this series described why standard PII redaction destroys clinical utility. Generic NER treats every name as equivalent. In a medical record, that collapses the distinction between the patient who needs protection and the cardiologist whose name defines the care pathway.
+The [first post](/writing/2026-01-17-context-matters-redacting-health-records/) in this series described why standard PII redaction destroys clinical utility. Generic NER treats every name as equivalent. In a medical record, that collapses the distinction between the patient who needs protection and the cardiologist whose name defines the care pathway.
 
 The pipeline enforces a hard architectural rule: **redaction runs before any LLM call**. Not as a filter. Not as middleware. As a pipeline stage that must complete before the next stage can begin. The orchestration layer physically prevents downstream steps from executing if redaction hasn't produced output.
 
@@ -117,7 +117,7 @@ This is the hierarchical navigation pattern, implemented as a production router.
 
 ### Deep Reasoning (RLM)
 
-For complex analytical questions, the pipeline supports an optional deep reasoning mode based on the Recursive Language Model architecture from our [earlier research monograph](/research/2026-02-22-mit-gave-the-model-a-python-interpreter).
+For complex analytical questions, the pipeline supports an optional deep reasoning mode based on the Recursive Language Model architecture from our [earlier research monograph](/research/2026-02-22-mit-gave-the-model-a-python-interpreter/).
 
 Instead of passively consuming context, the root model writes Python code to interrogate the document programmatically. It peeks at sections, greps for anchors, partitions the corpus, and dispatches sub-queries to child LLM calls. Each child operates in an isolated context and returns only its conclusion. The parent's context stays clean.
 
@@ -222,11 +222,11 @@ These are not interesting architectural decisions. They're the decisions that ke
 
 Each foundational layer addressed a failure mode that's obvious once you've tried to build document analysis for real.
 
-[Context-aware redaction](/writing/2026-01-17-context-matters-redacting-health-records) solved the problem of privacy tools that destroy analytical utility. Two-pass redaction preserves clinical context while enforcing a hard privacy boundary before any LLM call.
+[Context-aware redaction](/writing/2026-01-17-context-matters-redacting-health-records/) solved the problem of privacy tools that destroy analytical utility. Two-pass redaction preserves clinical context while enforcing a hard privacy boundary before any LLM call.
 
 Hierarchical navigation solved the problem of models drowning in context they can't navigate. A RAPTOR tree and scratchpad router turn a 200-page document into a navigable index where the model reads exactly what it needs.
 
-[Recursive language models](/research/2026-02-22-mit-gave-the-model-a-python-interpreter) solved the problem of questions that require adaptive decomposition. A deep reasoning mode lets the model decide at inference time how to traverse the document, with the security controls to make that safe.
+[Recursive language models](/research/2026-02-22-mit-gave-the-model-a-python-interpreter/) solved the problem of questions that require adaptive decomposition. A deep reasoning mode lets the model decide at inference time how to traverse the document, with the security controls to make that safe.
 
 Individually, each technique addresses one dimension of the problem. Together, they form a pipeline where privacy enables trust, structure enables precision, and adaptive reasoning enables complexity, all within a cost envelope that makes the system viable for daily use.
 
@@ -238,9 +238,9 @@ The models will keep improving. Context windows will keep growing. None of that 
 
 ## Resources & Next Steps
 
-- **Context-Aware Redactor**: [GitHub](https://github.com/karim-bhalwani/context-aware-redactor) | [Blog Post](/writing/2026-01-17-context-matters-redacting-health-records)
+- **Context-Aware Redactor**: [GitHub](https://github.com/karim-bhalwani/context-aware-redactor) | [Blog Post](/writing/2026-01-17-context-matters-redacting-health-records/)
 - **Hierarchical Navigation**: [GitHub](https://github.com/karim-bhalwani/hierarchical-navigation)
-- **MIT RLM Paper**: [arxiv.org/abs/2512.24601v1](https://arxiv.org/abs/2512.24601v1) | [Research Monograph](/research/2026-02-22-mit-gave-the-model-a-python-interpreter)
+- **MIT RLM Paper**: [arxiv.org/abs/2512.24601v1](https://arxiv.org/abs/2512.24601v1) | [Research Monograph](/research/2026-02-22-mit-gave-the-model-a-python-interpreter/)
 - **GitHub Repository**: [MedIQ](https://github.com/karim-bhalwani/document-insight-query)
 
 ---

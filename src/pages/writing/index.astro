@@ -19,11 +19,19 @@ allPosts.forEach((p) => {
 const sortedTags = Object.entries(tagCountMap)
   .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
   .map(([tag, count]) => ({ tag, count }));
+
+const siteOrigin = Astro.site ? Astro.site.origin : "https://karim-bhalwani.github.io";
+const collectionItems = sortedPosts.map((post) => ({
+  name: post.data.title,
+  url: `${siteOrigin}/writing/${post.id}/`,
+}));
 ---
 
 <BaseLayout
   title="Writing & Blog Posts - Karim Bhalwani"
   description="All blog posts on AI systems engineering, agent execution loops, verification, context engineering, and multi-agent coordination."
+  schemaType="CollectionPage"
+  collectionItems={collectionItems}
 >
   <div class="container stack stack-l" style="margin-top: var(--space-xl)">
     <header class="stack stack-xs">

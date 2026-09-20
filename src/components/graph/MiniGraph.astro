@@ -16,21 +16,21 @@ const initialNodes = [
     label: t.data.title,
     type: "topic",
     r: 16,
-    url: `/topics/${t.id}`,
+    url: `/topics/${t.id}/`,
   })),
   ...recentResearch.map((r) => ({
     id: r.id,
     label: r.data.title,
     type: "research",
     r: 12,
-    url: `/research/${r.id}`,
+    url: `/research/${r.id}/`,
   })),
   ...recentPosts.map((p) => ({
     id: p.id,
     label: p.data.title,
     type: "post",
     r: 8,
-    url: `/writing/${p.id}`,
+    url: `/writing/${p.id}/`,
   })),
 ];
 
@@ -90,7 +90,7 @@ recentResearch.forEach((paper) => {
 <div class="mini-graph" data-mini-graph>
   <div class="mini-graph__header">
     <span class="kicker">Live Knowledge Graph</span>
-    <a href="/explorer" class="mini-graph__link">Open Full Explorer →</a>
+    <a href="/explorer/" class="mini-graph__link">Open Full Explorer →</a>
   </div>
   <canvas class="mini-graph__canvas" id="miniGraphCanvas" aria-label="Interactive map of AI systems engineering topics and blog posts"></canvas>
   <div class="mini-graph__tooltip" id="graphTooltip" hidden></div>

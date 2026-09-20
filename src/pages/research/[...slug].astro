@@ -174,7 +174,7 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
         {data.tags && data.tags.length > 0 && (
           <div class="monograph-tags cluster" style="--cluster-gap: var(--space-3xs)">
             {data.tags.map((tag: string) => (
-              <Tag text={tag} href={`/writing?tag=${encodeURIComponent(tag)}`} />
+              <Tag text={tag} href={`/writing/?tag=${encodeURIComponent(tag)}`} />
             ))}
           </div>
         )}

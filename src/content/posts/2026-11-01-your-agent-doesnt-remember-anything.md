@@ -22,7 +22,7 @@ Hold that scenario. We are coming back to it.
 
 ---
 
-In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer), I described the harness as a three-part design: what the model can see before reasoning begins, what it can do during execution, and what gets validated after output is produced. Most teams get to two of those. The third is an afterthought.
+In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer/), I described the harness as a three-part design: what the model can see before reasoning begins, what it can do during execution, and what gets validated after output is produced. Most teams get to two of those. The third is an afterthought.
 
 There is actually a fourth responsibility. Almost nobody has designed it at all.
 
@@ -52,7 +52,7 @@ The consequences are significant. An agent that runs a complex analysis on Monda
 
 The confusion usually starts here: teams use the word "memory" to describe three different things, and only one of them is actually durable.
 
-**Conversation history** is the simplest. It is the list of prior messages: what the user said, what the agent replied. Most frameworks pass this back into the context on each turn. It creates the illusion of continuity within a session. The agent "remembers" what you said three exchanges ago because the text of that exchange is sitting in the current prompt. This is not persistence. It is context accumulation. It ends when the session ends, and it grows more expensive with every turn because of the compounding mechanics I described in [You Are Measuring the Wrong Thing](/writing/2026-10-04-you-are-measuring-the-wrong-thing). Each additional turn re-transmits everything that came before it.
+**Conversation history** is the simplest. It is the list of prior messages: what the user said, what the agent replied. Most frameworks pass this back into the context on each turn. It creates the illusion of continuity within a session. The agent "remembers" what you said three exchanges ago because the text of that exchange is sitting in the current prompt. This is not persistence. It is context accumulation. It ends when the session ends, and it grows more expensive with every turn because of the compounding mechanics I described in [You Are Measuring the Wrong Thing](/writing/2026-10-04-you-are-measuring-the-wrong-thing/). Each additional turn re-transmits everything that came before it.
 
 **Retrieved context** is more sophisticated. A retrieval system searches a knowledge base, pulls relevant documents, and injects them into the prompt before the model reasons. This feels like memory because the model can answer questions about things that were written down somewhere. But the knowledge base has to exist, has to be current, and has to actually contain the thing being retrieved. The agent is not remembering. It is reading. Someone still has to decide what gets written down and when.
 
@@ -66,7 +66,7 @@ Most agentic deployments have the first two. The third is what makes an agent co
 
 ## What Re-Discovery Costs
 
-In [You Are Measuring the Wrong Thing](/writing/2026-10-04-you-are-measuring-the-wrong-thing), I introduced cost per successful task as the metric that actually governs whether an agent is worth running. Token volume tells you how much fuel you burned. Cost per resolved outcome tells you whether the trip was worth it.
+In [You Are Measuring the Wrong Thing](/writing/2026-10-04-you-are-measuring-the-wrong-thing/), I introduced cost per successful task as the metric that actually governs whether an agent is worth running. Token volume tells you how much fuel you burned. Cost per resolved outcome tells you whether the trip was worth it.
 
 Re-discovery is the most expensive loop in that framework.
 
@@ -90,7 +90,7 @@ The retrieval system does not own memory. A vector index stores documents. It do
 
 The harness owns memory.
 
-In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer), the harness is the layer that decides what the model can see before reasoning begins, what it can do during execution, and what gets validated after output is produced. Memory is the fourth responsibility: what gets preserved after the session closes and what gets loaded when the next one opens.
+In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer/), the harness is the layer that decides what the model can see before reasoning begins, what it can do during execution, and what gets validated after output is produced. Memory is the fourth responsibility: what gets preserved after the session closes and what gets loaded when the next one opens.
 
 Most harness designs today handle the first three and stop. The fourth is left to the developer to figure out, or left to chance. The result is agents that are sophisticated mid-session and amnesiac between them.
 
@@ -126,7 +126,7 @@ LangGraph's `SqliteSaver` is the clearest production implementation of this for 
 
 For the retrieval layer, SQLite supports both keyword search and semantic similarity against the same file, without an external embedding service. This is the memweave pattern: Markdown as the auditable source of truth, SQLite as the search index that rebuilds from it. The team in the opening scenario could have implemented this in an afternoon. The debugging note from week two would have been a row in a table. The clarifying question the agent asked on day one would have had a recorded answer. The runbook would have been reachable. None of it required a vector database.
 
-The principle from [Stop Renting the Intelligence](/writing/2026-07-19-stop-renting-the-intelligence) applies here directly. Baking knowledge into weights rather than re-sending it on every call is the ownership model. Durable agent memory is the operational equivalent: recording what the agent has learned in a form that persists, rather than paying to re-discover it on the next prompt.
+The principle from [Stop Renting the Intelligence](/writing/2026-07-19-stop-renting-the-intelligence/) applies here directly. Baking knowledge into weights rather than re-sending it on every call is the ownership model. Durable agent memory is the operational equivalent: recording what the agent has learned in a form that persists, rather than paying to re-discover it on the next prompt.
 
 There is one design detail that matters significantly: temporal decay. A memory system that weights all stored observations equally will eventually surface a debugging note from six months ago over a constraint documented this morning, if the older note happens to be more semantically similar to the current query. Durable memory needs a freshness signal, a timestamp that the retrieval layer uses to de-weight aging observations while preserving evergreen architectural constraints. Without it, the memory gets noisier over time, not better.
 
@@ -165,9 +165,9 @@ If nobody designed that third piece, the session is all there is.
 - [AgentSM: Semantic Memory for Agentic Text-to-SQL (arXiv:2601.15709)](https://arxiv.org/html/2601.15709v1). Structured scratchpad pattern: 35% reduction in trajectory length, 25% token reduction, measurable accuracy improvement.
 - [MIT Recursive Language Models (arXiv:2512.24601)](https://arxiv.org/abs/2512.24601). External environment offloading to prevent context rot on large datasets.
 - [Cloudflare: Agents That Remember](https://blog.cloudflare.com/introducing-agent-memory/). Production memory design at the infrastructure layer.
-- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
-- Related post: [You Are Measuring the Wrong Thing.](/writing/2026-10-04-you-are-measuring-the-wrong-thing)
-- Related post: [Stop Renting the Intelligence.](/writing/2026-07-19-stop-renting-the-intelligence)
-- Related post: [The Scaffold Was Never the Safety.](/writing/2026-10-18-the-scaffold-was-never-the-safety)
+- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer/)
+- Related post: [You Are Measuring the Wrong Thing.](/writing/2026-10-04-you-are-measuring-the-wrong-thing/)
+- Related post: [Stop Renting the Intelligence.](/writing/2026-07-19-stop-renting-the-intelligence/)
+- Related post: [The Scaffold Was Never the Safety.](/writing/2026-10-18-the-scaffold-was-never-the-safety/)
 
 ---

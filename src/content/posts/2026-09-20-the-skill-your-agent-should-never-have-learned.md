@@ -88,7 +88,7 @@ The assumption is that a two-line description captures everything that matters. 
 
 Researchers tested this on eighty thousand skills. Routing on descriptions alone dropped accuracy by more than a third. That is not drift. That is collapse. Better descriptions helped at the margins. The fundamental problem remained: the signal that matters is inside the skill, not in its label.
 
-In [Route the Intelligence, Not Just the Context](/writing/2026-05-10-route-the-intelligence), I wrote that the harness should route intelligence, not just context. Same principle here. You are routing the model to the right skill. The information needed to do that correctly is in the recipe itself, not in the title.
+In [Route the Intelligence, Not Just the Context](/writing/2026-05-10-route-the-intelligence/), I wrote that the harness should route intelligence, not just context. Same principle here. You are routing the model to the right skill. The information needed to do that correctly is in the recipe itself, not in the title.
 
 **The description says what the skill is called. The body says what it actually does. Those are not the same thing.**
 
@@ -108,7 +108,7 @@ The academic version does the same for skills. A small embedding model filters t
 
 Both approaches share one insight: the reasoning model should not be choosing. It should be reasoning. Choosing is a different job.
 
-In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer), I wrote that the harness around the model is the real system. The skill routing layer is harness. It decides what the reasoning model is allowed to see before reasoning begins. That is the highest-leverage decision in the stack.
+In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer/), I wrote that the harness around the model is the real system. The skill routing layer is harness. It decides what the reasoning model is allowed to see before reasoning begins. That is the highest-leverage decision in the stack.
 
 **Do not ask the chef to design the menu. Build the system that decides what the chef sees.**
 
@@ -126,7 +126,7 @@ Each addition was correct on its own. The collection is the problem.
 
 The discipline is not in saying yes to the next skill. It is in asking: does this one shadow something that already exists? If yes, do not add it next to the old one. Refactor both into a single skill with clear internal routing.
 
-In [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems), I wrote that systematic constraints beat real-time supervision. This is a constraint. Not on the model. On the menu.
+In [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems/), I wrote that systematic constraints beat real-time supervision. This is a constraint. Not on the model. On the menu.
 
 **Every skill you add makes the agent worse at every skill it already has.**
 
@@ -158,9 +158,9 @@ The capability was never the bottleneck. The curation was.
 - [Right Family, Wrong Skill: Benchmarking Risk Exposure in Agent Skill Retrieval](https://arxiv.org/abs/2606.10388). Retrieval systems expose risky siblings in over a third of queries.
 - [SkillRouter: Skill Routing for LLM Agents at Scale](https://arxiv.org/abs/2603.22455). 1.2B retrieve-and-rerank pipeline, 74% Hit@1 across 80K skills.
 - [How we're making GitHub Copilot smarter with fewer tools](https://github.blog/ai-and-ml/github-copilot/how-were-making-github-copilot-smarter-with-fewer-tools/). 40 tools down to 13, embedding-guided routing.
-- Related post: [Route the Intelligence, Not Just the Context.](/writing/2026-05-10-route-the-intelligence)
-- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
-- Related post: [Procedure Over Intelligence: Building Reliable AI Systems.](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems)
-- Related post: [AI Agents Get the Hype. Hooks Get the Job Done.](/writing/2026-09-05-agents-get-the-hype-hooks-get-the-job-done)
+- Related post: [Route the Intelligence, Not Just the Context.](/writing/2026-05-10-route-the-intelligence/)
+- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer/)
+- Related post: [Procedure Over Intelligence: Building Reliable AI Systems.](/writing/2026-01-26-procedure-over-intelligence-building-reliable-ai-systems/)
+- Related post: [AI Agents Get the Hype. Hooks Get the Job Done.](/writing/2026-09-05-agents-get-the-hype-hooks-get-the-job-done/)
 
 ---

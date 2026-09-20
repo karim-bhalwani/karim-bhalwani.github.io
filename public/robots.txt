@@ -4,6 +4,9 @@
 User-agent: GPTBot
 Allow: /
 
+User-agent: ChatGPT-User
+Allow: /
+
 User-agent: OAI-SearchBot
 Allow: /
 
@@ -13,10 +16,22 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-Web
+Allow: /
+
 User-agent: Applebot-Extended
 Allow: /
 
 User-agent: Google-Extended
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Diffbot
 Allow: /
 
 # General Search Engines (Google, Bing, etc.)
@@ -25,3 +40,4 @@ Allow: /
 
 # Sitemaps
 Sitemap: https://karim-bhalwani.github.io/sitemap-index.xml
+Sitemap: https://karim-bhalwani.github.io/sitemap.xml

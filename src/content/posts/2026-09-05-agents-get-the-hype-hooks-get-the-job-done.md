@@ -111,8 +111,8 @@ The exciting part of AI right now is what it can do without you watching. The tr
 
 - [agentic-harness](https://github.com/karim-bhalwani/agentic-harness). A working example of hooks built around exactly this pattern.
 - [VS Code Agent Customization: Hooks](https://code.visualstudio.com/docs/agent-customization/hooks). The technical reference for engineers who want the full mechanism.
-- Related post: [Your Chatbot Hallucinated. Your Agent Passed the Test. Both Are Wrong.](/writing/2026-08-22-your-agent-passed-the-test)
-- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer)
-- Related post: [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering)
+- Related post: [Your Chatbot Hallucinated. Your Agent Passed the Test. Both Are Wrong.](/writing/2026-08-22-your-agent-passed-the-test/)
+- Related post: [Building the Control Layer.](/writing/2026-04-26-building-the-control-layer/)
+- Related post: [You're Not Above the Loop. You're Building It.](/writing/2026-06-26-loop-engineering/)
 
 ---
