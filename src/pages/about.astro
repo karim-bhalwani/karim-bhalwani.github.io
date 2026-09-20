@@ -4,33 +4,26 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="About - Karim Bhalwani"
-  description="Personal writing on AI systems reliability, agentic architectures, context engineering, and production systems design."
+  description="One engineer's writing on agent harnesses, verification, and what AI systems actually do in production. Independent. No employer affiliation."
   schemaType="ProfilePage"
 >
   <div class="container container-narrow stack stack-l" style="margin-top: var(--space-xl)">
 
     <header class="stack stack-xs">
-      <p class="kicker">Profile & Philosophy</p>
+      <p class="kicker">Independent &middot; Personal Blog</p>
       <h1>About</h1>
       <p class="lead">
-        I'm Karim Bhalwani. I have a long background in building and evolving data and AI systems that are practical, reliable, and easy to operate.
+        I'm Karim Bhalwani. I build data and AI systems - pipelines, orchestration layers, context architectures, agent harnesses - at the point where engineering decisions have real consequences.
       </p>
       <hr style="border: 0; border-top: 1px solid var(--color-border); margin-block: var(--space-s)" />
     </header>
 
-    <!-- Disclosure -->
-    <aside class="disclosure-card">
-      <p class="disclosure-label">Personal Blog Disclosure</p>
-      <p>
-        Everything published on this site represents my own independent thinking, learning, and analysis. The views, opinions, and any technical commentary are entirely my own. They do not represent, reflect, or relate to my employer or any organization I am affiliated with. This blog has no connection to my professional work or clients.
-      </p>
-    </aside>
-
     <div class="prose">
 
       <p>
-        I enjoy learning new technologies and putting them to work in real systems. Curiosity is a big driver for me, but I try to balance it with discipline and validation. I like to understand how things <em>actually</em> behave in practice, not just how they are described. Trust, then verify.
+        I enjoy learning new technologies and putting them to work in real systems. Curiosity is a big driver for me, but I try to balance it with discipline and validation. I like to understand how things <em>actually</em> behave in practice, not just how they are described.
       </p>
+      <p><em>Trust, then verify.</em></p>
 
       <h2>What I Write About</h2>
 
@@ -51,7 +44,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <h2>Purpose of This Site</h2>
 
       <p>
-        This site is personal and independent. I use it to document concrete lessons from experiments, share architectural patterns that hold up in practice, and keep a record of how my thinking evolves over time.
+        This site is personal and independent. I use it to document concrete lessons from experiments, share architectural patterns that hold up in practice, and keep a record of how my thinking evolves over time. It isn't a course, a newsletter, or a consultancy. I write because I'm figuring things out and writing helps me think.
       </p>
 
       <h2>Get in Touch</h2>
@@ -61,6 +54,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </p>
 
     </div>
+
+    <!-- Disclosure -->
+    <aside class="disclosure-card" style="margin-top: var(--space-xl)">
+      <p class="disclosure-label">Personal Blog Disclosure</p>
+      <p>
+        Everything published on this site represents my own independent thinking, learning, and analysis. The views, opinions, and any technical commentary are entirely my own. They do not represent, reflect, or relate to my employer or any organization I am affiliated with. This blog has no connection to my professional work or clients.
+      </p>
+    </aside>
 
   </div>
 </BaseLayout>
