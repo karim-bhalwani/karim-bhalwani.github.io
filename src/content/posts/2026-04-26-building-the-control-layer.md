@@ -9,6 +9,10 @@ author: Karim Bhalwani
 excerpt: "The model is not the system. The harness that wraps it, manages its memory, and enforces its boundaries is the system. Here is what that looks like when you actually build it."
 topics: [agent-harness, ai-verification, multi-agent-orchestration]
 hero_image: "/assets/agentic-harness/hero-main-1.webp"
+key_takeaways:
+  - "The foundation model is just an engine; the harness wrapping it is what dictates system reliability and determinism."
+  - "Session state persistence and clean checkpoint handoffs prevent catastrophic context amnesia across long multi-agent workflows."
+  - "External verification gates and architectural boundaries decouple model creativity from production deployment risks."
 ---
 
 ![Building the Control Layer Hero](/assets/agentic-harness/hero-main-1.webp)

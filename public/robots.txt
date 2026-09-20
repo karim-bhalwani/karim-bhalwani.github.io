@@ -1,4 +1,6 @@
 # Robots.txt for https://karim-bhalwani.github.io
+# LLM Context Index: https://karim-bhalwani.github.io/llms.txt
+# LLM Full-Text Corpus: https://karim-bhalwani.github.io/llms-full.txt
 
 # Explicitly welcome AI retrieval and answer engines
 User-agent: GPTBot
@@ -25,6 +27,18 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
 User-agent: Meta-ExternalAgent
 Allow: /
 
@@ -40,4 +54,3 @@ Allow: /
 
 # Sitemaps
 Sitemap: https://karim-bhalwani.github.io/sitemap-index.xml
-Sitemap: https://karim-bhalwani.github.io/sitemap.xml

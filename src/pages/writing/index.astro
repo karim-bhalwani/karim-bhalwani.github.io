@@ -129,34 +129,37 @@ const collectionItems = sortedPosts.map((post) => ({
     </div>
 
     <!-- Posts Listing -->
-    <div class="stack stack-m" id="postList">
-      {
-        sortedPosts.map((post) => {
-          const cats = typeof post.data.categories === "string"
-            ? [post.data.categories]
-            : (post.data.categories || []);
-          return (
-            <article
-              class="post-item"
-              data-title={post.data.title.toLowerCase()}
-              data-excerpt={(post.data.excerpt || "").toLowerCase()}
-              data-tags={JSON.stringify(post.data.tags || [])}
-              data-topics={JSON.stringify(post.data.topics || [])}
-            >
-              <PostCard
-                title={post.data.title}
-                slug={post.id}
-                date={post.data.date}
-                reading_time={post.data.reading_time}
-                excerpt={post.data.excerpt}
-                tags={post.data.tags}
-                categories={cats}
-              />
-            </article>
-          );
-        })
-      }
-    </div>
+    <section aria-labelledby="articles-heading">
+      <h2 id="articles-heading" class="sr-only">All Published Articles</h2>
+      <div class="stack stack-m" id="postList">
+        {
+          sortedPosts.map((post) => {
+            const cats = typeof post.data.categories === "string"
+              ? [post.data.categories]
+              : (post.data.categories || []);
+            return (
+              <article
+                class="post-item"
+                data-title={post.data.title.toLowerCase()}
+                data-excerpt={(post.data.excerpt || "").toLowerCase()}
+                data-tags={JSON.stringify(post.data.tags || [])}
+                data-topics={JSON.stringify(post.data.topics || [])}
+              >
+                <PostCard
+                  title={post.data.title}
+                  slug={post.id}
+                  date={post.data.date}
+                  reading_time={post.data.reading_time}
+                  excerpt={post.data.excerpt}
+                  tags={post.data.tags}
+                  categories={cats}
+                />
+              </article>
+            );
+          })
+        }
+      </div>
+    </section>
 
     <!-- Empty State -->
     <div class="no-results" id="noResults" style="display:none">

@@ -36,6 +36,10 @@ jobs:
       - name: Build with Astro
         run: npm run build
 
+      - name: Notify Search Engines via IndexNow
+        run: node scripts/ping-indexnow.mjs
+        continue-on-error: true
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -48,18 +52,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Notify Search Engines via IndexNow
-        run: node scripts/ping-indexnow.mjs
-        continue-on-error: true

@@ -9,6 +9,10 @@ author: Karim Bhalwani
 excerpt: "Intelligence without systematic workflows is just noise. Learn how Agent Skills encode organizational expertise to make AI agents reliable, reproducible, and trustworthy at scale."
 topics: [agent-harness, ai-verification]
 hero_image: "/assets/procedure-over-intelligence/hero-main.webp"
+key_takeaways:
+  - "Raw model intelligence is non-deterministic; codified procedures and agent skills provide repeatable production outcomes."
+  - "Encoding organizational standards into structured steps outperforms prompting the model to remember complex policy docs."
+  - "Explicit verification checkpoints prevent downstream regressions and costly manual remediation."
 ---
 
 ![Procedure Over Intelligence Hero](/assets/procedure-over-intelligence/hero-main-1.webp)

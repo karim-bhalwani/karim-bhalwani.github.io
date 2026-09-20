@@ -105,6 +105,14 @@ const graphElements: Record<string, any>[] = [
       "@id": `${siteOrigin}/#author`,
     },
     inLanguage: "en-US",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteOrigin}/writing/?search={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   },
   {
     "@type": "Person",
@@ -136,7 +144,14 @@ if (isArticle) {
     },
     headline: title.split("|")[0].trim(),
     description: description,
-    image: imageURL,
+    image: imageURL
+      ? {
+          "@type": "ImageObject",
+          url: imageURL,
+          width: 1200,
+          height: 675,
+        }
+      : undefined,
     url: canonicalURL.href,
     datePublished: publishedTime,
     dateModified: modifiedTime || publishedTime,
@@ -271,7 +286,7 @@ const unifiedSchema = {
 <meta name="author" content={authorName} />
 
 <!-- Academic & Scholarly Metadata (Highwire Press / Google Scholar) -->
-{isArticle && (
+{(effectiveArticleType === "TechArticle" || Boolean(doi)) && (
   <>
     <meta name="citation_title" content={title.split("|")[0].trim()} />
     <meta name="citation_author" content={authorName} />
@@ -295,7 +310,16 @@ const unifiedSchema = {
     <meta property="og:image" content={imageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="675" />
-    <meta property="og:image:type" content={imageURL.endsWith(".png") ? "image/png" : "image/webp"} />
+    <meta
+      property="og:image:type"
+      content={
+        imageURL.endsWith(".png")
+          ? "image/png"
+          : imageURL.endsWith(".jpg") || imageURL.endsWith(".jpeg")
+          ? "image/jpeg"
+          : "image/webp"
+      }
+    />
     <meta property="og:image:alt" content={title.split("|")[0].trim()} />
   </>
 )}
