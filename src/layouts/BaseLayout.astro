@@ -16,6 +16,8 @@ interface Props {
   authorName?: string;
   articleTags?: string[];
   doi?: string;
+  noindex?: boolean;
+  readingTime?: number | string;
   schemaType?: "BlogPosting" | "TechArticle" | "ScholarlyArticle" | "Article";
   googleSiteVerification?: string;
   bingSiteVerification?: string;
@@ -26,6 +28,8 @@ const {
   description,
   image,
   type,
+  noindex,
+  readingTime,
   publishedTime,
   modifiedTime,
   authorName,
@@ -46,6 +50,8 @@ const {
       description={description}
       image={image}
       type={type}
+      noindex={noindex}
+      readingTime={readingTime}
       publishedTime={publishedTime}
       modifiedTime={modifiedTime}
       authorName={authorName}

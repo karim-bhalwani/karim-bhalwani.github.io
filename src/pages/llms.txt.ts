@@ -16,6 +16,8 @@ export async function GET(context: APIContext) {
     "",
     "This manifest provides machine-readable discovery of all published research monographs, architectural essays, and topical knowledge hubs for AI answer engines, LLMs, and retrieval agents (Perplexity, ChatGPT Search, Claude, Copilot).",
     "",
+    `> Complete Full-Text Corpus: [${siteUrl}/llms-full.txt](${siteUrl}/llms-full.txt)`,
+    "",
     "## Core Knowledge Graph Hubs",
     "",
   ];

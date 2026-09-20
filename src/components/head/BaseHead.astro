@@ -10,6 +10,8 @@ interface Props {
   authorName?: string;
   articleTags?: string[];
   doi?: string;
+  noindex?: boolean;
+  readingTime?: number | string;
   schemaType?: "BlogPosting" | "TechArticle" | "ScholarlyArticle" | "Article";
   googleSiteVerification?: string;
   bingSiteVerification?: string;
@@ -20,6 +22,8 @@ const {
   description = "Personal writing on AI systems reliability, agent control layers, context engineering, and production systems design. Independent learning | not affiliated with any employer.",
   image = "/assets/og-image.png",
   type = "website",
+  noindex = false,
+  readingTime,
   publishedTime,
   modifiedTime,
   authorName = "Karim Bhalwani",
@@ -122,11 +126,19 @@ if (isArticle) {
     },
     keywords: articleTags.join(", "),
     inLanguage: "en-US",
+    license: "https://creativecommons.org/licenses/by-nc/4.0/",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": canonicalURL.href,
     },
   };
+
+  if (readingTime) {
+    const minutes = parseInt(String(readingTime), 10);
+    if (!isNaN(minutes)) {
+      mainSchema.timeRequired = `PT${minutes}M`;
+    }
+  }
 
   if (effectiveArticleType === "TechArticle") {
     mainSchema.proficiencyLevel = "Expert";
@@ -177,6 +189,12 @@ if (isArticle) {
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href={canonicalURL} />
 
+<!-- Search Engine Robots Directives & Google Discover Eligibility -->
+<meta
+  name="robots"
+  content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
+/>
+
 {googleVerification && (
   <meta name="google-site-verification" content={googleVerification} />
 )}
@@ -203,12 +221,33 @@ if (isArticle) {
 <meta name="description" content={description} />
 <meta name="author" content={authorName} />
 
+<!-- Academic & Scholarly Metadata (Highwire Press / Google Scholar) -->
+{isArticle && (
+  <>
+    <meta name="citation_title" content={title.split("|")[0].trim()} />
+    <meta name="citation_author" content={authorName} />
+    {publishedTime && (
+      <meta name="citation_publication_date" content={publishedTime.split("T")[0].replace(/-/g, "/")} />
+    )}
+    {doi && <meta name="citation_doi" content={doi} />}
+    <meta name="citation_fulltext_html_url" content={canonicalURL.href} />
+  </>
+)}
+
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-{imageURL && <meta property="og:image" content={imageURL} />}
+{imageURL && (
+  <>
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="675" />
+    <meta property="og:image:type" content={imageURL.endsWith(".png") ? "image/png" : "image/webp"} />
+    <meta property="og:image:alt" content={title.split("|")[0].trim()} />
+  </>
+)}
 <meta property="og:site_name" content="Karim Bhalwani" />
 
 <!-- Article-specific Open Graph -->

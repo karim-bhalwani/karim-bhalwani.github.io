@@ -11,6 +11,7 @@ const redirectedPaths = [
 
 export default defineConfig({
   site: "https://karim-bhalwani.github.io",
+  trailingSlash: "always",
   integrations: [
     mdx(),
     sitemap({

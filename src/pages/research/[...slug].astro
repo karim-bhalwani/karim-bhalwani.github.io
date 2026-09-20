@@ -49,6 +49,7 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
   modifiedTime={data.updated ? new Date(data.updated).toISOString() : new Date(data.date).toISOString()}
   articleTags={data.tags}
   doi={data.doi}
+  readingTime={data.reading_time || data.read_time || data["read-time"]}
   schemaType="TechArticle"
 >
   <div class="reading-progress-container" aria-hidden="true">
@@ -299,6 +300,18 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.web
         } catch (e) {}
       });
     }
+
+    // 4. Heading Permalinks / Anchor Deep Links
+    const headings = document.querySelectorAll("#monographContent h2[id], #monographContent h3[id]");
+    headings.forEach((h) => {
+      if (h.querySelector(".heading-anchor")) return;
+      const anchor = document.createElement("a");
+      anchor.className = "heading-anchor";
+      anchor.href = `#${h.id}`;
+      anchor.setAttribute("aria-label", `Link to ${h.textContent}`);
+      anchor.textContent = "#";
+      h.appendChild(anchor);
+    });
   }
 
   if (document.readyState === "loading") {

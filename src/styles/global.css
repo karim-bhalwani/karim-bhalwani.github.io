@@ -149,3 +149,28 @@ pre:hover .code-copy-btn {
   opacity: 1;
 }
 
+/* Heading Anchor Permalinks for Deep Linking & AI Citation */
+.heading-anchor {
+  display: inline-block;
+  margin-left: 0.4em;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  opacity: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  font-weight: var(--weight-normal);
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.prose h2:hover .heading-anchor,
+.prose h3:hover .heading-anchor,
+.heading-anchor:focus {
+  opacity: 0.6;
+}
+
+.heading-anchor:hover {
+  opacity: 1;
+  color: var(--color-accent);
+}
+
+

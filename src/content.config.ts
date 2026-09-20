@@ -21,6 +21,7 @@ const posts = defineCollection({
     draft: z.boolean().default(false),
     topics: z.array(z.string()).default([]),
     hero_image: z.string().optional(),
+    key_takeaways: z.array(z.string()).default([]),
   }),
 });
 

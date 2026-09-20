@@ -52,6 +52,7 @@ const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publi
   description={data.excerpt}
   type="article"
   image={heroImage}
+  readingTime={data.reading_time}
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
   authorName={data.author || "Karim Bhalwani"}
@@ -102,6 +103,18 @@ const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publi
           <span id="shareBtnText">Copy Link</span>
         </button>
       </div>
+
+      <!-- Structured Architectural Takeaways for Readers & AI Answer Engines -->
+      {data.key_takeaways && data.key_takeaways.length > 0 && (
+        <aside class="takeaways-box stack stack-3xs" aria-label="Key Takeaways">
+          <div class="takeaways-badge">Architectural Summary &amp; Key Insights</div>
+          <ul class="takeaways-list" role="list">
+            {data.key_takeaways.map((item: string) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </aside>
+      )}
 
       <hr class="post-divider" />
     </header>
@@ -287,6 +300,40 @@ const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publi
   .btn-share:hover {
     color: var(--color-accent);
     border-color: var(--color-accent);
+  }
+
+  .takeaways-box {
+    background-color: color-mix(in srgb, var(--color-surface) 92%, var(--color-bg));
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-s) var(--space-m);
+    margin-top: var(--space-s);
+  }
+
+  .takeaways-badge {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3xs);
+  }
+
+  .takeaways-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .takeaways-list li {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    line-height: var(--leading-normal);
+    color: var(--color-text-secondary);
   }
 
   .post-divider {
@@ -555,6 +602,18 @@ const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publi
 
       pre.style.position = "relative";
       pre.appendChild(btn);
+    });
+
+    // 5. Heading Permalinks / Anchor Deep Links
+    const headings = document.querySelectorAll("#postContent h2[id], #postContent h3[id]");
+    headings.forEach((h) => {
+      if (h.querySelector(".heading-anchor")) return;
+      const anchor = document.createElement("a");
+      anchor.className = "heading-anchor";
+      anchor.href = `#${h.id}`;
+      anchor.setAttribute("aria-label", `Link to ${h.textContent}`);
+      anchor.textContent = "#";
+      h.appendChild(anchor);
     });
   }
 
