@@ -150,6 +150,13 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png
               </>
             )}
           </div>
+          <button type="button" class="btn-share" id="shareBtn" title="Copy monograph link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            <span id="shareBtnText">Copy Link</span>
+          </button>
         </div>
 
         <!-- Executive Abstract Box -->
@@ -178,26 +185,73 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png
       </main>
 
       <!-- Monograph Footer Navigation -->
-      <footer class="monograph-footer stack stack-l">
+      <footer class="monograph-footer stack stack-m">
         <hr class="monograph-divider-hr" />
-        <div class="cluster" style="justify-content: space-between; align-items: center">
-          {prevPaper ? (
-            <a href={`/research/${prevPaper.id}`} class="monograph-nav-link monograph-nav-link--prev">
-              <span class="kicker">← Previous Paper</span>
-              <span class="nav-title">{prevPaper.data.title}</span>
-            </a>
-          ) : <div />}
 
-          {nextPaper ? (
-            <a href={`/research/${nextPaper.id}`} class="monograph-nav-link monograph-nav-link--next">
-              <span class="kicker">Next Paper →</span>
-              <span class="nav-title">{nextPaper.data.title}</span>
-            </a>
-          ) : <div />}
-        </div>
+        <!-- Next / Previous Monograph Navigation Cards -->
+        {
+          (prevPaper || nextPaper) && (
+            <nav class="adjacent-posts-grid" aria-label="Sequential reading">
+              {prevPaper ? (
+                <a href={`/research/${prevPaper.id}`} class="adjacent-card adjacent-card--prev">
+                  <span class="adjacent-card__direction">← Previous Paper</span>
+                  <span class="adjacent-card__title">{prevPaper.data.title}</span>
+                  {formatReadingTime(prevPaper) && (
+                    <span class="adjacent-card__meta">{formatReadingTime(prevPaper)}</span>
+                  )}
+                  {(getResearchAbstract(prevPaper) || prevPaper.data.excerpt || prevPaper.data.description) && (
+                    <span class="adjacent-card__excerpt">
+                      {getResearchAbstract(prevPaper) || prevPaper.data.excerpt || prevPaper.data.description}
+                    </span>
+                  )}
+                </a>
+              ) : (
+                <div class="adjacent-card-placeholder" />
+              )}
 
-        <div class="monograph-back-row cluster" style="justify-content: center; --cluster-gap: var(--space-s)">
-          <a href="/research" class="btn btn--ghost">Return to Research Index</a>
+              {nextPaper ? (
+                <a href={`/research/${nextPaper.id}`} class="adjacent-card adjacent-card--next">
+                  <span class="adjacent-card__direction">Next Paper →</span>
+                  <span class="adjacent-card__title">{nextPaper.data.title}</span>
+                  {formatReadingTime(nextPaper) && (
+                    <span class="adjacent-card__meta">{formatReadingTime(nextPaper)}</span>
+                  )}
+                  {(getResearchAbstract(nextPaper) || nextPaper.data.excerpt || nextPaper.data.description) && (
+                    <span class="adjacent-card__excerpt">
+                      {getResearchAbstract(nextPaper) || nextPaper.data.excerpt || nextPaper.data.description}
+                    </span>
+                  )}
+                </a>
+              ) : (
+                <div class="adjacent-card-placeholder" />
+              )}
+            </nav>
+          )
+        }
+
+        <!-- Knowledge Graph Callout -->
+        <a href={hubId ? `/topics/${hubId}` : "/explorer"} class="kg-callout">
+          <div class="kg-callout__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="5" r="2"/>
+              <circle cx="5" cy="19" r="2"/>
+              <circle cx="19" cy="19" r="2"/>
+              <line x1="12" y1="7" x2="5" y2="17"/>
+              <line x1="12" y1="7" x2="19" y2="17"/>
+              <line x1="5" y1="19" x2="19" y2="19"/>
+            </svg>
+          </div>
+          <div class="kg-callout__body">
+            <span class="kg-callout__title">Explore in Knowledge Graph</span>
+            <span class="kg-callout__desc">
+              {hubTitle ? `Explore connected research and systems in the ${hubTitle} topic hub.` : "See how this research connects to systems, architecture, and other publications."}
+            </span>
+          </div>
+          <span class="kg-callout__arrow">→</span>
+        </a>
+
+        <div class="monograph-back-row cluster" style="justify-content: flex-start; --cluster-gap: var(--space-s); margin-top: var(--space-s)">
+          <a href="/research" class="btn btn--ghost">← Back to All Research</a>
           {hubId && <a href={`/topics/${hubId}`} class="btn btn--ghost">Explore Topic Hub</a>}
         </div>
       </footer>
@@ -227,6 +281,22 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
+
+    // 3. Share / Copy Link
+    const shareBtn = document.getElementById("shareBtn");
+    const shareBtnText = document.getElementById("shareBtnText");
+    if (shareBtn && shareBtnText) {
+      shareBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          const originalText = shareBtnText.textContent;
+          shareBtnText.textContent = "Copied!";
+          setTimeout(() => {
+            shareBtnText.textContent = originalText;
+          }, 2000);
+        } catch (e) {}
+      });
+    }
   }
 
   if (document.readyState === "loading") {
@@ -234,6 +304,7 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png
   } else {
     initReader();
   }
+  document.addEventListener("astro:after-swap", initReader);
 </script>
 
 <style>
@@ -636,32 +707,167 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png
     min-width: 0;
   }
 
+  .btn-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-text-secondary);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-share:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
   .monograph-footer {
     width: 100%;
     margin-top: var(--space-2xl);
   }
 
-  .monograph-nav-link {
-    text-decoration: none;
+  /* Adjacent Post / Monograph Navigation Cards */
+  .adjacent-posts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-s);
+    margin-block: var(--space-m);
+  }
+
+  .adjacent-card {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3xs);
-    max-width: 320px;
+    padding: var(--space-m);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
   }
 
-  .monograph-nav-link--next {
+  .adjacent-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .adjacent-card--next {
     text-align: right;
-    margin-left: auto;
   }
 
-  .nav-title {
+  .adjacent-card__direction {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-accent);
+    margin-bottom: var(--space-3xs);
+  }
+
+  .adjacent-card__title {
     font-family: var(--font-display);
     font-size: var(--step-0);
     color: var(--color-text);
     line-height: var(--leading-snug);
   }
 
-  .monograph-nav-link:hover .nav-title {
+  .adjacent-card:hover .adjacent-card__title {
     color: var(--color-accent);
+  }
+
+  .adjacent-card-placeholder {
+    display: block;
+  }
+
+  .adjacent-card__meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    margin-top: var(--space-3xs);
+  }
+
+  .adjacent-card__excerpt {
+    font-size: var(--step--1);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin-top: var(--space-3xs);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Knowledge Graph Callout */
+  .kg-callout {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    padding: var(--space-m) var(--space-l);
+    background-color: color-mix(in oklch, var(--color-accent) 6%, var(--color-surface));
+    border: 1px solid color-mix(in oklch, var(--color-accent) 30%, var(--color-border));
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    margin-block: var(--space-m);
+  }
+
+  .kg-callout:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .kg-callout__icon {
+    flex-shrink: 0;
+    color: var(--color-accent);
+    opacity: 0.8;
+  }
+
+  .kg-callout__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .kg-callout__title {
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+
+  .kg-callout:hover .kg-callout__title {
+    color: var(--color-accent);
+  }
+
+  .kg-callout__desc {
+    font-size: var(--step--1);
+    color: var(--color-text-secondary);
+  }
+
+  .kg-callout__arrow {
+    font-size: var(--step-1);
+    color: var(--color-accent);
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+  }
+
+  .kg-callout:hover .kg-callout__arrow {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 600px) {
+    .adjacent-posts-grid {
+      grid-template-columns: 1fr;
+    }
+    .adjacent-card--next {
+      text-align: left;
+    }
   }
 </style>

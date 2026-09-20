@@ -1,5 +1,5 @@
 ---
-import { render } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { getPublishedPosts } from "../../utils/posts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Tag from "../../components/Tag.astro";
@@ -23,6 +23,13 @@ const { post, prevPost, nextPost } = Astro.props;
 const { data } = post;
 const { Content } = await render(post);
 
+const topics = await getCollection("topics");
+const topicMap = new Map(topics.map((t) => [t.id, t.data.title]));
+
+const postTopics = data.topics || [];
+const hubId = postTopics.length > 0 ? postTopics[0] : null;
+const hubTitle = hubId ? topicMap.get(hubId) || hubId : null;
+
 const formattedDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "long",
@@ -31,7 +38,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 
 const categoryText = Array.isArray(data.categories)
   ? data.categories[0]
-  : data.categories || "AI Systems Engineering";
+  : data.categories || "Article";
 
 // Derive the hero OG image: prefer explicit hero_image, fall back to convention
 const heroImage = data.hero_image || `/assets/${post.id}/hero-main.png`;
@@ -58,10 +65,16 @@ const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publi
     <!-- Article Header -->
     <header class="post-header stack stack-s">
       <div class="cluster" style="justify-content: space-between; align-items: center">
-        <span class="kicker">{categoryText}</span>
-        <time datetime={new Date(data.date).toISOString()} class="muted">
-          {formattedDate} {data.reading_time ? `· ${data.reading_time} min read` : ""}
-        </time>
+        <div class="cluster" style="--cluster-gap: var(--space-2xs); align-items: center">
+          <a href="/writing" class="kicker post-kicker">← All Writing</a>
+          <span class="post-kicker-divider">/</span>
+          <span class="badge-post">{categoryText}</span>
+        </div>
+        {hubId && (
+          <a href={`/topics/${hubId}`} class="topic-pill">
+            Topic: {hubTitle}
+          </a>
+        )}
       </div>
 
       <h1 class="post-title">{data.title}</h1>
@@ -69,8 +82,16 @@ const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publi
       {data.excerpt && <p class="post__dek">{data.excerpt}</p>}
 
       <div class="post-meta-bar cluster" style="justify-content: space-between; align-items: center">
-        <div class="post-meta muted cluster" style="--cluster-gap: var(--space-xs)">
+        <div class="post-meta muted cluster" style="--cluster-gap: var(--space-xs); font-size: var(--step--1)">
           <span>By {data.author || "Karim Bhalwani"}</span>
+          <span>·</span>
+          <time datetime={new Date(data.date).toISOString()}>{formattedDate}</time>
+          {data.reading_time && (
+            <>
+              <span>·</span>
+              <span>{data.reading_time} min read</span>
+            </>
+          )}
         </div>
         <button type="button" class="btn-share" id="shareBtn" title="Copy article link">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -162,8 +183,9 @@ const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publi
         <span class="kg-callout__arrow">→</span>
       </a>
 
-      <div class="post-navigation cluster" style="justify-content: flex-start; margin-top: var(--space-m)">
+      <div class="post-navigation cluster" style="justify-content: flex-start; --cluster-gap: var(--space-s); margin-top: var(--space-m)">
         <a href="/writing" class="btn btn--ghost">← Back to All Writing</a>
+        {hubId && <a href={`/topics/${hubId}`} class="btn btn--ghost">Explore Topic Hub</a>}
       </div>
     </footer>
   </article>
@@ -193,6 +215,48 @@ const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publi
     width: 0%;
     background-color: var(--color-accent);
     transition: width 0.08s ease-out;
+  }
+
+  .post-kicker {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .post-kicker:hover {
+    color: var(--color-accent);
+  }
+
+  .post-kicker-divider {
+    color: var(--color-border);
+  }
+
+  .badge-post {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    color: var(--color-accent);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .topic-pill {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .topic-pill:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
   .post-title {

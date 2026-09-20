@@ -53,8 +53,6 @@ Inside each team, the shift in how the human core operates is worth being explic
 
 McKinsey's research on the agentic organization describes this directly. Not a single assistant bolted onto a workflow, but small groups of specialized agents, each handling one piece of a process, with humans positioned above the loop to steer. [The value migrates](/writing/2026-04-03-code-got-cheap) from doing the work to deciding what "better" means for this function, and handling the calls the agents genuinely cannot make.
 
-![Edge Team Structure and Composable Architecture](/assets/core-resists-redesign/edge-to-capabilities.png)
-
 ---
 
 ## Sell it to the core, do not just outflank it
@@ -88,6 +86,8 @@ That coordination does not happen automatically just because a registry exists. 
 This is where [governance stops being the enemy of speed](/writing/2026-04-26-building-the-control-layer) and starts compounding advantage. Right now, every new AI project pays full compliance and security review price, even when it reuses logic already reviewed elsewhere. Gartner has documented this failure mode in platform teams: when governance gets implemented as an approval queue instead of infrastructure, cycle times stretch from days into months, and people start finding workarounds. That is worse for governance than the slow process was trying to prevent.
 
 The fix is what platform engineers call the **golden path**: build the compliant option so it is also the easy option. A capability gets reviewed once, earns an internal seal, and anyone can pull it into a new solution without re-litigating the same compliance questions from scratch. Access controls, spend limits, data handling, all enforced automatically at the platform layer. You are not removing governance. You are moving it earlier and paying for it once instead of every time.
+
+![Edge Team Structure and Composable Architecture](/assets/core-resists-redesign/edge-to-capabilities.png)
 
 ---
 
