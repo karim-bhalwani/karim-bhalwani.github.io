@@ -60,11 +60,8 @@ const topics = await getCollection("topics");
     {sortedResearch.length > 0 && (
       <section class="section stack stack-s">
         <div class="section-head">
-          <div class="cluster" style="--cluster-gap: var(--space-2xs); align-items: baseline;">
-            <h2>Foundational Research</h2>
-            <span class="research-tag-pill">Strategic Monographs</span>
-          </div>
-          <a href="/research" class="section-head__more">All research ({sortedResearch.length}) →</a>
+          <h2>Research &amp; Monographs</h2>
+          <a href="/research" class="section-head__more">All Research ({sortedResearch.length}) →</a>
         </div>
         <div class="stack stack-m">
           {sortedResearch.slice(0, 2).map((paper) => {
@@ -260,18 +257,6 @@ const topics = await getCollection("topics");
     background-color: color-mix(in oklch, var(--color-accent) 10%, transparent);
     border: 1px solid color-mix(in oklch, var(--color-accent) 25%, transparent);
     border-radius: var(--radius-sm);
-  }
-
-  .research-tag-pill {
-    font-family: var(--font-mono);
-    font-size: var(--step--2);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.15rem 0.5rem;
-    border-radius: var(--radius-sm, 4px);
-    background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
-    color: var(--color-accent);
   }
 
   /* Featured posts grid */
