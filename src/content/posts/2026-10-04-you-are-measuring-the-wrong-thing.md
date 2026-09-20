@@ -7,6 +7,7 @@ tags: [Token Economics, AI Governance, Agent Loops & Control, Production Systems
 author: Karim Bhalwani
 excerpt: "Every team tracking AI spend is watching the same number: tokens consumed. It is the wrong number. The right number is cost per successful outcome, and almost nobody has it."
 topics: [token-economics, agent-harness]
+hero_image: "/assets/you-are-measuring-the-wrong-thing/hero-main.webp"
 ---
 
 ![You Are Measuring the Wrong Thing.](/assets/you-are-measuring-the-wrong-thing/hero-main.webp)

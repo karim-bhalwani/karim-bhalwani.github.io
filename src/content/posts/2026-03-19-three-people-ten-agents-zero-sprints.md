@@ -8,6 +8,7 @@ tags: [Multi-Agent Fleets, Spec-Driven Dev, Org Adaptation, Production Systems]
 author: Karim Bhalwani
 excerpt: "A twelve-person sprint team shipped one feature in two weeks. Three people with ten agents shipped the same feature by Wednesday. The difference is not productivity. It is physics."
 topics: [multi-agent-orchestration, agent-harness]
+hero_image: "/assets/zero-sprints/hero-main.webp"
 ---
 
 ![Three People Ten Agents Hero Image](/assets/zero-sprints/hero-main.webp)

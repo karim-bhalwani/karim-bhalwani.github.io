@@ -1,0 +1,16 @@
+{
+  "name": "Karim Bhalwani — AI Systems & Agentic Architecture",
+  "short_name": "Karim Bhalwani",
+  "description": "Personal writing and research on AI systems reliability, agentic architectures, and production systems design.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0c10",
+  "theme_color": "#0a0c10",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

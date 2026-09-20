@@ -10,7 +10,8 @@ export async function GET(context: APIContext) {
 
   const allItems = [
     ...sortedPosts.map((post) => {
-      const heroPath = post.data.hero_image || `/assets/${post.id}/hero-main.webp`;
+      const postFolder = post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+      const heroPath = post.data.hero_image || `/assets/${postFolder}/hero-main.webp`;
       const imageUrl = heroPath.startsWith("http") ? heroPath : `${siteUrl}${heroPath.startsWith("/") ? "" : "/"}${heroPath}`;
       const mimeType = imageUrl.endsWith(".png") ? "image/png" : "image/webp";
       return {

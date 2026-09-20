@@ -8,6 +8,7 @@ tags: [Multi-Agent Fleets, Spec-Driven Dev, Agent Harness, Production Systems]
 author: Karim Bhalwani
 excerpt: "Adding more agents makes systems worse. Flat teams fail. The bottleneck has shifted from writing code to knowing what to build. Here is what the research actually shows, and what it means for how you build."
 topics: [multi-agent-orchestration, agent-harness]
+hero_image: "/assets/the-bottleneck-moved/hero-main.webp"
 ---
 
 ![The Bottleneck Moved Hero Image](/assets/the-bottleneck-moved/hero-main.webp)

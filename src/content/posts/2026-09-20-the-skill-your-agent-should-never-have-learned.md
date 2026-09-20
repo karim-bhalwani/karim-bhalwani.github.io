@@ -7,6 +7,7 @@ tags: [Agent Harness, Model Routing, AI Governance, Production Systems]
 author: Karim Bhalwani
 excerpt: "You gave the agent forty tools and two hundred skills because you wanted it to handle anything. It handled less. The failure was not in the model. It was in the menu."
 topics: [agent-harness, token-economics]
+hero_image: "/assets/the-skill-your-agent-should-never-have-learned/hero-main.webp"
 ---
 
 ![The Skill Your Agent Should Never Have Learned.](/assets/the-skill-your-agent-should-never-have-learned/hero-main.webp)

@@ -8,6 +8,7 @@ tags: [Token Economics, Spec-Driven Dev, Org Adaptation, Production Systems]
 author: Karim Bhalwani
 excerpt: "Code used to be scarce. Now agents generate thousands of lines in seconds for the cost of a few API tokens. The cost of writing code collapsed. What remains scarce is the judgment to direct it."
 topics: [token-economics, multi-agent-orchestration]
+hero_image: "/assets/the-code-economy/hero-main.webp"
 ---
 
 ![Code Got Cheap Hero Image](/assets/the-code-economy/hero-main.webp)

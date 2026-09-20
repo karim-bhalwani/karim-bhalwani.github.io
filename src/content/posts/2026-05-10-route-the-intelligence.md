@@ -8,6 +8,7 @@ tags: [Model Routing, Token Economics, Privacy & Security, Production Systems]
 author: Karim Bhalwani
 excerpt: "You built the harness. Now you're calling a frontier model for everything. The same model that writes a novel handles a spell check. The problem isn't the model. It's that you never asked whether the task needed it."
 topics: [token-economics, agent-harness, data-systems]
+hero_image: "/assets/right-sized-model/hero-main.webp"
 ---
 
 ![Not Every Task Needs a Surgeon Hero](/assets/right-sized-model/hero-main.webp)

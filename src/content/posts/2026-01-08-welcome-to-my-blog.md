@@ -8,6 +8,7 @@ excerpt: "A place to build, experiment, and think through problems with data and
 topics: [agent-harness]
 date: 2026-01-08 12:00:00 -0500
 reading_time: 3
+hero_image: "/assets/og-image.png"
 ---
 
 Welcome. This blog is where I work through ideas about building data and AI systems what works, what doesn't, and why.

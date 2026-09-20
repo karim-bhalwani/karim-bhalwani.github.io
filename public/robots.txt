@@ -1,5 +1,27 @@
+# Robots.txt for https://karim-bhalwani.github.io
+
+# Explicitly welcome AI retrieval and answer engines
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# General Search Engines (Google, Bing, etc.)
 User-agent: *
 Allow: /
 
+# Sitemaps
 Sitemap: https://karim-bhalwani.github.io/sitemap-index.xml
-

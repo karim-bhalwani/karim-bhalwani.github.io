@@ -8,6 +8,7 @@ tags: [Privacy & Security, Context Engineering, Production Systems]
 author: Karim Bhalwani
 excerpt: "Standard PII redaction tools destroy clinical utility. Learn how context-aware recognition preserves healthcare provider names while protecting patient privacy."
 topics: [data-systems]
+hero_image: "/assets/context-aware-redactor/main.webp"
 ---
 
 ![Context-Aware Redaction Hero](/assets/context-aware-redactor/main.webp)

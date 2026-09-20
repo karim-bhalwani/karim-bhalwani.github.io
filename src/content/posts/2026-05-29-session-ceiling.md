@@ -8,6 +8,7 @@ tags: [Multi-Agent Fleets, Agent Harness, Production Systems]
 author: Karim Bhalwani
 excerpt: "Your laptop was never the bottleneck. Your session was. The next wave of agents does not run on your machine. It runs in the cloud, fires on events, and finishes the work while you sleep. Here is what the teams who built it first learned."
 topics: [multi-agent-orchestration, token-economics]
+hero_image: "/assets/session-ceiling/hero-main.webp"
 ---
 
 ![The Session Was Always the Ceiling Hero](/assets/session-ceiling/hero-main.webp)

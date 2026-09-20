@@ -8,6 +8,7 @@ tags: [Agent Loops & Control, Multi-Agent Fleets, AI Governance, Production Syst
 author: Karim Bhalwani
 excerpt: "Background agents removed the laptop ceiling. The human approval gate is the next one. Machines move at machine speed. Humans sleep. You cannot govern asynchronous systems with biological rhythms. Here is what to do about it."
 topics: [multi-agent-orchestration, agent-harness]
+hero_image: "/assets/human-ceiling/hero-main.webp"
 ---
 
 ![The Human Was Always the Next Ceiling Hero](/assets/human-ceiling/hero-main.webp)

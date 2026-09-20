@@ -8,6 +8,7 @@ tags: [Agent Harness, Agent Loops & Control, AI Verification, Production Systems
 author: Karim Bhalwani
 excerpt: "The model is not the system. The harness that wraps it, manages its memory, and enforces its boundaries is the system. Here is what that looks like when you actually build it."
 topics: [agent-harness, ai-verification, multi-agent-orchestration]
+hero_image: "/assets/agentic-harness/hero-main-1.webp"
 ---
 
 ![Building the Control Layer Hero](/assets/agentic-harness/hero-main-1.webp)

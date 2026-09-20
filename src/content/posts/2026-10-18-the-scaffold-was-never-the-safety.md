@@ -7,6 +7,7 @@ tags: [Agent Loops & Control, AI Governance, Production Systems, Agent Harness]
 author: Karim Bhalwani
 excerpt: "Human-in-the-loop was never a safety mechanism. It was a comfort mechanism. The human in the middle is not catching errors. They are absorbing blame for errors they had no real chance of catching."
 topics: [agent-harness, ai-verification]
+hero_image: "/assets/the-scaffold-was-never-the-safety/hero-main.webp"
 ---
 
 ![The Scaffold Was Never the Safety.](/assets/the-scaffold-was-never-the-safety/hero-main.webp)

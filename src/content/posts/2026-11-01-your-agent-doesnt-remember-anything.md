@@ -7,6 +7,7 @@ tags: [Agent Harness, Agent Loops & Control, Context Engineering, Production Sys
 author: Karim Bhalwani
 excerpt: "The context window is not memory. It is a whiteboard that gets erased at the end of every session. Nobody told your agent where to remember things, so it doesn't."
 topics: [agent-harness, token-economics, data-systems]
+hero_image: "/assets/your-agent-doesnt-remember-anything/hero-main.webp"
 ---
 
 ![Your Agent Doesn't Remember Anything.](/assets/your-agent-doesnt-remember-anything/hero-main.webp)

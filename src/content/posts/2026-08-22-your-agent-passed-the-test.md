@@ -8,6 +8,7 @@ tags: [AI Verification, Agent Harness, AI Governance, Production Systems]
 author: Karim Bhalwani
 excerpt: "A chatbot can invent an answer. A coding agent can tell the truth about a green test suite and still ship broken software. They look like the same AI failure. They are not."
 topics: [ai-verification, agent-harness]
+hero_image: "/assets/your-agent-passed-the-test/hero-main.webp"
 ---
 
 ![Your Chatbot Hallucinated. Your Agent Passed the Test. Both Are Wrong.](/assets/your-agent-passed-the-test/hero-main.webp)

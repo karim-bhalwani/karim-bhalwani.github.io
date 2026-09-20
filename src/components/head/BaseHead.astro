@@ -41,6 +41,20 @@ const imageURL = image ? new URL(image, canonicalURL.origin).href : undefined;
 // Determine article schema type: TechArticle for research/monographs, BlogPosting for writing/posts
 const effectiveArticleType = schemaType || (Astro.url.pathname.startsWith("/research") ? "TechArticle" : "BlogPosting");
 
+// Author entity data for Knowledge Graph & E-E-A-T
+const authorSameAs = [
+  "https://github.com/karim-bhalwani",
+  "https://linkedin.com/in/karim-bhalwani",
+];
+const knowsAboutTopics = [
+  "Artificial Intelligence Systems",
+  "Agentic Architecture",
+  "Context Engineering",
+  "Multi-Agent Orchestration",
+  "AI Governance & Safety",
+  "Production Systems Design",
+];
+
 // Build BreadcrumbList Schema for Google Search Snippets
 const pathSegments = Astro.url.pathname.split("/").filter(Boolean);
 const breadcrumbItems = [
@@ -64,7 +78,7 @@ pathSegments.forEach((segment, idx) => {
     "@type": "ListItem",
     position: idx + 2,
     name: segmentName,
-    item: new URL(accumulatedPath, siteOrigin).href,
+    item: new URL(`${accumulatedPath}/`, siteOrigin).href,
   });
 });
 
@@ -87,15 +101,24 @@ if (isArticle) {
     url: canonicalURL.href,
     datePublished: publishedTime,
     dateModified: modifiedTime || publishedTime,
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${siteOrigin}/#website`,
+      name: "Karim Bhalwani",
+      url: siteOrigin,
+    },
     author: {
       "@type": "Person",
       name: authorName,
-      url: "https://karim-bhalwani.github.io/about",
+      url: `${siteOrigin}/about`,
+      sameAs: authorSameAs,
+      jobTitle: "Solutions Architect & AI Systems Engineer",
     },
     publisher: {
       "@type": "Person",
       name: "Karim Bhalwani",
-      url: "https://karim-bhalwani.github.io",
+      url: siteOrigin,
+      sameAs: authorSameAs,
     },
     keywords: articleTags.join(", "),
     inLanguage: "en-US",
@@ -104,6 +127,13 @@ if (isArticle) {
       "@id": canonicalURL.href,
     },
   };
+
+  if (effectiveArticleType === "TechArticle") {
+    mainSchema.proficiencyLevel = "Expert";
+    if (description) {
+      mainSchema.abstract = description;
+    }
+  }
 
   if (doi) {
     mainSchema.identifier = {
@@ -135,9 +165,8 @@ if (isArticle) {
         url: `${siteOrigin}/about`,
         jobTitle: "Solutions Architect & AI Systems Engineer",
         description: "Architect writing about agent control layers, context engineering, and autonomous systems in production.",
-        sameAs: [
-          "https://github.com/karim-bhalwani",
-        ],
+        sameAs: authorSameAs,
+        knowsAbout: knowsAboutTopics,
       },
     ],
   };
@@ -158,6 +187,7 @@ if (isArticle) {
 <!-- Favicons & App Icons for Google Search and Browser Tabs -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
+<link rel="manifest" href="/site.webmanifest" />
 
 <!-- Google Fonts Preconnect & Optimized Loading for Core Web Vitals -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />

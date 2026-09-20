@@ -8,6 +8,7 @@ tags: [Multi-Agent Fleets, Org Adaptation, Production Systems]
 author: Karim Bhalwani
 excerpt: "80% of enterprise AI initiatives fail. Not because the models are weak. Because the organization was never redesigned to run them. Here is what the research shows about managing an agentic workforce, and why the window to get it right is shorter than you think."
 topics: [multi-agent-orchestration]
+hero_image: "/assets/the-agents-work/hero-main.webp"
 ---
 
 ![The Agents Work Hero Image](/assets/the-agents-work/hero-main.webp)

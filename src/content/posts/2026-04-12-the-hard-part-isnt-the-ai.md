@@ -8,6 +8,7 @@ tags: [Context Engineering, Privacy & Security, Production Systems]
 author: Karim Bhalwani
 excerpt: "Three posts explored the pieces. Context-aware redaction. Hierarchical navigation. Recursive language models. This post shows what happens when you assemble them into a production pipeline that processes documents end to end."
 topics: [data-systems, token-economics]
+hero_image: "/assets/the-demo-worked/hero-main.webp"
 ---
 
 ![The Demo Worked Hero](/assets/the-demo-worked/hero-main.webp)

@@ -43,9 +43,46 @@ const relatedPosts = allPosts
 const relatedHubs = (data.related || [])
   .map((relId) => allTopics.find((t) => t.id === relId))
   .filter((t): t is NonNullable<typeof t> => Boolean(t));
+
+const siteOrigin = Astro.site ? Astro.site.origin : "https://karim-bhalwani.github.io";
+const topicCanonical = new URL(Astro.url.pathname, siteOrigin).href;
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": topicCanonical,
+  url: topicCanonical,
+  name: `${data.title} — Topic Hub | Karim Bhalwani`,
+  description: data.summary,
+  isPartOf: {
+    "@type": "WebSite",
+    "@id": `${siteOrigin}/#website`,
+    name: "Karim Bhalwani",
+    url: siteOrigin,
+  },
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: relatedResearch.length + relatedPosts.length,
+    itemListElement: [
+      ...relatedResearch.map((paper, idx) => ({
+        "@type": "ListItem",
+        position: idx + 1,
+        name: paper.data.title,
+        url: `${siteOrigin}/research/${paper.id}/`,
+      })),
+      ...relatedPosts.map((post, idx) => ({
+        "@type": "ListItem",
+        position: relatedResearch.length + idx + 1,
+        name: post.data.title,
+        url: `${siteOrigin}/writing/${post.id}/`,
+      })),
+    ],
+  },
+};
 ---
 
 <BaseLayout title={`${data.title} | Topics | Karim Bhalwani`} description={data.summary}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
   <div class="container stack stack-l" style="margin-top: var(--space-xl)">
     <!-- Header -->
     <header class="stack stack-s">
