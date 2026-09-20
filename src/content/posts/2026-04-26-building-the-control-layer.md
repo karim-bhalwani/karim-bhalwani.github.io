@@ -10,7 +10,7 @@ excerpt: "The model is not the system. The harness that wraps it, manages its me
 topics: [agent-harness, ai-verification, multi-agent-orchestration]
 ---
 
-![Building the Control Layer Hero](/assets/agentic-harness/hero-main-1.png)
+![Building the Control Layer Hero](/assets/agentic-harness/hero-main-1.webp)
 
 The agent worked. The system around it didn't exist.
 
@@ -34,7 +34,7 @@ The pattern I keep seeing: rewriting the control layer yields larger reliability
 
 So what goes into it? I've been building and iterating on [a multi-agent orchestration system](https://github.com/karim-bhalwani/agentic-harness) for GitHub Copilot in VS Code and have converged on seven ingredients. Some are table stakes for any single agent. Others only become visible when you're coordinating twelve agents across a pipeline.
 
-![Model vs Harness. The OS Analogy](/assets/agentic-harness/model-vs-harness.png)
+![Model vs Harness. The OS Analogy](/assets/agentic-harness/model-vs-harness.webp)
 
 **You don't fix agent reliability by scaling parameters. You fix it by engineering the control layer.**
 
@@ -61,7 +61,7 @@ The always-loaded layer has a hard budget: under 200 lines, no exceptions. Not a
 
 Domain-specific context loads only when the task matches. Historical decisions load only when explicitly cited.
 
-![Tiered Context Loading. Tier 1, 2, 3 Hierarchy](/assets/agentic-harness/tiered-context.png)
+![Tiered Context Loading. Tier 1, 2, 3 Hierarchy](/assets/agentic-harness/tiered-context.webp)
 
 The [Meta-Harness research](https://arxiv.org/abs/2603.28052) from Stanford (March 2026) put numbers on this. An automated system that optimized what the model sees at each step, without changing the model itself, achieved a 7.7-point accuracy gain over a state-of-the-art baseline while reducing token costs by 4x. The model weights did not change. Only the context did. That is where the gains are.
 
@@ -158,7 +158,7 @@ DeepMind's research on multi-agent systems (December 2025), which I unpacked in 
 
 A linear pipeline constrains coordination to a bounded surface.
 
-![Pipeline Topology. Linear Flow with Bounded Handoffs](/assets/agentic-harness/pipeline-topology.png)
+![Pipeline Topology. Linear Flow with Bounded Handoffs](/assets/agentic-harness/pipeline-topology.webp)
 
 ```
 Discovery. Design. Build. Review. Ship.
@@ -194,7 +194,7 @@ The insight borrows from machine learning. You never evaluate a model on its own
 
 The architect writes holdout scenarios and saves them to `.copilot/holdout/`. Implementation agents cannot read that directory. The guardian loads it during review and evaluates whether the implementation satisfies what real users need, not just what the tests check.
 
-![Holdout Validation. Architect Writes, Guardian Reads, Implementer Is Blind](/assets/agentic-harness/holdout-validation.png)
+![Holdout Validation. Architect Writes, Guardian Reads, Implementer Is Blind](/assets/agentic-harness/holdout-validation.webp)
 
 The difference between a unit test and a holdout scenario is the difference between checking the mechanism and checking the intent.
 
@@ -255,7 +255,7 @@ Seven ingredients. Each addresses a different failure mode.
 
 None of these are model improvements. Every one is an engineering decision about the infrastructure surrounding the model.
 
-![The Seven Ingredients. Complete Harness Architecture](/assets/agentic-harness/architecture-assembled.png)
+![The Seven Ingredients. Complete Harness Architecture](/assets/agentic-harness/architecture-assembled.webp)
 
 None of this is free. Tiered context files need authoring. Skills need scoping. Holdout scenarios require the architect to write them before implementation begins, friction most teams skip. Sandbox infrastructure adds latency. Verification gates add steps. The pipeline constrains the flexibility teams want during early exploration.
 

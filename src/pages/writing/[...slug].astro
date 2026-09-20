@@ -41,7 +41,7 @@ const categoryText = Array.isArray(data.categories)
   : data.categories || "Article";
 
 // Derive the hero OG image: prefer explicit hero_image, fall back to convention
-const heroImage = data.hero_image || `/assets/${post.id}/hero-main.png`;
+const heroImage = data.hero_image || `/assets/${post.id}/hero-main.webp`;
 const publishedTime = new Date(data.date).toISOString();
 const modifiedTime = data.updated ? new Date(data.updated).toISOString() : publishedTime;
 ---

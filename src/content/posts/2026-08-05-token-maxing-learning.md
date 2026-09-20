@@ -10,7 +10,7 @@ excerpt: "Spending hard on tokens teaches you what the models can do. That learn
 topics: [token-economics, agent-harness]
 ---
 
-![You Don't Maximize Tokens. You Maximize Learning.](/assets/token-maxing-learning/hero-main.png)
+![You Don't Maximize Tokens. You Maximize Learning.](/assets/token-maxing-learning/hero-main.webp)
 
 A building goes up behind a cage of steel poles and planks. For months, the scaffolding is the most visible thing on the site. It is what you notice from the street. It is where all the movement is.
 
@@ -66,7 +66,7 @@ Token maxing on its own does not pick for you. It produces both. Most teams just
 
 **Every session teaches you something. The question is whether it teaches you the tool or the domain.**
 
-![Scaffolding vs Foundation](/assets/token-maxing-learning/scaffolding-vs-foundation.png)
+![Scaffolding vs Foundation](/assets/token-maxing-learning/scaffolding-vs-foundation.webp)
 
 ---
 
@@ -130,7 +130,7 @@ Same instruction every time. Stop holding the knowledge in your hands. Put it in
 
 **Scaffolding holds knowledge in people. Foundation holds it in systems.**
 
-![Knowledge That Survives](/assets/token-maxing-learning/knowledge-survives.png)
+![Knowledge That Survives](/assets/token-maxing-learning/knowledge-survives.webp)
 
 ---
 

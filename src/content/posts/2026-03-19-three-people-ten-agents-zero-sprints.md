@@ -10,7 +10,7 @@ excerpt: "A twelve-person sprint team shipped one feature in two weeks. Three pe
 topics: [multi-agent-orchestration, agent-harness]
 ---
 
-![Three People Ten Agents Hero Image](/assets/zero-sprints/hero-main.png)
+![Three People Ten Agents Hero Image](/assets/zero-sprints/hero-main.webp)
 
 A team of twelve ran a two-week sprint. Sprint planning. Ten standups. Backlog grooming. Review. Retro. One feature shipped on day fourteen.
 
@@ -38,7 +38,7 @@ Software architects solved this problem years ago. When a monolith grows too lar
 
 Teams behave the same way. They are organizational monoliths.
 
-![Communication Pathways](/assets/zero-sprints/pathways.png)
+![Communication Pathways](/assets/zero-sprints/pathways.webp)
 
 The math is simple. A twelve-person team creates sixty-six communication pathways. A three-person team creates three. But the formula alone does not explain why organizations keep choosing sixty-six. For decades, each pathway carried real load. Twelve people meant twelve sets of hands writing code, designing systems, shipping features. The coordination tax was real, but the capacity it bought justified the cost. Organizations tolerated the overhead because they needed the humans.
 
@@ -66,7 +66,7 @@ The bottleneck was never volume. I argued in [The Bottleneck Moved](/writing/202
 
 The research supports this consistently. When AI extends each person's competence into adjacent domains, functional silos collapse. An engineer reasons about product strategy. A product manager prototypes data models. The boundaries that justified ten specialists in ten narrow lanes dissolve, because AI fills the gap between what someone knows deeply and what they need to understand well enough to specify.
 
-![Volume vs Correctness](/assets/zero-sprints/volume-correctness.png)
+![Volume vs Correctness](/assets/zero-sprints/volume-correctness.webp)
 
 This is the mechanism that makes small crews viable. Three senior people using AI can each operate across a broader domain than they could alone. They need architectural judgment to extend their reach and they need each other as verification against specification blind spots.
 
@@ -116,7 +116,7 @@ When you hand an agent a fuzzy user story, it hallucinates. It fills gaps with p
 
 Spec-Driven Development inverts this. Instead of starting vague and converging through conversation, you start precise and let agents execute with confidence.
 
-![Specs vs Stories](/assets/zero-sprints/specs-vs-stories.png)
+![Specs vs Stories](/assets/zero-sprints/specs-vs-stories.webp)
 
 A spec has four layers.
 
@@ -144,7 +144,7 @@ AI-native organizations are converging on two team archetypes. Not departments. 
 
 **Crews.** Three to five people executing against a production target. Small enough that everyone maintains the shared mental model. Senior enough to provide the judgment layer agents cannot. Every member on a three-person team is visible. Every contribution is legible. There is no organizational cover.
 
-![Pathfinders and Crews](/assets/zero-sprints/scouts-strike.png)
+![Pathfinders and Crews](/assets/zero-sprints/scouts-strike.webp)
 
 The crew follows what practitioners call the 1:2:3 model.
 
@@ -186,7 +186,7 @@ The executive conversation about AI and teams almost always reduces to cost. Sam
 
 In [The Agents Work](/writing/2026-03-13-the-agents-work-the-organization-does-not), I argued that the winning organizations are the ones rebuilding their structure around agentic execution. The corollary nobody draws: if you rebuild the structure, you should also rebuild the mission. Otherwise you are redesigning the engine and driving the same route.
 
-![10x the Mission](/assets/zero-sprints/10x-mission.png)
+![10x the Mission](/assets/zero-sprints/10x-mission.webp)
 
 When headcount was the binding constraint on ambition, organizations scoped their strategy to what they could staff. A data platform team with twelve engineers built one product because twelve was all they had and the coordination surface of twelve kept them slow. Restructure that into four crews of three, each specifying against their own domain while agents execute, and the same twelve people can sustain four products. Not because they work harder. Because the coordination overhead that consumed 60% of their week evaporated.
 

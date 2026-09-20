@@ -10,7 +10,7 @@ excerpt: "80% of enterprise AI initiatives fail. Not because the models are weak
 topics: [multi-agent-orchestration]
 ---
 
-![The Agents Work Hero Image](/assets/the-agents-work/hero-main.png)
+![The Agents Work Hero Image](/assets/the-agents-work/hero-main.webp)
 
 Microsoft studied AI adoption across 300,000 enterprise employees. They documented a pattern nobody expected: the best performers, the people you would bet on to adopt fastest, quietly abandoned AI tools after three weeks.
 
@@ -38,7 +38,7 @@ Every technology transition follows a productivity J-curve. Adopt a new tool. Pr
 
 What is new is the depth and speed of the dip with AI.
 
-![The J-Curve](/assets/the-agents-work/j-curve.png)
+![The J-Curve](/assets/the-agents-work/j-curve.webp)
 
 Traditional tool adoption, like migrating from on-prem TFS to Azure DevOps, created a shallow dip over a few weeks. The new platform was different, but the nature of the work stayed the same. You still wrote code. You still reviewed code. The tool changed. The job did not.
 
@@ -62,7 +62,7 @@ The organizations that survive the J-curve are not the ones with the best models
 
 The Hyperadaptive Model, published by IT Revolution, maps the path from traditional enterprise to AI-native organization across five sequential stages. Each stage builds on the last. None can be skipped.
 
-![Five Stages of Adaptation](/assets/the-agents-work/five-stages.png)
+![Five Stages of Adaptation](/assets/the-agents-work/five-stages.webp)
 
 **Stage 1: Laying the Foundation.** Governance, guardrails, psychological safety. The goal is to move the workforce from apprehension to possibility. Low-risk pilots. Middle-out champions who experiment and share results. The trap: implementing regulation so heavy that it kills experimentation before it starts.
 
@@ -118,7 +118,7 @@ The assumption is that everything AI can do, AI should do. The research says oth
 
 MIT economists analyzed 844 discrete tasks across 104 occupations using the WORKBank dataset. Instead of a binary "automate or not," they mapped every task against two dimensions: can AI do it, and do humans want it done by AI?
 
-![Automation Zones](/assets/the-agents-work/automation-zones.png)
+![Automation Zones](/assets/the-agents-work/automation-zones.webp)
 
 Four zones emerge.
 
@@ -148,7 +148,7 @@ Trust in autonomous systems follows a pattern every engineering discipline has l
 
 The emerging architecture for earned trust in AI systems uses what researchers call the "Glass Box" philosophy. Not a magic box where you put in a prompt and hope for the best. A glass box where every decision, every intermediate step, every assumption is visible and auditable.
 
-![Glass Box Architecture](/assets/the-agents-work/glass-box.png)
+![Glass Box Architecture](/assets/the-agents-work/glass-box.webp)
 
 Three mechanisms make this concrete.
 

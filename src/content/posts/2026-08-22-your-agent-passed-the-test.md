@@ -10,7 +10,7 @@ excerpt: "A chatbot can invent an answer. A coding agent can tell the truth abou
 topics: [ai-verification, agent-harness]
 ---
 
-![Your Chatbot Hallucinated. Your Agent Passed the Test. Both Are Wrong.](/assets/your-agent-passed-the-test/hero-main.png)
+![Your Chatbot Hallucinated. Your Agent Passed the Test. Both Are Wrong.](/assets/your-agent-passed-the-test/hero-main.webp)
 
 A coding agent finishes a routine feature at 11:42 PM: automatic retry for checkout requests that time out. It opens a pull request, runs the suite, and reports back:
 
@@ -50,7 +50,7 @@ That's easy to mistake for another hallucination, because the outcome feels the 
 
 **The agent didn't fail the test. The test failed the requirement.**
 
-![Two Failures, Same Broken System](/assets/your-agent-passed-the-test/two-failures.png)
+![Two Failures, Same Broken System](/assets/your-agent-passed-the-test/two-failures.webp)
 
 ---
 
@@ -88,7 +88,7 @@ The fix is to split development from judgment. Let the agent run fast checks fre
 
 **More checks make a suite bigger. Different checks, kept out of the agent's hands, make it harder to fool.**
 
-![Development and Independent Verification](/assets/your-agent-passed-the-test/independent-verification.png)
+![Development and Independent Verification](/assets/your-agent-passed-the-test/independent-verification.webp)
 
 ---
 
@@ -102,7 +102,7 @@ In [Building the Control Layer](/writing/2026-04-26-building-the-control-layer),
 
 **Trust the recorded action, not the generated assurance.**
 
-![Generated Assurance vs Recorded Evidence](/assets/your-agent-passed-the-test/assurance-vs-evidence.png)
+![Generated Assurance vs Recorded Evidence](/assets/your-agent-passed-the-test/assurance-vs-evidence.webp)
 
 ---
 

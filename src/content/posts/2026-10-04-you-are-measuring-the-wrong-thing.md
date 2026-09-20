@@ -9,7 +9,7 @@ excerpt: "Every team tracking AI spend is watching the same number: tokens consu
 topics: [token-economics, agent-harness]
 ---
 
-![You Are Measuring the Wrong Thing.](/assets/you-are-measuring-the-wrong-thing/hero-main.png)
+![You Are Measuring the Wrong Thing.](/assets/you-are-measuring-the-wrong-thing/hero-main.webp)
 
 A finance team pulls up the monthly AI invoice. A hundred and twenty million tokens. $38,000. Someone calls it high. Someone else says the team shipped three features and closed 4,000 support tickets. The meeting ends without agreement, because nobody in the room has a number that connects those two facts.
 
@@ -39,7 +39,7 @@ That number connects the invoice to the outcome. Without it, you are reading a g
 
 **Token volume tells you how much fuel you burned. It does not tell you whether you reached the destination.**
 
-![Activity vs. Value: The invoice gap](/assets/you-are-measuring-the-wrong-thing/activity-vs-value.png)
+![Activity vs. Value: The invoice gap](/assets/you-are-measuring-the-wrong-thing/activity-vs-value.webp)
 
 ---
 
@@ -59,7 +59,7 @@ A cheaper model running more turns to reach the same outcome costs more. Not les
 
 **The agentic multiplier does not care about sticker price. It compounds whatever you put in front of it.**
 
-![The Agentic Multiplier: quadratic context compounding across turns](/assets/you-are-measuring-the-wrong-thing/agentic-multiplier.png)
+![The Agentic Multiplier: quadratic context compounding across turns](/assets/you-are-measuring-the-wrong-thing/agentic-multiplier.webp)
 
 ---
 
@@ -145,7 +145,7 @@ The tooling exists. OpenTelemetry semantic conventions for generative AI provide
 
 **Visibility. Measurement. Governance. In that order. The decision is organizational, not technical.**
 
-![TokenOps Practice: Visibility, Measurement, Governance](/assets/you-are-measuring-the-wrong-thing/tokenops-governance.png)
+![TokenOps Practice: Visibility, Measurement, Governance](/assets/you-are-measuring-the-wrong-thing/tokenops-governance.webp)
 
 ---
 

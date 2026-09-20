@@ -10,7 +10,7 @@ excerpt: "Background agents removed the laptop ceiling. The human approval gate 
 topics: [multi-agent-orchestration, agent-harness]
 ---
 
-![The Human Was Always the Next Ceiling Hero](/assets/human-ceiling/hero-main.png)
+![The Human Was Always the Next Ceiling Hero](/assets/human-ceiling/hero-main.webp)
 
 A monitoring system fires at 2:14 AM. A payment service is silently failing. The agent watching the queue knows what to do. It has the runbook, the credentials, and the rollback command ready.
 
@@ -84,7 +84,7 @@ The approval gate becomes theater. It satisfies the org chart. It does not chang
 
 **Review at machine velocity is theater, not safety.**
 
-![Latency, Comprehension, Cadence](/assets/human-ceiling/latency-comprehension-cadence.png)
+![Latency, Comprehension, Cadence](/assets/human-ceiling/latency-comprehension-cadence.webp)
 
 ---
 
@@ -122,7 +122,7 @@ These three roles are not bonuses. They are where human time should have always 
 
 **The human belongs at the edges, not in the middle.**
 
-![Where the Human Belongs](/assets/human-ceiling/three-positions.png)
+![Where the Human Belongs](/assets/human-ceiling/three-positions.webp)
 
 ---
 

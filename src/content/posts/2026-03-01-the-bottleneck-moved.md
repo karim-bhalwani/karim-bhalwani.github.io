@@ -10,7 +10,7 @@ excerpt: "Adding more agents makes systems worse. Flat teams fail. The bottlenec
 topics: [multi-agent-orchestration, agent-harness]
 ---
 
-![The Bottleneck Moved Hero Image](/assets/the-bottleneck-moved/hero-main.png)
+![The Bottleneck Moved Hero Image](/assets/the-bottleneck-moved/hero-main.webp)
 
 In March 2025, METR published a finding that belongs on every engineering leader's wall: the length of tasks frontier AI agents can complete autonomously has been doubling approximately every seven months for six years. Their January 2026 update shows that rate has accelerated to roughly every four months. Tasks that required a human watching over them a year ago are now handled start to finish.
 
@@ -50,7 +50,7 @@ In practice, this produces the digital version of a tragedy of the commons.
 
 Without a clear hierarchy, agents become risk-averse. They cluster on easy, well-defined work and avoid the ambiguous, high-stakes tasks that actually need to get done. The hard problems sit unassigned. No one owns them, because ownership requires a clear scope, and flat teams do not define scope.
 
-![Scale is a strict two-tier structure](/assets/the-bottleneck-moved/section2.png)
+![Scale is a strict two-tier structure](/assets/the-bottleneck-moved/section2.webp)
 
 The architecture that produces reliable outcomes at scale is a strict two-tier structure.
 
@@ -137,7 +137,7 @@ Microsoft studied AI adoption across 300,000 enterprise employees and documented
 
 The gap was not about prompting skill. It was about something that looks like a personal capability but is actually a systems design problem.
 
-![The skill that compounds from here is a systems skill](/assets/the-bottleneck-moved/section6.png)
+![The skill that compounds from here is a systems skill](/assets/the-bottleneck-moved/section6.webp)
 
 The teams that made the transition did not get better at writing prompts. They got better at designing the handoff. They figured out which decisions require a human, what scope an agent can execute reliably, and how to verify output at the right level without redoing the work. They built systems where accountability was clear, task boundaries were clean, and validation was structural rather than manual.
 
@@ -159,7 +159,7 @@ Human working memory holds roughly 4 to 7 conceptual chunks. No engineer holds a
 
 Context windows now exceed a million tokens. An agent holds the design intent and the implementation detail simultaneously. It catches the local change that quietly breaks something three modules over. Not because it has better judgment, but because it never gets tired and it never loses the map.
 
-![Systems skill vs personal skill](/assets/the-bottleneck-moved/section7.png)
+![Systems skill vs personal skill](/assets/the-bottleneck-moved/section7.webp)
 
 This is the fundamental principle behind intelligent context navigation and recursive model harnesses (as explored in the [MIT RLM research](/research/2026-02-22-mit-gave-the-model-a-python-interpreter)): the value is not raw context capacity. It is intelligent navigation of that context.
 

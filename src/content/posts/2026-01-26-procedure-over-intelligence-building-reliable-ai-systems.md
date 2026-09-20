@@ -10,7 +10,7 @@ excerpt: "Intelligence without systematic workflows is just noise. Learn how Age
 topics: [agent-harness, ai-verification]
 ---
 
-![Procedure Over Intelligence Hero](/assets/procedure-over-intelligence/hero-main-1.png)
+![Procedure Over Intelligence Hero](/assets/procedure-over-intelligence/hero-main-1.webp)
 
 You've probably seen this: an AI agent scaffolds an entire data pipeline in twenty minutes. Impressive. Then the same agent, with the same context, generates a pipeline that violates data retention policy. It aggregates transaction data before month-end close. It skips the security review gate. It produces exactly the kind of code that costs someone hours to fix later.
 
@@ -26,7 +26,7 @@ In 2009, surgeon Atul Gawande published *The Checklist Manifesto*, documenting h
 
 Software teams discovered this decades ago. We don't tell new developers to "just write good code."
 
-![Developer Checklist](/assets/procedure-over-intelligence/devloper-check-list.png)
+![Developer Checklist](/assets/procedure-over-intelligence/devloper-check-list.webp)
 
 These aren't suggestions. They're accumulated organizational wisdom from every production incident, security breach, and 3am debugging session.
 
@@ -66,7 +66,7 @@ Not as dense prompts or scattered documentation, but as **executable workflows**
 
 That's what Agent Skills are: self-contained modules that encode how work actually gets done. The format emerged from the need to make agent behavior reproducible across tools and teams: a specification that any IDE or AI provider can support.
 
-![Enter Agent Skills](/assets/procedure-over-intelligence/enter-agent-skill.png)
+![Enter Agent Skills](/assets/procedure-over-intelligence/enter-agent-skill.webp)
 
 Think of it as a contract between you and the agent. Not "write me a login service" but "use the `implementer` skill with our team's authentication patterns, mandatory test coverage thresholds, and mandatory security review gates."
 
@@ -134,7 +134,7 @@ Your team's expertise travels with *you*, not with your IDE or AI provider. That
 
 ## Skill Chains: Where Power Emerges
 
-![Skill Chaining](/assets/procedure-over-intelligence/chaining.png)
+![Skill Chaining](/assets/procedure-over-intelligence/chaining.webp)
 
 Individual skills are useful. **Skill chains are transformative.**
 
@@ -188,7 +188,7 @@ Healthcare learned this decades ago: move from "trust clinician judgment" to "sy
 
 ## The Demo Trap
 
-![From Demos to Systems](/assets/procedure-over-intelligence/demos-to-systems.png)
+![From Demos to Systems](/assets/procedure-over-intelligence/demos-to-systems.webp)
 
 I've built enough "impressive" prototypes to know the pattern:
 

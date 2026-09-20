@@ -9,7 +9,7 @@ excerpt: "The context window is not memory. It is a whiteboard that gets erased 
 topics: [agent-harness, token-economics, data-systems]
 ---
 
-![Your Agent Doesn't Remember Anything.](/assets/your-agent-doesnt-remember-anything/hero-main.png)
+![Your Agent Doesn't Remember Anything.](/assets/your-agent-doesnt-remember-anything/hero-main.webp)
 
 A support team deploys an agent in January. By March, they notice something strange. The agent keeps asking the same clarifying questions it asked on day one. It fails on the same edge case it failed on in week two, the one a developer spent forty minutes debugging and then documented in a runbook the team assumed the agent had absorbed. Every session, the agent starts fresh.
 
@@ -43,7 +43,7 @@ The consequences are significant. An agent that runs a complex analysis on Monda
 
 **The context window is not a memory system. It is a workspace. And most teams have no plan for what happens when the workspace closes.**
 
-![The whiteboard: context window vs. durable memory](/assets/your-agent-doesnt-remember-anything/whiteboard-vs-memory.png)
+![The whiteboard: context window vs. durable memory](/assets/your-agent-doesnt-remember-anything/whiteboard-vs-memory.webp)
 
 ---
 
@@ -101,7 +101,7 @@ None of this is model capability. All of it is harness design.
 
 **The model forgets by design. The harness remembers by choice. Most teams have not made that choice.**
 
-![The harness memory model: checkpoint, restore, branch](/assets/your-agent-doesnt-remember-anything/harness-memory-model.png)
+![The harness memory model: checkpoint, restore, branch](/assets/your-agent-doesnt-remember-anything/harness-memory-model.webp)
 
 ---
 
@@ -131,7 +131,7 @@ There is one design detail that matters significantly: temporal decay. A memory 
 
 **The vector store is not the architecture. Durability is the architecture. SQLite is often the right place to start.**
 
-![Source of truth and derived index: the two-layer memory pattern](/assets/your-agent-doesnt-remember-anything/two-layer-memory.png)
+![Source of truth and derived index: the two-layer memory pattern](/assets/your-agent-doesnt-remember-anything/two-layer-memory.webp)
 
 ---
 

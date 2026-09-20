@@ -9,6 +9,10 @@ interface Props {
   modifiedTime?: string;
   authorName?: string;
   articleTags?: string[];
+  doi?: string;
+  schemaType?: "BlogPosting" | "TechArticle" | "ScholarlyArticle" | "Article";
+  googleSiteVerification?: string;
+  bingSiteVerification?: string;
 }
 
 const {
@@ -20,46 +24,148 @@ const {
   modifiedTime,
   authorName = "Karim Bhalwani",
   articleTags = [],
+  doi,
+  schemaType,
+  googleSiteVerification,
+  bingSiteVerification,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://karim-bhalwani.github.io");
+const googleVerification = googleSiteVerification || import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingVerification = bingSiteVerification || import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
+
+const siteOrigin = Astro.site ? Astro.site.origin : "https://karim-bhalwani.github.io";
+const canonicalURL = new URL(Astro.url.pathname, siteOrigin);
 const isArticle = type === "article";
 const imageURL = image ? new URL(image, canonicalURL.origin).href : undefined;
 
-// Build JSON-LD structured data for blog posts
-const jsonLd = isArticle
-  ? JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: title,
-      description: description,
-      image: imageURL,
-      url: canonicalURL.href,
-      datePublished: publishedTime,
-      dateModified: modifiedTime || publishedTime,
-      author: {
-        "@type": "Person",
-        name: authorName,
-        url: "https://karim-bhalwani.github.io/about",
-      },
-      publisher: {
-        "@type": "Person",
+// Determine article schema type: TechArticle for research/monographs, BlogPosting for writing/posts
+const effectiveArticleType = schemaType || (Astro.url.pathname.startsWith("/research") ? "TechArticle" : "BlogPosting");
+
+// Build BreadcrumbList Schema for Google Search Snippets
+const pathSegments = Astro.url.pathname.split("/").filter(Boolean);
+const breadcrumbItems = [
+  {
+    "@type": "ListItem",
+    position: 1,
+    name: "Home",
+    item: siteOrigin + "/",
+  },
+];
+
+let accumulatedPath = "";
+pathSegments.forEach((segment, idx) => {
+  accumulatedPath += `/${segment}`;
+  const isLast = idx === pathSegments.length - 1;
+  const segmentName = isLast
+    ? title.split("|")[0].trim()
+    : segment.charAt(0).toUpperCase() + segment.slice(1);
+
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    position: idx + 2,
+    name: segmentName,
+    item: new URL(accumulatedPath, siteOrigin).href,
+  });
+});
+
+const breadcrumbSchema = pathSegments.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: breadcrumbItems,
+} : null;
+
+// Build Main Structured Data (Schema.org)
+let mainSchema: Record<string, any> | null = null;
+
+if (isArticle) {
+  mainSchema = {
+    "@context": "https://schema.org",
+    "@type": effectiveArticleType,
+    headline: title.split("|")[0].trim(),
+    description: description,
+    image: imageURL,
+    url: canonicalURL.href,
+    datePublished: publishedTime,
+    dateModified: modifiedTime || publishedTime,
+    author: {
+      "@type": "Person",
+      name: authorName,
+      url: "https://karim-bhalwani.github.io/about",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Karim Bhalwani",
+      url: "https://karim-bhalwani.github.io",
+    },
+    keywords: articleTags.join(", "),
+    inLanguage: "en-US",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalURL.href,
+    },
+  };
+
+  if (doi) {
+    mainSchema.identifier = {
+      "@type": "PropertyValue",
+      propertyID: "DOI",
+      value: doi,
+    };
+  }
+} else {
+  // WebSite and Person Schema on non-article pages (Homepage, About, Topics, Archive)
+  mainSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${siteOrigin}/#website`,
+        url: siteOrigin,
         name: "Karim Bhalwani",
-        url: "https://karim-bhalwani.github.io",
+        description: "Personal writing on AI systems reliability, agentic architectures, and production systems design.",
+        publisher: {
+          "@id": `${siteOrigin}/#author`,
+        },
+        inLanguage: "en-US",
       },
-      keywords: articleTags.join(", "),
-      inLanguage: "en-US",
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": canonicalURL.href,
+      {
+        "@type": "Person",
+        "@id": `${siteOrigin}/#author`,
+        name: "Karim Bhalwani",
+        url: `${siteOrigin}/about`,
+        jobTitle: "Solutions Architect & AI Systems Engineer",
+        description: "Architect writing about agent control layers, context engineering, and autonomous systems in production.",
+        sameAs: [
+          "https://github.com/karim-bhalwani",
+        ],
       },
-    })
-  : null;
+    ],
+  };
+}
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="canonical" href={canonicalURL} />
+
+{googleVerification && (
+  <meta name="google-site-verification" content={googleVerification} />
+)}
+{bingVerification && (
+  <meta name="msvalidate.01" content={bingVerification} />
+)}
+
+<!-- Favicons & App Icons for Google Search and Browser Tabs -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
+
+<!-- Google Fonts Preconnect & Optimized Loading for Core Web Vitals -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap"
+/>
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
@@ -75,7 +181,7 @@ const jsonLd = isArticle
 {imageURL && <meta property="og:image" content={imageURL} />}
 <meta property="og:site_name" content="Karim Bhalwani" />
 
-<!-- Article-specific Open Graph (only on blog posts) -->
+<!-- Article-specific Open Graph -->
 {isArticle && publishedTime && (
   <meta property="article:published_time" content={publishedTime} />
 )}
@@ -99,7 +205,12 @@ const jsonLd = isArticle
 <!-- RSS Feed Autodiscovery -->
 <link rel="alternate" type="application/rss+xml" title="Karim Bhalwani | Writing" href="/rss.xml" />
 
-<!-- JSON-LD Structured Data (blog posts only) -->
-{jsonLd && (
-  <script type="application/ld+json" set:html={jsonLd} />
+<!-- JSON-LD Main Structured Data -->
+{mainSchema && (
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(mainSchema)} />
+)}
+
+<!-- JSON-LD Breadcrumbs for Search Result Navigation Paths -->
+{breadcrumbSchema && (
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 )}

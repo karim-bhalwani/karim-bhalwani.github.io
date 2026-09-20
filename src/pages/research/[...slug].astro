@@ -37,7 +37,7 @@ const hubTitle = hubId ? topicMap.get(hubId) || hubId : undefined;
 const readingTimeText = formatReadingTime(paper);
 const abstract = getResearchAbstract(paper);
 
-const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png`;
+const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.webp`;
 ---
 
 <BaseLayout
@@ -48,6 +48,8 @@ const heroImage = data.hero_image || `/assets/research/${paper.id}/hero-main.png
   publishedTime={new Date(data.date).toISOString()}
   modifiedTime={data.updated ? new Date(data.updated).toISOString() : new Date(data.date).toISOString()}
   articleTags={data.tags}
+  doi={data.doi}
+  schemaType="TechArticle"
 >
   <div class="reading-progress-container" aria-hidden="true">
     <div id="readingProgressBar" class="reading-progress-bar"></div>

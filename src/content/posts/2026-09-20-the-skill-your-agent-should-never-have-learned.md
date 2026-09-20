@@ -9,7 +9,7 @@ excerpt: "You gave the agent forty tools and two hundred skills because you want
 topics: [agent-harness, token-economics]
 ---
 
-![The Skill Your Agent Should Never Have Learned.](/assets/the-skill-your-agent-should-never-have-learned/hero-main.png)
+![The Skill Your Agent Should Never Have Learned.](/assets/the-skill-your-agent-should-never-have-learned/hero-main.webp)
 
 A restaurant opens with a twelve-page menu. Three hundred dishes. Every cuisine, every dietary need. The owner wanted to make sure nobody walked away unsatisfied.
 
@@ -45,7 +45,7 @@ Nobody removed anything. Nobody changed the model. The agent just stopped being 
 
 ---
 
-![Skill Shadowing. Two skills with similar descriptions, one correct, one impostor.](/assets/the-skill-your-agent-should-never-have-learned/skill-shadowing.png)
+![Skill Shadowing. Two skills with similar descriptions, one correct, one impostor.](/assets/the-skill-your-agent-should-never-have-learned/skill-shadowing.webp)
 
 ## Shadowing
 
@@ -93,7 +93,7 @@ In [Route the Intelligence, Not Just the Context](/writing/2026-05-10-route-the-
 
 ---
 
-![Routing Pipeline. Embedding model filters, reranker picks, reasoning model executes.](/assets/the-skill-your-agent-should-never-have-learned/routing-pipeline.png)
+![Routing Pipeline. Embedding model filters, reranker picks, reasoning model executes.](/assets/the-skill-your-agent-should-never-have-learned/routing-pipeline.webp)
 
 ## What the Restaurant Already Knew
 
@@ -131,7 +131,7 @@ In [Procedure Over Intelligence](/writing/2026-01-26-procedure-over-intelligence
 
 ---
 
-![The Menu Worth Building. Curated skills vs sprawling library.](/assets/the-skill-your-agent-should-never-have-learned/curated-menu.png)
+![The Menu Worth Building. Curated skills vs sprawling library.](/assets/the-skill-your-agent-should-never-have-learned/curated-menu.webp)
 
 ## The Menu Worth Building
 

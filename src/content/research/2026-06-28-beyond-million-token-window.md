@@ -11,11 +11,11 @@ topic-hub: "token-economics"
 topics: [token-economics, data-systems]
 tags: [Context Engineering, Token Economics, Production Systems]
 featured: true
-hero_image: "/assets/hierarchical-doc-intelligence/hero-main.png"
+hero_image: "/assets/hierarchical-doc-intelligence/hero-main.webp"
 doi: "arXiv:2401.18059"
 ---
 
-![Beyond the Million-Token Window Hero](/assets/hierarchical-doc-intelligence/hero-main.png)
+![Beyond the Million-Token Window Hero](/assets/hierarchical-doc-intelligence/hero-main.webp)
 
 
 You've probably seen this pitch: "Model has a 1M token context window. Just dump your entire document in and ask questions."
@@ -24,7 +24,7 @@ Sounds convenient. For a 200-page legal contract, that's roughly 150,000 tokens.
 
 I tried it. Here's what actually happened.
 
-![Query Analysis](/assets/hierarchical-doc-intelligence/q1-q2-q3.png)
+![Query Analysis](/assets/hierarchical-doc-intelligence/q1-q2-q3.webp)
 
 
 **Cost for this session:** $4.80 in API calls. Three questions. Two failures.
@@ -45,7 +45,7 @@ For simple documents and straightforward questions, it works. For complex docume
 
 Research from Liu et al. demonstrates that LLMs exhibit a U-shaped attention curve. They're excellent at information positioned at the start or end of context. They're demonstrably worse at information buried in the middle.
 
-![Lost in the Middle](/assets/hierarchical-doc-intelligence/lost-in-middle.png)
+![Lost in the Middle](/assets/hierarchical-doc-intelligence/lost-in-middle.webp)
 
 
 A 200-page contract has critical clauses scattered throughout. Liability caps in Section 12. Penalty definitions in Section 8. Exception clauses in Section 15. Force majeure in Section 3.
@@ -68,7 +68,7 @@ Even with all three sections loaded, the model struggles to traverse the logical
 
 Loading 150,000 tokens per query is expensive. Not just in API costs. In latency. In carbon footprint.
 
-![Cost Impact](/assets/hierarchical-doc-intelligence/cost-impact.png)
+![Cost Impact](/assets/hierarchical-doc-intelligence/cost-impact.webp)
 
 
 For a document review workflow where analysts ask 50-100 questions per contract, this becomes:
@@ -124,7 +124,7 @@ The architecture I built implements this pattern through three core techniques. 
 
 The foundation is a hierarchical structure that combines mechanical precision with semantic navigability, based on RAPTOR (Recursive Abstractive Processing for Tree-Organized Retrieval) principles.
 
-![RAPTOR Tree Architecture](/assets/hierarchical-doc-intelligence/raptor-tree.png)
+![RAPTOR Tree Architecture](/assets/hierarchical-doc-intelligence/raptor-tree.webp)
 
 
 **Level 0: The Annotated Foundation**
@@ -165,7 +165,7 @@ The router can start broad, drill down selectively, and always retrieve complete
 
 Navigation happens in multiple passes, with explicit reasoning at each depth.
 
-![Hierarchical Routing](/assets/hierarchical-doc-intelligence/hierarchical-routing.png)
+![Hierarchical Routing](/assets/hierarchical-doc-intelligence/hierarchical-routing.webp)
 
 
 **Pass 1: High-Level Navigation**
@@ -196,7 +196,7 @@ Smart navigation is worthless if it's too expensive to use.
 
 The architecture leverages Cache-Augmented Generation (CAG), a pattern that structures prompts to maximize cache hit rates across repeated queries. By separating static document context from dynamic query specific content, the system achieves dramatic cost reductions.
 
-![Cache-Augmented Generation](/assets/hierarchical-doc-intelligence/cache-pattern.png)
+![Cache-Augmented Generation](/assets/hierarchical-doc-intelligence/cache-pattern.webp)
 
 
 **Static Prefix (Cached):**
@@ -240,7 +240,7 @@ The result: hierarchical navigation becomes economically viable for production w
 - Accuracy: 85-95% on multi-hop questions
 - Latency: 3-5 seconds
 
-![Real World Comparison](/assets/hierarchical-doc-intelligence/realworld-comp.png)
+![Real World Comparison](/assets/hierarchical-doc-intelligence/realworld-comp.webp)
 
 
 This isn't theoretical. These are metrics from document review workflows processing legal contracts, medical records, and policy documents.

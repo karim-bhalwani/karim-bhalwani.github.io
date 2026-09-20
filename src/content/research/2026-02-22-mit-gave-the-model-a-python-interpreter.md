@@ -11,11 +11,11 @@ topic-hub: "ai-verification"
 topics: [ai-verification, token-economics]
 tags: [Context Engineering, AI Verification, Production Systems, Privacy & Security]
 featured: true
-hero_image: "/assets/mit-gave-the-model/hero-main.png"
+hero_image: "/assets/mit-gave-the-model/hero-main.webp"
 doi: "arXiv:2512.24601"
 ---
 
-![MIT Recursive Language Models Hero](/assets/mit-gave-the-model/hero-main.png)
+![MIT Recursive Language Models Hero](/assets/mit-gave-the-model/hero-main.webp)
 
 
 Context capacity and context intelligence are fundamentally different properties. A million-token window doesn't solve multi-hop reasoning. It just makes the failure modes more expensive. The fix is architectural: hierarchical navigation, scratchpad routing, cache-augmented generation. Build a system that reads documents the way a human expert does.
@@ -44,7 +44,7 @@ rlm(query, context)
 
 Here, context is not input. It is a **variable inside a controlled execution environment**, implemented as a Python REPL (Read-Eval-Print Loop). The root model sees only the user's question and the knowledge that a large context object exists somewhere in memory. It must write code to interact with that object.
 
-![RLM Call Structure](/assets/mit-gave-the-model/rlm-call.png)
+![RLM Call Structure](/assets/mit-gave-the-model/rlm-call.webp)
 
 
 Four behaviors emerge naturally from this constraint.
@@ -75,7 +75,7 @@ This matters in practice for two reasons. First, the RAPTOR tree dramatically sh
 
 The most robust production systems will likely run this way: a pre-architected structure that the model can adaptively traverse.
 
-![RAPTOR and RLM Integration](/assets/mit-gave-the-model/raptor+rlm.png)
+![RAPTOR and RLM Integration](/assets/mit-gave-the-model/raptor+rlm.webp)
 
 
 ---
@@ -98,7 +98,7 @@ The MIT paper is a research contribution, not a production deployment guide. The
 
 Six controls worth adding before you deploy:
 
-![RLM Security Layer Architecture](/assets/mit-gave-the-model/security-layer.png)
+![RLM Security Layer Architecture](/assets/mit-gave-the-model/security-layer.webp)
 
 
 1. **Code scanning before execution.** The REPL executes model-generated code. User documents can influence that code via prompt injection. A pre-execution scan should block dangerous imports, dynamic execution primitives (`eval`, `exec`), introspection escapes, and write-mode file operations. Reject silently — don't hand attackers a roadmap.

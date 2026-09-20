@@ -10,13 +10,13 @@ excerpt: "Standard PII redaction tools destroy clinical utility. Learn how conte
 topics: [data-systems]
 ---
 
-![Context-Aware Redaction Hero](/assets/context-aware-redactor/main.png)
+![Context-Aware Redaction Hero](/assets/context-aware-redactor/main.webp)
 
 When it comes to performing clinical research, evaluating insurance claims, or analyzing hundreds of pages of medical records, the biggest hurdle isn't the data volume, it's the **privacy**.
 
 In workflows where humans must manually review clinical narratives, the goal is to leverage GenAI and LLMs to accelerate the process. However, to do this safely, we must de-identify health records (PHI/PII) first. The problem is that most tools use a "sledgehammer" approach: if a word looks like a name, redact it. In a clinical narrative, this leads to **Over-Redaction**, where critical professional context is lost.
 
-![The Binary Trap](/assets/context-aware-redactor/entity.png)
+![The Binary Trap](/assets/context-aware-redactor/entity.webp)
 
 Most redaction systems are built on NER (Named Entity Recognition) and deterministic patterns. They identify tokens that look like people, locations, or organizations, then apply masking rules. The underlying question is binary: *is this span a PERSON entity or not?*
 
@@ -24,7 +24,7 @@ That framing is insufficient for healthcare documentation. Patients and provider
 
 In this post, I’ll discuss building the **Context-Aware Redactor**, to solve this "Patient vs. Provider" dilemma for high-stakes manual review and AI-assisted analysis.
 
-![Standard vs Context-Aware Redaction](/assets/context-aware-redactor/entity-person.png)
+![Standard vs Context-Aware Redaction](/assets/context-aware-redactor/entity-person.webp)
 
 ---
 
@@ -34,7 +34,7 @@ Context-Aware Redactor treats redaction as a semantic classification problem rat
 
 The system extends **Microsoft Presidio** and **spaCy** core capabilities, introducing a **Two-pass orchestration pattern with layered distinction logic**.
 
-![Two Pass Orchestration](/assets/context-aware-redactor/2pass.png)
+![Two Pass Orchestration](/assets/context-aware-redactor/2pass.webp)
 
 The first pass focuses on precision. It identifies patient information only when there are strong grammatical or contextual signals. Those findings populate a request-scoped cache.
 
@@ -44,7 +44,7 @@ This two-stage approach is critical. Precision-first detection establishes groun
 
 ## Layers of Distinction
 
-![Layers of Distinction](/assets/context-aware-redactor/layers.png)
+![Layers of Distinction](/assets/context-aware-redactor/layers.webp)
 
 Context-aware redaction relies on multiple independent signals. No single heuristic is trusted on its own.
 

@@ -11,10 +11,10 @@ topic-hub: "multi-agent-orchestration"
 topics: [multi-agent-orchestration, agent-harness, data-systems]
 tags: [Org Adaptation, Multi-Agent Fleets, AI Governance, Production Systems, Agent Harness]
 featured: true
-hero_image: "/assets/core-resists-redesign/hero-main.png"
+hero_image: "/assets/core-resists-redesign/hero-main.webp"
 ---
 
-![The Core Resists Redesign](/assets/core-resists-redesign/hero-main.png)
+![The Core Resists Redesign](/assets/core-resists-redesign/hero-main.webp)
 
 
 You cannot make an organization AI-native by editing it in place. You can bolt AI onto existing processes. You can watch the bolt-on plateau. But the transformation everyone promised will not arrive this way.
@@ -87,7 +87,7 @@ This is where [governance stops being the enemy of speed](/writing/2026-04-26-bu
 
 The fix is what platform engineers call the **golden path**: build the compliant option so it is also the easy option. A capability gets reviewed once, earns an internal seal, and anyone can pull it into a new solution without re-litigating the same compliance questions from scratch. Access controls, spend limits, data handling, all enforced automatically at the platform layer. You are not removing governance. You are moving it earlier and paying for it once instead of every time.
 
-![Edge Team Structure and Composable Architecture](/assets/core-resists-redesign/edge-to-capabilities.png)
+![Edge Team Structure and Composable Architecture](/assets/core-resists-redesign/edge-to-capabilities.webp)
 
 ---
 
@@ -101,7 +101,7 @@ The edge team's mandate should include actively trying to break what it builds, 
 
 This gives capability certification teeth. A capability earning its internal seal should not just mean "it worked in testing." It should mean someone deliberately tried to break it, and it survived, or the team fixed what did not. That is a meaningfully higher bar than most compliance review applies, and the edge team can clear it faster because they are doing the breaking on their own schedule instead of waiting for someone else to find the failure for them.
 
-![Adversarial Sandbox and Failure Testing Loop](/assets/core-resists-redesign/adversarial-break-loop.png)
+![Adversarial Sandbox and Failure Testing Loop](/assets/core-resists-redesign/adversarial-break-loop.webp)
 
 ---
 

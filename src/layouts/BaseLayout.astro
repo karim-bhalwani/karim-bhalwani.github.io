@@ -15,16 +15,46 @@ interface Props {
   modifiedTime?: string;
   authorName?: string;
   articleTags?: string[];
+  doi?: string;
+  schemaType?: "BlogPosting" | "TechArticle" | "ScholarlyArticle" | "Article";
+  googleSiteVerification?: string;
+  bingSiteVerification?: string;
 }
 
-const { title, description, image, type, publishedTime, modifiedTime, authorName, articleTags } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  type,
+  publishedTime,
+  modifiedTime,
+  authorName,
+  articleTags,
+  doi,
+  schemaType,
+  googleSiteVerification,
+  bingSiteVerification,
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en" data-theme="dark">
   <head>
     <ThemeScript />
-    <BaseHead title={title} description={description} image={image} type={type} publishedTime={publishedTime} modifiedTime={modifiedTime} authorName={authorName} articleTags={articleTags} />
+    <BaseHead
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      authorName={authorName}
+      articleTags={articleTags}
+      doi={doi}
+      schemaType={schemaType}
+      googleSiteVerification={googleSiteVerification}
+      bingSiteVerification={bingSiteVerification}
+    />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>

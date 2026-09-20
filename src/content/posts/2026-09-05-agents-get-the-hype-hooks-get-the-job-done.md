@@ -10,7 +10,7 @@ excerpt: "Everyone's excited about what AI agents can do on their own. Almost no
 topics: [agent-harness, ai-verification]
 ---
 
-![AI Agents Get the Hype. Hooks Get the Job Done.](/assets/agents-get-the-hype/hero-main.png)
+![AI Agents Get the Hype. Hooks Get the Job Done.](/assets/agents-get-the-hype/hero-main.webp)
 
 2:14 AM. An AI coding assistant is clearing out an old build folder, a routine cleanup task it's done a hundred times before. It runs a delete command on what it believes is that folder. The path resolves to the whole project instead. Every file is gone in under a second.
 
@@ -58,7 +58,7 @@ The AI never gets a vote on this decision. Its reasoning never even reaches the 
 
 **A hook doesn't ask the model to be careful. It takes away its ability to choose.**
 
-![How a Hook Intercepts an Action](/assets/agents-get-the-hype/hook-intercept.png)
+![How a Hook Intercepts an Action](/assets/agents-get-the-hype/hook-intercept.webp)
 
 ---
 

@@ -10,7 +10,7 @@ excerpt: "You built the harness. Now you're calling a frontier model for everyth
 topics: [token-economics, agent-harness, data-systems]
 ---
 
-![Not Every Task Needs a Surgeon Hero](/assets/right-sized-model/hero-main.png)
+![Not Every Task Needs a Surgeon Hero](/assets/right-sized-model/hero-main.webp)
 
 A hospital has neurosurgeons. It also has nurses, residents, technicians, and specialists. Each trained for a specific range of work. Each deployed when the task actually demands their skill.
 
@@ -60,7 +60,7 @@ Most agents spend 80 percent of their calls in the outer circle. Most of those c
 
 **You are not paying for capability. You are paying for the wrong default.**
 
-![Three Tiers Decision Map](/assets/right-sized-model/three-tiers.png)
+![Three Tiers Decision Map](/assets/right-sized-model/three-tiers.webp)
 
 ---
 
@@ -94,7 +94,7 @@ The flat-rate era that subsidized "call the frontier model for everything" is en
 
 **When pricing pressure forces the right architectural question, that is not a constraint. That is a gift.**
 
-![Routing Cost Math](/assets/right-sized-model/routing-math.png)
+![Routing Cost Math](/assets/right-sized-model/routing-math.webp)
 
 ---
 
@@ -112,7 +112,7 @@ This is not a security feature you add later. It is the architecture you choose 
 
 **The only data that cannot be breached is the data that never left.**
 
-![Local vs Cloud Inference](/assets/right-sized-model/data-never-left.png)
+![Local vs Cloud Inference](/assets/right-sized-model/data-never-left.webp)
 
 ---
 
@@ -134,7 +134,7 @@ The pattern emerging in production: local models handle the defined work. The fr
 
 This is not a new architecture. It is the architecture you already built, extended one layer deeper.
 
-![Routing Logic Flow](/assets/right-sized-model/routing-logic.png)
+![Routing Logic Flow](/assets/right-sized-model/routing-logic.webp)
 
 **Every API call is a question. Does this task actually need a surgeon?**
 

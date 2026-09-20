@@ -9,7 +9,7 @@ excerpt: "Human-in-the-loop was never a safety mechanism. It was a comfort mecha
 topics: [agent-harness, ai-verification]
 ---
 
-![The Scaffold Was Never the Safety.](/assets/the-scaffold-was-never-the-safety/hero-main.png)
+![The Scaffold Was Never the Safety.](/assets/the-scaffold-was-never-the-safety/hero-main.webp)
 
 A financial services team deploys an autonomous agent to handle overnight reconciliation. The workflow requires human approval before any transaction is reversed. An audit gate. A safeguard. Proof that a human reviewed the work.
 
@@ -29,7 +29,7 @@ This is not a software problem. But the architecture of every major agent platfo
 
 ---
 
-![The Three Ways Oversight Collapses. Approval fatigue, automation bias, and information overload compound over time.](/assets/the-scaffold-was-never-the-safety/oversight-collapse.png)
+![The Three Ways Oversight Collapses. Approval fatigue, automation bias, and information overload compound over time.](/assets/the-scaffold-was-never-the-safety/oversight-collapse.webp)
 
 ## The Three Ways Oversight Collapses
 
@@ -49,7 +49,7 @@ Three problems, all running at the same time, all getting worse the longer the s
 
 ---
 
-![The Moral Crumple Zone. The human operator absorbs liability for systemic architectural failures.](/assets/the-scaffold-was-never-the-safety/moral-crumple-zone.png)
+![The Moral Crumple Zone. The human operator absorbs liability for systemic architectural failures.](/assets/the-scaffold-was-never-the-safety/moral-crumple-zone.webp)
 
 ## The Interface Is the Problem
 
@@ -65,7 +65,7 @@ I made a similar argument in [Building the Control Layer](/writing/2026-04-26-bu
 
 ---
 
-![Cognitive Scaffolding Architecture. Gate by risk, batch into milestones, and enforce deliberate engagement.](/assets/the-scaffold-was-never-the-safety/cognitive-scaffolding.png)
+![Cognitive Scaffolding Architecture. Gate by risk, batch into milestones, and enforce deliberate engagement.](/assets/the-scaffold-was-never-the-safety/cognitive-scaffolding.webp)
 
 ## What Actually Helps
 
@@ -121,7 +121,7 @@ If you are building a system that asks a human to review agent decisions, answer
 
 ---
 
-![Where Judgment Belongs. Upstream in specs and constraints, downstream in audit logs, not in the synchronous loop.](/assets/the-scaffold-was-never-the-safety/where-judgment-belongs.png)
+![Where Judgment Belongs. Upstream in specs and constraints, downstream in audit logs, not in the synchronous loop.](/assets/the-scaffold-was-never-the-safety/where-judgment-belongs.webp)
 
 ## The Scaffold Was Always Temporary
 

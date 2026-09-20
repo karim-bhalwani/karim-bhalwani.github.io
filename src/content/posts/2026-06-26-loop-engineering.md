@@ -10,7 +10,7 @@ excerpt: "Human-above-the-loop was the right framing earlier 2026. It is already
 topics: [agent-harness, ai-verification]
 ---
 
-![You're Not Above the Loop. You're Building It.](/assets/loop-engineering/hero-main.png)
+![You're Not Above the Loop. You're Building It.](/assets/loop-engineering/hero-main.webp)
 
 A PR opens Monday night. By Wednesday morning it has been built, tested against a spec, and merged. Nobody typed a prompt into a chat window to make that happen. A harness picked up the trigger, ran the agent until an evaluator confirmed the goal, and logged the result. The first human to look at any of it was the reviewer checking the log two days later.
 
@@ -48,7 +48,7 @@ The difference matters because the failures are different. A bad prompt gives yo
 
 **You are not writing prompts anymore. You are writing what generates them.**
 
-![Prompt-Response vs. Loop](/assets/loop-engineering/prompt-vs-loop.png)
+![Prompt-Response vs. Loop](/assets/loop-engineering/prompt-vs-loop.webp)
 
 ---
 
@@ -64,7 +64,7 @@ The third part is the one nobody enjoys building: iteration caps, token budgets,
 
 **The loop is not the hard part. Specifying it so it stops is.**
 
-![Three Parts, All Easy to Skip](/assets/loop-engineering/three-parts.png)
+![Three Parts, All Easy to Skip](/assets/loop-engineering/three-parts.webp)
 
 ---
 
@@ -80,7 +80,7 @@ It is not cheap yet. A single agent burns roughly four times the tokens of a nor
 
 **This is expensive now. It will not stay expensive, and the gap between knowing the architecture and not knowing it will not close on its own.**
 
-![What This Looks Like When It Works](/assets/loop-engineering/production-pattern.png)
+![What This Looks Like When It Works](/assets/loop-engineering/production-pattern.webp)
 
 ---
 

@@ -10,7 +10,7 @@ excerpt: "Code used to be scarce. Now agents generate thousands of lines in seco
 topics: [token-economics, multi-agent-orchestration]
 ---
 
-![Code Got Cheap Hero Image](/assets/the-code-economy/hero-main.png)
+![Code Got Cheap Hero Image](/assets/the-code-economy/hero-main.webp)
 
 In the 1980s, an accountant's value was arithmetic. They held complex ledgers in their heads. They were paid for calculation precision. Then spreadsheets appeared, and the calculation became free. The profession did not disappear. It migrated. The value moved from arithmetic to judgment. Financial modeling, risk analysis, strategic interpretation. The accountants who survived the transition understood what the numbers meant. The ones who didn't were the ones fastest at producing them.
 
@@ -30,7 +30,7 @@ In 2015, the ability to write a React component from memory was a genuine signal
 
 Ask an LLM to write that same component today and it produces multiple variations in seconds. The barrier dissolved. The skill that once justified a premium became what one researcher called "a parlor trick in the age of generative AI."
 
-![Code Scarcity Shift](/assets/the-code-economy/scarcity-shift.png)
+![Code Scarcity Shift](/assets/the-code-economy/scarcity-shift.webp)
 
 The research tracking this shift is unambiguous. Firms are no longer testing for generation velocity. They are testing for what they now call *verification ability*. The capacity to evaluate AI-generated output. To understand its failure modes. To catch the subtle, compounding errors that confident-looking code quietly introduces. The senior engineer of 2026 is not a faster typist. They are an auditor.
 
@@ -46,7 +46,7 @@ In 2023, models were reliably useful for single functions. Autocomplete with bet
 
 The most striking example: a single engineer at Cloudflare reimplemented 94% of the Next.js API surface on Vite in one week. The project was called Vinext. The cost in Claude API tokens was approximately $1,100. The engineer did not write the implementation. They wrote the specification, ran the tests, and fed failures back to the agent. The test suite, over 1,700 Vitest tests and 380 end-to-end Playwright tests, was the source of truth. The agent executed against it.
 
-![From Syntax to Specification](/assets/the-code-economy/syntax-to-spec.png)
+![From Syntax to Specification](/assets/the-code-economy/syntax-to-spec.webp)
 
 This is not a productivity story. It is a structural story. The thing the engineer produced was not code. It was *specification with enough precision that an agent could execute reliably*. The code was downstream output. The spec was the work.
 
@@ -64,7 +64,7 @@ That math changed.
 
 If an agent can rewrite a 500-line module in 30 seconds based on new requirements, the cost of throwing away old code drops to near zero. The sunk cost fallacy that used to trap engineers into maintaining bad systems dissolves when replacement takes thirty seconds. All that time invested. All that context built up. None of it holds weight when the rewrite is trivial.
 
-![Disposable vs Durable Code](/assets/the-code-economy/disposable-durable.png)
+![Disposable vs Durable Code](/assets/the-code-economy/disposable-durable.webp)
 
 The research tells a more interesting story. A study tracking over 200,000 code units across 201 open-source projects found that agent-authored code actually survives longer than human-authored code at the line level. It gets modified 16% less often. More stable, measurably.
 
@@ -84,7 +84,7 @@ When code is cheap, the design phase and the build phase collapse into the same 
 
 At firms that have adapted, designers are no longer handing off static Figma mocks to developers. They are using agents to produce functional prototypes directly. Product managers are turning user research, past requirements, and competitive analysis into strategy documents and working experiments in a single session. Engineers are building "maybe" features. Things they are not sure they need. The cost to try is near zero. If the feature fails, it gets deleted. The experiment cost almost nothing.
 
-![Build to Think Loop](/assets/the-code-economy/build-to-think.png)
+![Build to Think Loop](/assets/the-code-economy/build-to-think.webp)
 
 Researchers call this "radical prototyping." Practitioners call it "build to think." Same idea. When the cost of being wrong is near zero, you stop analyzing and start building. The prototype becomes the specification. The test suite becomes the design review.
 
@@ -106,7 +106,7 @@ The engineer who can take a vague business problem and break it into testable co
 
 The best framing I have heard: "hoard patterns, not syntax." Stop memorizing APIs. Start collecting working examples, documented decisions, reusable specifications, and architectural patterns that have succeeded in production. The person who maintains a library of things they know how to do, not how to type, but how to *direct*, is building capital that compounds.
 
-![What Compounds Now](/assets/the-code-economy/what-compounds.png)
+![What Compounds Now](/assets/the-code-economy/what-compounds.webp)
 
 The audit function is the other thing that compounds. Every piece of AI-generated output requires human judgment to validate. In a small team with shared context, that verification load is manageable. In a large organization where agents generate output faster than the team can synchronize on what "correct" looks like, the verification becomes the bottleneck. The engineers who can perform that function are the ones the organization cannot replace. They understand cross-cutting dependencies. They catch subtle compounding errors. They know what right looks like without being told.
 

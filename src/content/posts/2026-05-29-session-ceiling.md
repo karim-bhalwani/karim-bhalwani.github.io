@@ -10,7 +10,7 @@ excerpt: "Your laptop was never the bottleneck. Your session was. The next wave 
 topics: [multi-agent-orchestration, token-economics]
 ---
 
-![The Session Was Always the Ceiling Hero](/assets/session-ceiling/hero-main.png)
+![The Session Was Always the Ceiling Hero](/assets/session-ceiling/hero-main.webp)
 
 There is a moment on every factory floor when someone asks the wrong question.
 
@@ -60,7 +60,7 @@ Concurrency stops being rationed. On a laptop, parallel agents compete for memor
 
 Security stops being implicit. On a desktop, an agent inherits everything on the machine: browser sessions, SSH keys, local clones, personal files. That convenience is also the exposure. A cloud-hosted background agent gets exactly what you give it, nothing more. Repository access is scoped. Credentials are injected at run start and cleaned up after. The blast radius of a mistake is bounded by design, not by trust.
 
-![Local Agent vs Background Agent](/assets/session-ceiling/local-vs-background.png)
+![Local Agent vs Background Agent](/assets/session-ceiling/local-vs-background.webp)
 
 **Decoupling the work from the session changes what the system can become.**
 
@@ -98,7 +98,7 @@ Every team arrived at the same five structural decisions independently. Not as b
 
 **Fleet coordination.** Parallel provisioning across repositories, with progress tracking. Not one agent on one repo. A fleet of agents across the systems that need attention, coordinated, observable, auditable.
 
-![Five Primitives of a Background Agent Platform](/assets/session-ceiling/five-primitives.png)
+![Five Primitives of a Background Agent Platform](/assets/session-ceiling/five-primitives.webp)
 
 These are not nice-to-haves. They are the difference between agents that help one engineer and agents that change how an organization ships.
 
@@ -152,7 +152,7 @@ What is the blast radius if it goes wrong? The answer determines your sandbox de
 
 Is the task description good enough to produce a good result? Uber built a prompt improver directly into Minions because low-quality prompts produced low-quality runs, and developers do not always know the difference until the pull request arrives wrong. Output quality is bounded by input quality. Good defaults and prompt tooling are not polish. They are infrastructure.
 
-![Four Questions Upstream of the Build](/assets/session-ceiling/four-questions.png)
+![Four Questions Upstream of the Build](/assets/session-ceiling/four-questions.webp)
 
 The teams at Stripe, Ramp, Harvey, and Uber built these primitives themselves. It took months of dedicated platform engineering each time. The structural decisions did not vary.
 

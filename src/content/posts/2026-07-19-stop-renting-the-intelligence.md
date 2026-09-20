@@ -10,7 +10,7 @@ excerpt: "Every API call to a frontier model is a lease payment on intelligence 
 topics: [token-economics, data-systems]
 ---
 
-![Stop Renting the Intelligence.](/assets/stop-renting-the-intelligence/hero-main.png)
+![Stop Renting the Intelligence.](/assets/stop-renting-the-intelligence/hero-main.webp)
 
 You sign a lease on an apartment. You pay every month. You furnish the place. You learn the layout. You arrange your life around it.
 
@@ -46,7 +46,7 @@ The lease analogy holds all the way down. You furnished the apartment. You arran
 
 **You are renting intelligence built by someone else, running on someone else's infrastructure, processing data that belongs to you.**
 
-![The Lease](/assets/stop-renting-the-intelligence/the-lease.png)
+![The Lease](/assets/stop-renting-the-intelligence/the-lease.webp)
 
 ---
 
@@ -88,7 +88,7 @@ This is the difference between renting and owning. The rent goes up when you use
 
 **The savings are not marginal. They are structural, and they compound in your direction as volume grows.**
 
-![Renting vs Owning](/assets/stop-renting-the-intelligence/renting-vs-owning.png)
+![Renting vs Owning](/assets/stop-renting-the-intelligence/renting-vs-owning.webp)
 
 ---
 
@@ -164,7 +164,7 @@ This is not a compliance checkbox you add in v2. It is the architecture you choo
 
 **The only data that cannot create a cross-border liability is the data that never left the country.**
 
-![Data Sovereignty](/assets/stop-renting-the-intelligence/data-sovereignty.png)
+![Data Sovereignty](/assets/stop-renting-the-intelligence/data-sovereignty.webp)
 
 ---
 

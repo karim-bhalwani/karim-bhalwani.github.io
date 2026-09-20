@@ -10,7 +10,7 @@ excerpt: "Three posts explored the pieces. Context-aware redaction. Hierarchical
 topics: [data-systems, token-economics]
 ---
 
-![The Demo Worked Hero](/assets/the-demo-worked/hero-main.png)
+![The Demo Worked Hero](/assets/the-demo-worked/hero-main.webp)
 
 You've probably built something like this: a demo that takes a PDF, sends it to an LLM, and produces a summary. Twenty lines of code. Looks great in a sprint review. Ships to staging.
 

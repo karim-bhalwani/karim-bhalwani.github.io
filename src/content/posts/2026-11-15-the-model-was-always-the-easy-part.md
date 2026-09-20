@@ -7,10 +7,10 @@ tags: [Production Systems, Context Engineering, Token Economics, Agent Harness]
 author: Karim Bhalwani
 excerpt: "Researchers just showed that most of the AI progress from 2019 to 2025 came from better training data, not smarter architectures. That fact has a consequence most teams building on top of these models are not tracking."
 topics: [token-economics, agent-harness, data-systems]
-hero_image: "/assets/model-was-always-easy/hero-main.png"
+hero_image: "/assets/model-was-always-easy/hero-main.webp"
 ---
 
-![The Model Was Always the Easy Part.](/assets/model-was-always-easy/hero-main.png)
+![The Model Was Always the Easy Part.](/assets/model-was-always-easy/hero-main.webp)
 
 A research team ran an experiment across six years of AI history.
 
@@ -38,7 +38,7 @@ In 2019, training data was about 9 billion words scraped from popular Reddit lin
 
 One type of progress builds a bigger ship. The other fills it with better cargo. Both matter. But they matter in different ways, and they have different ceilings.
 
-![Ship and cargo: model architecture clears the runway, data fills it](/assets/model-was-always-easy/ship-and-cargo.png)
+![Ship and cargo: model architecture clears the runway, data fills it](/assets/model-was-always-easy/ship-and-cargo.webp)
 
 ---
 
@@ -58,7 +58,7 @@ The short answer is: not really, not at scale. When a model trains on its own ou
 
 This is the ceiling. The data lever that drove most of the last six years of progress is approaching its limit.
 
-![The data ceiling: curating a finite corpus](/assets/model-was-always-easy/data-ceiling.png)
+![The data ceiling: curating a finite corpus](/assets/model-was-always-easy/data-ceiling.webp)
 
 **The pretraining pipe is approaching a floor. Most teams building on top of it have not priced that in.**
 
@@ -78,7 +78,7 @@ Both of these shifts matter for how you build.
 
 Pretraining progress was invisible. You just noticed the new model was better. Post-training progress is task-specific. Models get better at the things the labs specifically trained them on. And inference-time improvements cost you more tokens per query.
 
-![Three phases of progress: pretraining, RL post-training, inference-time scaling](/assets/model-was-always-easy/three-phases.png)
+![Three phases of progress: pretraining, RL post-training, inference-time scaling](/assets/model-was-always-easy/three-phases.webp)
 
 **The frontier moved from pretraining to post-training. The teams who understand that are building differently.**
 
@@ -112,7 +112,7 @@ If the model's base capability is converging, then what separates teams is not w
 
 Those are not nice-to-haves waiting for the model to mature. They are the primary variables. The model's base capability is something you rent. The system around it is something you build.
 
-![Rent vs. build: base model capability vs. the system you own](/assets/model-was-always-easy/rent-vs-build.png)
+![Rent vs. build: base model capability vs. the system you own](/assets/model-was-always-easy/rent-vs-build.webp)
 
 The finding says three to one in favor of data. Not model. Data. The progress was always about curation. About deciding carefully what the model learned from, not how the model was designed. And that curation layer is approaching its limit.
 
